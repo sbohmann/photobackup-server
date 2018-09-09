@@ -25,6 +25,10 @@ repositories {
 }
 
 dependencies {
+    def springBootVersion = '2.0.4.RELEASE'
+
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
+
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.0.4.RELEASE'
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
 }
