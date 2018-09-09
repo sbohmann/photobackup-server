@@ -13,14 +13,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class CoreTest {
     @Autowired
-    Configuration configuration;
-
-    @Autowired
-    Core core;
+    private Core core;
 
     @Test
     public void coreIsGood() {
-        //Mockito.when(configuration.getDescription()).thenReturn("faux description");
         System.out.println(core.createText("faux name"));
     }
 
