@@ -25,10 +25,7 @@ public final class ByteBlock {
     public String toString() {
         StringBuilder result = new StringBuilder(value.length * 2);
         for (int index = 0; index < value.length; ++index) {
-            int byteValue = value[index];
-            if (byteValue < 0) {
-                byteValue += 256;
-            }
+            int byteValue = value[index] & 0xff;
             result.append(hexChar(byteValue >>> 4));
             result.append(hexChar(byteValue & 0x0f));
         }
