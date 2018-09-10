@@ -4,12 +4,14 @@ import java.time.Instant;
 
 public class FileDescription {
     private final Checksum checksum;
+    private final long size;
     private final DeviceId device;
     private final String name;
     private final Instant creationTime;
 
-    public FileDescription(Checksum checksum, DeviceId device, String name, Instant creationTime) {
+    public FileDescription(Checksum checksum, long size, DeviceId device, String name, Instant creationTime) {
         this.checksum = checksum;
+        this.size = size;
         this.device = device;
         this.name = name;
         this.creationTime = creationTime;
@@ -17,6 +19,10 @@ public class FileDescription {
 
     public Checksum getChecksum() {
         return checksum;
+    }
+
+    public long getSize() {
+        return size;
     }
 
     public DeviceId getDevice() {
@@ -35,6 +41,7 @@ public class FileDescription {
     public String toString() {
         return "FileDescription{" +
                 "checksum=" + checksum +
+                ", size=" + size +
                 ", device=" + device +
                 ", name='" + name + '\'' +
                 ", creationTime=" + creationTime +
