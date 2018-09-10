@@ -16,8 +16,8 @@ public class IndexController {
     }
 
     @GetMapping("/index")
-    public Qumquat index(
+    public String index(
             @RequestParam(name="name", required=false, defaultValue="Default Value From Controller") String name) {
-        return new Qumquat(3, core.createText(name));
+        return "whatever";
     }
 }

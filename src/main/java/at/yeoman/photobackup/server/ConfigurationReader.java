@@ -1,18 +1,18 @@
 package at.yeoman.photobackup.server;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-@org.springframework.context.annotation.Configuration
+@Configuration
 class ConfigurationReader {
-    private Configuration result;
+    private CoreConfiguration result;
 
     ConfigurationReader() {
-        result = new Configuration();
-        result.setDescription("original configured production description");
+        result = new CoreConfiguration();
     }
 
     @Bean
-    Configuration getConfiguration() {
+    CoreConfiguration getConfiguration() {
         return result;
     }
 }
