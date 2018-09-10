@@ -1,7 +1,5 @@
 package at.yeoman.photobackup.server.primtive;
 
-import java.util.Arrays;
-
 public final class ByteBlock {
     private final byte[] value;
 
