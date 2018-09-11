@@ -1,5 +1,8 @@
 package at.yeoman.photobackup.server;
 
+import at.yeoman.photobackup.server.configuration.CoreConfiguration;
+import at.yeoman.photobackup.server.core.Core;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +16,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class CoreTest {
     @Autowired
     private Core core;
+
+    @Test
+    public void nothing() {
+        System.out.println("This is fine.");
+    }
 
     @TestConfiguration
     static class Config {

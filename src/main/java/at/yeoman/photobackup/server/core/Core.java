@@ -1,5 +1,6 @@
-package at.yeoman.photobackup.server;
+package at.yeoman.photobackup.server.core;
 
+import at.yeoman.photobackup.server.configuration.CoreConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

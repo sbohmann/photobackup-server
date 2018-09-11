@@ -1,15 +1,16 @@
-package at.yeoman.photobackup.server;
+package at.yeoman.photobackup.server.service;
 
+import at.yeoman.photobackup.server.core.Core;
 import at.yeoman.photobackup.server.api.Checksum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class ImageUploadController {
+public class RequestHandler {
     private Core core;
 
     @Autowired
-    ImageUploadController(Core core) {
+    RequestHandler(Core core) {
         this.core = core;
     }
 
