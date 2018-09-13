@@ -1,11 +1,15 @@
 package at.yeoman.photobackup.server.service;
 
 import at.yeoman.photobackup.server.api.AssetReport;
+import at.yeoman.photobackup.server.api.MissingAssets;
 import at.yeoman.photobackup.server.core.Core;
 import at.yeoman.photobackup.server.api.Checksum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class RequestHandler {
@@ -17,9 +21,12 @@ public class RequestHandler {
     }
 
     @PostMapping("/image-upload/asset-report")
-    public @ResponseBody String handleAssetReport(@RequestBody AssetReport report) {
+    public @ResponseBody
+    MissingAssets handleAssetReport(@RequestBody AssetReport report) {
         System.out.println(report);
-        return "Thnk you very much! :D";
+        MissingAssets result = new MissingAssets();
+        result.setMissingAssetChecksums(List.of(new Checksum("adababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab")));
+        return result;
     }
 
 //    @PostMapping("/image-upload/{checksumString}")

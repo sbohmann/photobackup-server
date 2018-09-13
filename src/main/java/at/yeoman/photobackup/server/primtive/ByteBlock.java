@@ -1,5 +1,10 @@
 package at.yeoman.photobackup.server.primtive;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+@JsonSerialize(using = ByteBlockSerializer.class)
+@JsonDeserialize(using = ByteBlockDeserializer.class)
 public final class ByteBlock {
     private final byte[] value;
 
@@ -29,6 +34,10 @@ public final class ByteBlock {
         this.value = value;
     }
 
+    public ByteBlock(String checksumString) {
+        this(checksumString, checksumString.length() / 2);
+    }
+
     private void checkChecksumStringLength(String checksumString, int length) {
         if (checksumString.length() != length * 2) {
             throw new IllegalArgumentException("Illegal checksum string [" + checksumString + "]" +
@@ -42,6 +51,14 @@ public final class ByteBlock {
 
     @Override
     public String toString() {
+        return toRawString();
+    }
+
+    public String toJson() {
+        return toRawString();
+    }
+
+    private String toRawString() {
         StringBuilder result = new StringBuilder(value.length * 2);
         for (byte byteValue : value) {
             byteValue &= 0xff;
@@ -52,6 +69,7 @@ public final class ByteBlock {
     }
 
     private char hexChar(int nibble) {
+        nibble &= 0x0f;
         if (nibble >= 0 && nibble <= 9) {
             return (char) ('0' + nibble);
         } else if (nibble >= 0x0a && nibble <= 0x0f) {
