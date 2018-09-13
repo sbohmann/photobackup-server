@@ -29,8 +29,8 @@ public class Checksum {
         }
     }
 
-    private int parseByte(String checksumString, int position) {
-        return Integer.parseInt(checksumString.substring(position, position + 2), 16);
+    private int parseByte(String string, int position) {
+        return Integer.parseInt(string.substring(position, position + 2), 16);
     }
 
     public ByteBlock getValue() {
