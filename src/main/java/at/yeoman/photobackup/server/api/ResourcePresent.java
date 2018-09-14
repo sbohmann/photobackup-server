@@ -1,6 +1,6 @@
 package at.yeoman.photobackup.server.api;
 
-public class FilePresent {
+public class ResourcePresent {
     public static final String Yes = "6c34e454bfb6ced8";
     public static final String No = "367011a20b690e6a";
 
@@ -9,7 +9,7 @@ public class FilePresent {
     private final Checksum checksum;
     private final int trivialChecksum;
 
-    public FilePresent(boolean isPresent, String confirmation, Checksum checksum, int trivialChecksum) {
+    public ResourcePresent(boolean isPresent, String confirmation, Checksum checksum, int trivialChecksum) {
         this.isPresent = isPresent;
         this.confirmation = confirmation;
         this.checksum = checksum;
@@ -42,7 +42,7 @@ public class FilePresent {
 
     @Override
     public String toString() {
-        return "FilePresent{" +
+        return "ResourcePresent{" +
                 "isPresent=" + isPresent +
                 ", confirmation='" + confirmation + '\'' +
                 ", checksum=" + checksum +

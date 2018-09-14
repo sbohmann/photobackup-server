@@ -1,13 +1,16 @@
 package at.yeoman.photobackup.server.api;
 
 import at.yeoman.photobackup.server.primtive.ByteBlock;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Checksum {
     private static final int Length = 64;
 
-    private ByteBlock value;
+    private final ByteBlock value;
 
-    public Checksum(ByteBlock value) {
+    @JsonCreator
+    public Checksum(@JsonProperty("value") ByteBlock value) {
         value.checkLength(Length);
         this.value = value;
     }

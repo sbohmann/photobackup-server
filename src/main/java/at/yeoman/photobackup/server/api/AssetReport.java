@@ -1,17 +1,15 @@
 package at.yeoman.photobackup.server.api;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
 import java.util.List;
 
 public class AssetReport {
-    private List<ImageDescription> descriptions;
+    private List<AssetDescription> descriptions;
 
-    public List<ImageDescription> getDescriptions() {
+    public List<AssetDescription> getDescriptions() {
         return descriptions;
     }
 
-    public void setDescriptions(List<ImageDescription> descriptions) {
+    public void setDescriptions(List<AssetDescription> descriptions) {
         this.descriptions = descriptions;
     }
 

@@ -25,7 +25,7 @@ public class RequestHandler {
     MissingAssets handleAssetReport(@RequestBody AssetReport report) {
         System.out.println(report);
         MissingAssets result = new MissingAssets();
-        result.setMissingAssetChecksums(List.of(new Checksum("adababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababababab")));
+        result.setMissingAssetChecksums(List.of(new Checksum("adab00ab03ab1fababababababababababababababababababababababababababababababababababababababababababababababababababababababababab")));
         return result;
     }
 
