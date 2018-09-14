@@ -4,7 +4,9 @@ import at.yeoman.photobackup.server.primtive.ByteBlock;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Checksum {
+import java.util.Objects;
+
+public final class Checksum {
     private static final int Length = 64;
 
     private final ByteBlock value;
@@ -25,6 +27,10 @@ public class Checksum {
         this.value = new ByteBlock(value, Length);
     }
 
+    public Checksum(byte[] value) {
+        this.value = new ByteBlock(value, Length);
+    }
+
     private void checkChecksumStringLength(String checksumString) {
         if (checksumString.length() != Length * 2) {
             throw new IllegalArgumentException("Illegal checksum string [" + checksumString + "]" +
@@ -38,6 +44,19 @@ public class Checksum {
 
     public ByteBlock getValue() {
         return value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Checksum checksum = (Checksum) o;
+        return Objects.equals(value, checksum.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
     }
 
     @Override

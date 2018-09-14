@@ -3,6 +3,8 @@ package at.yeoman.photobackup.server.primtive;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import java.util.Arrays;
+
 @JsonSerialize(using = ByteBlockSerializer.class)
 @JsonDeserialize(using = ByteBlockDeserializer.class)
 public final class ByteBlock {
@@ -49,11 +51,6 @@ public final class ByteBlock {
         return Integer.parseInt(checksumString.substring(position, position + 2), 16);
     }
 
-    @Override
-    public String toString() {
-        return toRawString();
-    }
-
     public String toJson() {
         return toRawString();
     }
@@ -77,5 +74,23 @@ public final class ByteBlock {
         } else {
             throw new IllegalArgumentException("nibble value: " + nibble);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ByteBlock byteBlock = (ByteBlock) o;
+        return Arrays.equals(value, byteBlock.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(value);
+    }
+
+    @Override
+    public String toString() {
+        return toRawString();
     }
 }
