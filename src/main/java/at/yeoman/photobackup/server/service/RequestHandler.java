@@ -82,9 +82,11 @@ public class RequestHandler {
     }
 
     private Checksum writeFile(InputStream in, File target) throws Exception {
+        log.info("writing to file [" + target.getCanonicalPath() + "]...");
         FileOutputStream out = new FileOutputStream(target);
         MessageDigest md = MessageDigest.getInstance("SHA-512");
         byte[] buffer = new byte[1024 * 1024];
+        long bytesWritten = 0;
         while (true) {
             int n = in.read(buffer);
             if (n < 0) {
@@ -92,6 +94,7 @@ public class RequestHandler {
             }
             out.write(buffer, 0, n);
             md.update(buffer, 0, n);
+            bytesWritten += n;
         }
         out.getChannel().force(true);
         out.close();
@@ -100,6 +103,7 @@ public class RequestHandler {
         } catch (SyncFailedException exception) {
             log.debug("Unable to sync file [" + target.getCanonicalPath() + "]", exception);
         }
+        log.info("finished writing " + bytesWritten + " bytes to file [" + target.getCanonicalPath() + "].");
         return new Checksum(md.digest());
     }
 }
