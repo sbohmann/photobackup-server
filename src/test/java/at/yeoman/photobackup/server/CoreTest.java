@@ -11,22 +11,22 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class CoreTest {
-    @Autowired
-    private Core core;
-
-    @Test
-    public void nothing() {
-        System.out.println("This is fine.");
-    }
-
-    @TestConfiguration
-    static class Config {
-        @Bean
-        CoreConfiguration getConfiguration() {
-            return new CoreConfiguration();
-        }
-    }
-}
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
+//public class CoreTest {
+//    @Autowired
+//    private Core core;
+//
+//    @Test
+//    public void nothing() {
+//        System.out.println("This is fine.");
+//    }
+//
+//    @TestConfiguration
+//    static class Config {
+//        @Bean
+//        CoreConfiguration getConfiguration() {
+//            return new CoreConfiguration();
+//        }
+//    }
+//}
