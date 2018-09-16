@@ -5,6 +5,7 @@ import at.yeoman.photobackup.server.api.Checksum;
 import at.yeoman.photobackup.server.api.MissingAssets;
 import at.yeoman.photobackup.server.api.ResourceDescription;
 import at.yeoman.photobackup.server.core.Core;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.*;
 import java.nio.channels.FileLock;
 import java.security.MessageDigest;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,12 +25,14 @@ public class RequestHandler {
     private final Logger log = LoggerFactory.getLogger(RequestHandler.class);
 
     private final Core core;
+    private final File assetDirectory;
     private final File uploadDirectory;
     private final File photoDirectory;
 
     @Autowired
     RequestHandler(Core core) throws IOException {
         this.core = core;
+        assetDirectory = getDirectory("assets");
         uploadDirectory = getDirectory("upload");
         photoDirectory = getDirectory("photos");
     }
@@ -51,6 +55,7 @@ public class RequestHandler {
     public @ResponseBody
     MissingAssets handleAssetReport(@RequestBody AssetReport report) {
         log.info("Received asset report with " + report.getDescriptions().size() + " assets.");
+        writeAssetReport(report);
         MissingAssets result = new MissingAssets();
         List<Checksum> checksums = report
                 .getDescriptions()
@@ -63,6 +68,15 @@ public class RequestHandler {
         result.setMissingAssetChecksums(checksums);
         log.info("Responding with request for all resources - TODO fix this asap"); // TODO
         return result;
+    }
+
+    private void writeAssetReport(AssetReport report) {
+        try {
+            File file = new File(assetDirectory, LocalDateTime.now().toString() + ".json");
+            new ObjectMapper().writeValue(file, report);
+        } catch (Exception exception) {
+            log.error(exception.getMessage(), exception);
+        }
     }
 
     private boolean missing(Checksum checksum) {
