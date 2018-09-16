@@ -1,12 +1,8 @@
 package at.yeoman.photobackup.server.primtive;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import java.util.Arrays;
 
-@JsonSerialize(using = ByteBlockSerializer.class)
-@JsonDeserialize(using = ByteBlockDeserializer.class)
+
 public final class ByteBlock {
     private final byte[] value;
 
@@ -51,11 +47,7 @@ public final class ByteBlock {
         return Integer.parseInt(checksumString.substring(position, position + 2), 16);
     }
 
-    public String toJson() {
-        return toRawString();
-    }
-
-    private String toRawString() {
+    public String toRawString() {
         StringBuilder result = new StringBuilder(value.length * 2);
         for (byte byteValue : value) {
             byteValue &= 0xff;

@@ -3,9 +3,13 @@ package at.yeoman.photobackup.server.api;
 import at.yeoman.photobackup.server.primtive.ByteBlock;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.Objects;
 
+@JsonSerialize(using = ChecksumSerializer.class)
+@JsonDeserialize(using = ChecksumDeserializer.class)
 public final class Checksum {
     private static final int Length = 64;
 
@@ -64,5 +68,9 @@ public final class Checksum {
         return "Checksum{" +
                 "value=" + value +
                 '}';
+    }
+
+    String toJson() {
+        return value.toRawString();
     }
 }

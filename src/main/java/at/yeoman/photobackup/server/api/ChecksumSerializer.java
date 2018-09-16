@@ -1,4 +1,4 @@
-package at.yeoman.photobackup.server.primtive;
+package at.yeoman.photobackup.server.api;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -6,9 +6,9 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 
 import java.io.IOException;
 
-class ByteBlockSerializer extends JsonSerializer<ByteBlock> {
+class ChecksumSerializer extends JsonSerializer<Checksum> {
     @Override
-    public void serialize(ByteBlock value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+    public void serialize(Checksum value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeString(value.toJson());
     }
 }
