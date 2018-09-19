@@ -94,7 +94,13 @@ public class RequestHandler {
 
     private boolean backupExists(Checksum checksum) throws Exception {
         File file = new File(photoDirectory, fileNameForChecksum(checksum));
-        return file.isFile() && checksumForFile(file).equals(checksum);
+        log.info("File exists for checksum [" + checksum + "]: " + file.exists() + ", is file: " + file.isFile());
+        if (!file.isFile()) {
+            return false;
+        }
+        Checksum calculatedChecksum = checksumForFile(file);
+        log.info("Calculates checksum [" + checksum + "] matches: " + calculatedChecksum.equals(checksum));
+        return calculatedChecksum.equals(checksum);
     }
 
     @PostMapping("/resource-upload/{checksumString}")
@@ -147,7 +153,7 @@ public class RequestHandler {
                         }
                     }
                 }
-                return error(calculatedChecksum.toString(), HttpStatus.OK);
+                return success(calculatedChecksum.toString());
             } finally {
                 checksumsUploading.remove(checksumFromPath);
             }
@@ -164,7 +170,7 @@ public class RequestHandler {
     }
 
     private ResponseEntity<String> success(String message) {
-        log.error(message);
+        log.info(message);
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
