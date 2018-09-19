@@ -99,7 +99,7 @@ public class RequestHandler {
             return false;
         }
         Checksum calculatedChecksum = checksumForFile(file);
-        log.info("Calculates checksum [" + checksum + "] matches: " + calculatedChecksum.equals(checksum));
+        log.info("Calculated checksum [" + checksum + "] matches: " + calculatedChecksum.equals(checksum));
         return calculatedChecksum.equals(checksum);
     }
 
