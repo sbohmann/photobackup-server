@@ -147,11 +147,11 @@ public class RequestHandler {
                             return error("Unable to delete non-matching renamed target [" + renamedTarget.getCanonicalPath() + "]",
                                     HttpStatus.INTERNAL_SERVER_ERROR);
                         }
-                        if (!uploadTarget.renameTo(renamedTarget)) {
-                            return error("Unable to rename [" + uploadTarget.getCanonicalPath() + "] to [" + renamedTarget.getCanonicalPath() + "]",
-                                    HttpStatus.INTERNAL_SERVER_ERROR);
-                        }
                     }
+                }
+                if (!uploadTarget.renameTo(renamedTarget)) {
+                    return error("Unable to rename [" + uploadTarget.getCanonicalPath() + "] to [" + renamedTarget.getCanonicalPath() + "]",
+                            HttpStatus.INTERNAL_SERVER_ERROR);
                 }
                 return success(calculatedChecksum.toString());
             } finally {
