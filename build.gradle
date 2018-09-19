@@ -23,3 +23,9 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
 }
+
+task run(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+
+    main = 'at.yeoman.photobackup.server.Server'
+}
