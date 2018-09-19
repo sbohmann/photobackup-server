@@ -94,7 +94,7 @@ public class RequestHandler {
 
     private boolean backupExists(Checksum checksum) throws Exception {
         File file = new File(photoDirectory, fileNameForChecksum(checksum));
-        log.info("File exists for checksum [" + checksum + "]: " + file.exists() + ", is file: " + file.isFile());
+        log.info("File [" + file + "] exists for checksum [" + checksum + "]: " + file.exists() + ", is file: " + file.isFile());
         if (!file.isFile()) {
             return false;
         }
