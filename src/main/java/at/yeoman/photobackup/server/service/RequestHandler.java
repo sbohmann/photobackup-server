@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 
 @RestController
 public class RequestHandler {
+    // TODO if true, at least don't doble re-clculate the same resource for > 1 assets
     private static final boolean CalculateChecksumOfExistingResource = false;
 
     private final Logger log = LoggerFactory.getLogger(RequestHandler.class);
