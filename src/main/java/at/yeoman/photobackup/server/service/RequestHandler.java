@@ -73,7 +73,6 @@ public class RequestHandler {
                 .distinct()
                 .collect(Collectors.toList());
         result.setMissingAssetChecksums(checksums);
-        log.info("Responding with request for all resources - TODO fix this asap"); // TODO
         return result;
     }
 
