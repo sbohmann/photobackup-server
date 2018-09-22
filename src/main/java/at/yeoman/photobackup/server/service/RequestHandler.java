@@ -24,6 +24,8 @@ import java.util.stream.Collectors;
 
 @RestController
 public class RequestHandler {
+    private static final boolean CalculateChecksumOfExistingResource = false;
+
     private final Logger log = LoggerFactory.getLogger(RequestHandler.class);
 
     private final Core core;
@@ -85,7 +87,7 @@ public class RequestHandler {
 
     private boolean missing(Checksum checksum) {
         try {
-            return backupExists(checksum) == false;
+            return !backupExists(checksum);
         } catch (Exception exception) {
             log.error(exception.getMessage(), exception);
             return true;
@@ -98,9 +100,13 @@ public class RequestHandler {
         if (!file.isFile()) {
             return false;
         }
-        Checksum calculatedChecksum = checksumForFile(file);
-        log.info("Calculated checksum [" + checksum + "] matches: " + calculatedChecksum.equals(checksum));
-        return calculatedChecksum.equals(checksum);
+        if (CalculateChecksumOfExistingResource) {
+            Checksum calculatedChecksum = checksumForFile(file);
+            log.info("Calculated checksum [" + checksum + "] matches: " + calculatedChecksum.equals(checksum));
+            return calculatedChecksum.equals(checksum);
+        } else {
+            return true;
+        }
     }
 
     @PostMapping("/resource-upload/{checksumString}")
