@@ -53,14 +53,12 @@ public class BackupRequestHandler {
     }
 
     @GetMapping("/")
-    public @ResponseBody
-    String root() {
+    public String root() {
         return "photobackup server";
     }
 
     @PostMapping("/asset-report")
-    public @ResponseBody
-    MissingAssets handleAssetReport(@RequestBody AssetReport report) {
+    public MissingAssets handleAssetReport(@RequestBody AssetReport report) {
         log.info("Received asset report with " + report.getDescriptions().size() + " assets.");
         writeAssetReport(report);
         MissingAssets result = new MissingAssets();
@@ -110,7 +108,6 @@ public class BackupRequestHandler {
     }
 
     @PostMapping("/resource-upload/{checksumString}")
-    @ResponseBody
     public ResponseEntity<String> handleResourceUpload(@PathVariable final String checksumString, InputStream bodyStream) throws Exception {
         try {
             final Checksum checksumFromPath;
