@@ -1,0 +1,16 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<!--/*@thymesVar id="date" type="java.lang.String"*/-->
+<head>
+    <title>Gallery</title>
+    <script>
+        let date="[[${date}]]"
+        window.onload = () => {
+            document.getElementById("date-paragraph").textContent = date
+        }
+    </script>
+</head>
+<body>
+<h1>Gallery</h1>
+<p id="date-paragraph"></p>
+</body>
+</html>
