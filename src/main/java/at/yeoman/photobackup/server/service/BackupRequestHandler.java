@@ -23,11 +23,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @RestController
-public class RequestHandler {
+public class BackupRequestHandler {
     // TODO if true, at least don't doble re-clculate the same resource for > 1 assets
     private static final boolean CalculateChecksumOfExistingResource = false;
 
-    private final Logger log = LoggerFactory.getLogger(RequestHandler.class);
+    private final Logger log = LoggerFactory.getLogger(BackupRequestHandler.class);
 
     private final Core core;
     private final File assetDirectory;
@@ -37,7 +37,7 @@ public class RequestHandler {
     private final Set<Checksum> checksumsUploading = ConcurrentHashMap.newKeySet();
 
     @Autowired
-    RequestHandler(Core core) throws IOException {
+    BackupRequestHandler(Core core) throws IOException {
         this.core = core;
         assetDirectory = getDirectory("assets");
         uploadDirectory = getDirectory("upload");
