@@ -3,11 +3,11 @@
 <head>
     <title>Gallery</title>
     <script>
-        let date="[[${date}]]"
-        window.onload = () => {
-            document.getElementById("date-paragraph").textContent = date
-        }
+        /** @type {string} */
+        const dateArgument = "[[${date}]]"
     </script>
+    <script src="/js-joda/js-joda.js"></script>
+    <script src="/scripts/gallery/gallery.js"></script>
 </head>
 <body>
 <h1>Gallery</h1>
