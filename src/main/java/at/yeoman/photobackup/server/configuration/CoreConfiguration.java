@@ -24,7 +24,7 @@ public class CoreConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new HandlerInterceptor() {
             @Override
-            public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+            public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
                 response.setCharacterEncoding("UTF-8");
                 return true;
             }
