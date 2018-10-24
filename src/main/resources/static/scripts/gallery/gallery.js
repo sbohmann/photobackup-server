@@ -14,7 +14,7 @@ function setup() {
 
 function requestImageList() {
     let request = new XMLHttpRequest()
-    request.onload = () => handleImgeListResponse(request.response)
+    request.onload = () => handleImageListResponse(request.response)
     request.open('GET', imageListUrl())
     request.send()
 }
@@ -24,7 +24,7 @@ function imageListUrl() {
     return '/gallery/imageList' + dateSuffix;
 }
 
-function handleImgeListResponse(response) {
+function handleImageListResponse(response) {
     console.log('type of response: ' + typeof response)
     console.log(response)
 }
