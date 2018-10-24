@@ -8,5 +8,23 @@ function setup() {
     if (dateArgument !== 'any') {
         date = jsJoda.LocalDate.parse(dateArgument)
     }
-    document.getElementById("date-paragraph").textContent = date ? date : "all dates"
+    document.getElementById('date-paragraph').textContent = date ? date : "all dates"
+    requestImageList()
+}
+
+function requestImageList() {
+    let request = new XMLHttpRequest()
+    request.onload = () => handleImgeListResponse(request.response)
+    request.open('GET', imageListUrl())
+    request.send()
+}
+
+function imageListUrl() {
+    let dateSuffix = date ? '/' + date : ''
+    return '/gallery/imageList' + dateSuffix;
+}
+
+function handleImgeListResponse(response) {
+    console.log('type of response: ' + typeof response)
+    console.log(response)
 }
