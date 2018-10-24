@@ -1,5 +1,6 @@
 package at.yeoman.photobackup.server.service;
 
+import at.yeoman.photobackup.server.Directories;
 import at.yeoman.photobackup.server.api.AssetReport;
 import at.yeoman.photobackup.server.api.Checksum;
 import at.yeoman.photobackup.server.api.MissingAssets;
@@ -39,15 +40,15 @@ public class BackupRequestHandler {
     @Autowired
     BackupRequestHandler(Core core) throws IOException {
         this.core = core;
-        assetDirectory = getDirectory("assets");
-        uploadDirectory = getDirectory("upload");
-        photoDirectory = getDirectory("photos");
+        assetDirectory = getDirectory(Directories.Assets);
+        uploadDirectory = getDirectory(Directories.Upload);
+        photoDirectory = getDirectory(Directories.Photos);
     }
 
     private static File getDirectory(String name) throws IOException {
         File result = new File(name);
         if (!result.isDirectory()) {
-            throw new IOException("Not a dirsctory: " + result.getCanonicalPath());
+            throw new IOException("Not a directory: " + result.getCanonicalPath());
         }
         return result;
     }

@@ -21,7 +21,7 @@ class AssetStorageDataLoader {
         if (loadDataFromFile()) {
             return result;
         } else {
-            return new Assets();
+            return null;
         }
     }
 
@@ -37,6 +37,7 @@ class AssetStorageDataLoader {
     private boolean loadDataFromExistingFile(File storageFile) {
         try {
             loadDataFromFileOrThrow(storageFile);
+            return true;
         } catch (IOException exception) {
             logger.error("Unable to load data from existing file [" + storageFile.getAbsolutePath() + "]");
             return false;
