@@ -21,6 +21,6 @@ class ResourcesForDate {
     }
 
     private void determineResult() {
-        core.getAssetDescriptions();
+        //core.getAssetDescriptions();
     }
 }

@@ -1,6 +1,8 @@
 package at.yeoman.photobackup.server.gallery;
 
 import at.yeoman.photobackup.server.api.ResourceDescription;
+import at.yeoman.photobackup.server.core.Core;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,13 @@ import java.util.List;
 
 @Controller
 public class GalleryRequestHandler {
+    private final Core core;
+
+    @Autowired
+    public GalleryRequestHandler(Core core) {
+        this.core = core;
+    }
+
     @GetMapping(value = {"/gallery", "/gallery/{date}"})
     public String gallery(Model model, @PathVariable(required = false) String date) {
         if (date != null) {
@@ -27,9 +36,9 @@ public class GalleryRequestHandler {
     public List<ResourceDescription> imageList(Model model, @PathVariable(required = false) String date) {
         if (date != null) {
             LocalDate parsedDate = LocalDate.parse(date);
-            return new ResourcesForDate(parsedDate).result;
+            return new ResourcesForDate(core, parsedDate).result;
         } else {
-            return new ResourcesForDate(null).result;
+            return new ResourcesForDate(core, null).result;
         }
     }
 }

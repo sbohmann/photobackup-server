@@ -1,41 +1,35 @@
 package at.yeoman.photobackup.server.api;
 
-public class ResourceDescription {
-    private Checksum checksum;
-    private long size;
-    private String name;
-    private long creationDateMs;
+import javax.annotation.concurrent.Immutable;
+
+@Immutable
+public final class ResourceDescription {
+    public final Checksum checksum;
+    public final long size;
+    public final String name;
+    public final long creationDateMs;
+
+    public ResourceDescription(Checksum checksum, long size, String name, long creationDateMs) {
+        this.checksum = checksum;
+        this.size = size;
+        this.name = name;
+        this.creationDateMs = creationDateMs;
+    }
 
     public Checksum getChecksum() {
         return checksum;
-    }
-
-    public void setChecksum(Checksum checksum) {
-        this.checksum = checksum;
     }
 
     public long getSize() {
         return size;
     }
 
-    public void setSize(long size) {
-        this.size = size;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public long getCreationDateMs() {
         return creationDateMs;
-    }
-
-    public void setCreationDateMs(long creationDateMs) {
-        this.creationDateMs = creationDateMs;
     }
 
     @Override

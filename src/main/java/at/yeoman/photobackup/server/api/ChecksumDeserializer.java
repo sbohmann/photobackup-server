@@ -12,7 +12,7 @@ import java.io.IOException;
 
 class ChecksumDeserializer extends JsonDeserializer<Checksum> {
     @Override
-    public Checksum deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public Checksum deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
         ObjectCodec oc = p.getCodec();
         JsonNode node = oc.readTree(p);
         return new Checksum(new ByteBlock(node.asText()));

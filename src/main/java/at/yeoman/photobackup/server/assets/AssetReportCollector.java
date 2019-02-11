@@ -29,7 +29,7 @@ class AssetReportCollector {
     }
 
     private void collectAssetReports() {
-        File[] files = new File(Directories.Assets).listFiles();
+        File[] files = Directories.Assets.listFiles();
         List<Report> reports = reportsForFiles(files);
         reports.sort(Comparator.comparing(report -> report.creation));
         reports.forEach(this::integrateReport);

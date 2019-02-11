@@ -1,5 +1,6 @@
 package at.yeoman.photobackup.server.assets;
 
+import at.yeoman.photobackup.server.Directories;
 import at.yeoman.photobackup.server.resource.ResourceTypeForFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +24,7 @@ public class AssetStorage {
 
     private void scanResources() {
         logger.info("Scanning resources...");
-        File[] files = new File("photos").listFiles();
+        File[] files = Directories.Photos.listFiles();
         Arrays
                 .stream(files)
                 .map(ResourceTypeForFile::get)

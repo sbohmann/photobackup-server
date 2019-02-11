@@ -6,8 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import javax.annotation.concurrent.Immutable;
 import java.util.Objects;
 
+@Immutable
 @JsonSerialize(using = ChecksumSerializer.class)
 @JsonDeserialize(using = ChecksumDeserializer.class)
 public final class Checksum {

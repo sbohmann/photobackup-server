@@ -1,39 +1,35 @@
 package at.yeoman.photobackup.server.api;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import com.google.common.collect.ImmutableList;
 
+import javax.annotation.concurrent.Immutable;
 import java.util.List;
 
-public class AssetDescription {
+@Immutable
+public final class AssetDescription {
     // TODO location information from PHAsset
     // TODO creation timestamp, name, tags, &c.
 
-    private String name;
-    private long creationDateMs;
-    private List<ResourceDescription> resourceDescriptions;
+    public final String name;
+    public final long creationDateMs;
+    public final ImmutableList<ResourceDescription> resourceDescriptions;
+
+    public AssetDescription(String name, long creationDateMs, List<ResourceDescription> resourceDescriptions) {
+        this.name = name;
+        this.creationDateMs = creationDateMs;
+        this.resourceDescriptions = ImmutableList.copyOf(resourceDescriptions);
+    }
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public long getCreationDateMs() {
         return creationDateMs;
     }
 
-    public void setCreationDateMs(long creationDateMs) {
-        this.creationDateMs = creationDateMs;
-    }
-
     public List<ResourceDescription> getResourceDescriptions() {
         return resourceDescriptions;
-    }
-
-    public void setResourceDescriptions(List<ResourceDescription> resourceDescriptions) {
-        this.resourceDescriptions = resourceDescriptions;
     }
 
     @Override
