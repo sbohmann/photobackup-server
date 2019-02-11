@@ -8,6 +8,7 @@ public class Loops {
         boolean[] stop = new boolean[1];
         for (int i_ = 0; i_ < 5 && !stop[0]; i_++) {
             int i = i_;
+            //noinspection TrivialFunctionalExpressionUsage
             ((Runnable) () -> {
                 for (int j = 0; j < 5; j++) {
                     if (i * j > 6) {
@@ -22,4 +23,3 @@ public class Loops {
         System.out.println("Done");
     }
 }
-
