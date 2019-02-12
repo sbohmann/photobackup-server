@@ -55,10 +55,14 @@ public class Core {
     }
 
     synchronized private void loadAssetData() {
+        log.info("Reading assets...");
         assets = new AssetStorageDataLoader().result;
         if (assets == null) {
+            log.info("No result, collecting assets...");
             assets = new AssetReportCollector().result;
+            log.info("Writing assets file...");
             new AssetStorageWriter(assets).run();
         }
+        log.info("Finished reading assets.");
     }
 }

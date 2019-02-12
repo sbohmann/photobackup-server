@@ -2,8 +2,8 @@ package at.yeoman.photobackup.server.service;
 
 import at.yeoman.photobackup.server.Directories;
 import at.yeoman.photobackup.server.api.AssetReport;
-import at.yeoman.photobackup.server.assets.Checksum;
 import at.yeoman.photobackup.server.api.MissingAssets;
+import at.yeoman.photobackup.server.assets.Checksum;
 import at.yeoman.photobackup.server.assets.ResourceDescription;
 import at.yeoman.photobackup.server.core.Core;
 import org.slf4j.Logger;
@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+
+import static at.yeoman.photobackup.server.io.TransactionalFileHandling.finishAndSync;
 
 @RestController
 public class BackupRequestHandler {
@@ -161,8 +163,8 @@ public class BackupRequestHandler {
     @SuppressWarnings("unused")
     private Checksum writeFile(InputStream in, File target) throws Exception {
         log.info("writing to file [" + target.getCanonicalPath() + "]...");
-        try (FileOutputStream out = new FileOutputStream(target);
-             FileLock lock = out.getChannel().lock()) {
+        try (FileOutputStream out = new FileOutputStream(target)) {
+            out.getChannel().lock();
             MessageDigest md = MessageDigest.getInstance("SHA-512");
             byte[] buffer = new byte[1024 * 1024];
             long bytesWritten = 0;
@@ -175,12 +177,7 @@ public class BackupRequestHandler {
                 md.update(buffer, 0, n);
                 bytesWritten += n;
             }
-            out.getChannel().force(true);
-            try {
-                out.getFD().sync();
-            } catch (SyncFailedException exception) {
-                log.debug("Unable to sync file [" + target.getCanonicalPath() + "]", exception);
-            }
+            finishAndSync(out, log, target);
             log.info("finished writing " + bytesWritten + " bytes to file [" + target.getCanonicalPath() + "].");
             return new Checksum(md.digest());
         }

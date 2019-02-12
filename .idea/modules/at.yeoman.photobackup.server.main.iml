@@ -21,6 +21,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-web:2.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-thymeleaf:2.0.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.datatype:jackson-datatype-guava:2.9.8" level="project" />
     <orderEntry type="library" name="Gradle: com.google.guava:guava:27.0.1-jre" level="project" />
     <orderEntry type="library" name="Gradle: org.webjars.npm:js-joda:1.8.2" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-json:2.0.4.RELEASE" level="project" />
@@ -38,6 +39,11 @@
     <orderEntry type="library" name="Gradle: com.google.errorprone:error_prone_annotations:2.2.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.j2objc:j2objc-annotations:1.1" level="project" />
     <orderEntry type="library" name="Gradle: org.codehaus.mojo:animal-sniffer-annotations:1.17" level="project" />
+    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.6" level="project" />
+    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.6" level="project" />
+    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.module:jackson-module-parameter-names:2.9.6" level="project" />
+    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.9.8" level="project" />
+    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.8" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-autoconfigure:2.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot:2.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-logging:2.0.4.RELEASE" level="project" />
@@ -48,10 +54,6 @@
     <orderEntry type="library" name="Gradle: org.springframework:spring-expression:5.0.8.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-core:5.0.8.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.yaml:snakeyaml:1.19" level="project" />
-    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.6" level="project" />
-    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.6" level="project" />
-    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.module:jackson-module-parameter-names:2.9.6" level="project" />
-    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.9.6" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.tomcat.embed:tomcat-embed-websocket:8.5.32" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.tomcat.embed:tomcat-embed-core:8.5.32" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.tomcat.embed:tomcat-embed-el:8.5.32" level="project" />
@@ -63,9 +65,8 @@
     <orderEntry type="library" name="Gradle: org.apache.logging.log4j:log4j-to-slf4j:2.10.0" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:jul-to-slf4j:1.7.25" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.25" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework:spring-jcl:5.0.8.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.9.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.6" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-jcl:5.0.8.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: ognl:ognl:3.1.12" level="project" />
     <orderEntry type="library" name="Gradle: org.attoparser:attoparser:2.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.unbescape:unbescape:1.1.5.RELEASE" level="project" />

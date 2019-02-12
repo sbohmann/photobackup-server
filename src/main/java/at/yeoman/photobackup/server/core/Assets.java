@@ -3,6 +3,9 @@ package at.yeoman.photobackup.server.core;
 import at.yeoman.photobackup.server.assets.AssetDescription;
 import at.yeoman.photobackup.server.assets.Checksum;
 import at.yeoman.photobackup.server.assets.ResourceDescription;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -15,8 +18,8 @@ import java.util.stream.Collectors;
 
 public class Assets {
     public final ImmutableList<AssetDescription> assets;
-    public final ImmutableMap<Checksum, ImmutableList<AssetDescription>> assetsForResource;
-    public final ImmutableSet<AssetDescription> knownAssets;
+    @JsonIgnore public final ImmutableMap<Checksum, ImmutableList<AssetDescription>> assetsForResource;
+    @JsonIgnore public final ImmutableSet<AssetDescription> knownAssets;
 
     public Assets(ImmutableList<AssetDescription> assets,
                   ImmutableMap<Checksum, ImmutableList<AssetDescription>> assetsForResource) {
@@ -25,7 +28,8 @@ public class Assets {
         knownAssets = ImmutableSet.copyOf(assets);
     }
 
-    public Assets(List<AssetDescription> assets) {
+    @JsonCreator
+    public Assets(@JsonProperty("assets") List<AssetDescription> assets) {
         this.assets = ImmutableList.copyOf(assets);
         assetsForResource = createAssetsForResource(assets);
         knownAssets = ImmutableSet.copyOf(assets);

@@ -5,6 +5,7 @@ import at.yeoman.photobackup.server.api.AssetReport;
 import at.yeoman.photobackup.server.assets.AssetDescription;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +22,7 @@ class AssetReportCollector {
 
     private static final Logger logger = LoggerFactory.getLogger(AssetReportCollector.class);
 
-    private ObjectReader reader = new ObjectMapper().readerFor(AssetReport.class);
+    private ObjectReader reader = new ObjectMapper().registerModule(new GuavaModule()).readerFor(AssetReport.class);
     private List<AssetDescription> assets = new ArrayList<>();
     private Set<AssetDescription> knownAssets = new HashSet<>();
 
@@ -58,8 +59,8 @@ class AssetReportCollector {
         String rawDate = rawDateForFileName(file.getName());
         try {
             return createReportStreamOrThrow(file, rawDate);
-        } catch(DateTimeParseException exception) {
-            logger.error("Unable to read raw instant from name of file [" + file.getAbsolutePath() + "]");
+        } catch(DateTimeParseException error) {
+            logger.error("Unable to read raw instant from name of file [" + file.getAbsolutePath() + "]", error);
             return Stream.empty();
         }
     }
@@ -67,7 +68,7 @@ class AssetReportCollector {
     private Stream<Report> createReportStreamOrThrow(File file, String rawDate) {
         Report result = new Report();
         result.file = file;
-        result.creation = Instant.parse(rawDate);
+        result.creation = new InstantForUtcString(rawDate).result;
         return Stream.of(result);
     }
 
@@ -84,8 +85,8 @@ class AssetReportCollector {
         try {
             AssetReport parsedReport = reader.readValue(rawReport.file);
             integrateReport(parsedReport);
-        } catch (IOException e) {
-            logger.error("Unable to read asset report from file [" + rawReport.file.getAbsolutePath() + "]");
+        } catch (IOException error) {
+            logger.error("Unable to read asset report from file [" + rawReport.file.getAbsolutePath() + "]", error);
         }
     }
 

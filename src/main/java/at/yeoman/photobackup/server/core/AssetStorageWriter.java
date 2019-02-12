@@ -1,6 +1,7 @@
 package at.yeoman.photobackup.server.core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,13 +10,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileLock;
 
+import static at.yeoman.photobackup.server.io.TransactionalFileHandling.finishAndSync;
+
 class AssetStorageWriter {
-    private static final Logger logger = LoggerFactory.getLogger(AssetStorageWriter.class);
+    private static final Logger log = LoggerFactory.getLogger(AssetStorageWriter.class);
     private static final String StoragePath = "assets.json";
 
     private Assets assets;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper = new ObjectMapper().registerModule(new GuavaModule());
     private File storageFile;
 
     AssetStorageWriter(Assets assets) {
@@ -24,24 +27,25 @@ class AssetStorageWriter {
 
     void run() {
         storageFile = new File(StoragePath);
-        if (storageFile.isFile()) {
-            loadDataFromExistingFile();
-        }
+        writeAssetDataFile();
     }
 
-    private void loadDataFromExistingFile() {
+    private void writeAssetDataFile() {
         try {
-            loadDataFromFileOrThrow();
-        } catch (IOException exception) {
-            logger.error("Unable to load data from existing file [" + storageFile.getAbsolutePath() + "]");
+            writeDataToFileOrThrow();
+        } catch (IOException error) {
+            log.error("Unable to write data to file [" + storageFile.getAbsolutePath() + "]", error);
         }
     }
 
+    // TODO create target if necesssary, write to intermediary file, then replace, all with both locked
     @SuppressWarnings("unused")
-    private void loadDataFromFileOrThrow() throws IOException {
-        FileOutputStream out = new FileOutputStream(storageFile);
-        try (FileLock lock = out.getChannel().lock()) {
+    private void writeDataToFileOrThrow() throws IOException {
+        try (FileOutputStream out = new FileOutputStream(storageFile)) {
+            out.getChannel().lock();
             objectMapper.writerFor(Assets.class).writeValue(out, assets);
+            //finishAndSync(out, log, storageFile);
+            log.info("finished writing assets.");
         }
     }
 }
