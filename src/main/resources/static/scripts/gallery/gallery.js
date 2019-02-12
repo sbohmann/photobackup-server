@@ -29,6 +29,9 @@ function handleImageListResponse(response) {
     //console.log('response: [' + response + ']')
     let assets = JSON.parse(response)
     for (let asset of assets) {
-        console.log(asset)
+        console.log(asset.name)
+        for (let resource of asset.resourceDescriptions) {
+            console.log(resource.name + ', ' + resource.size)
+        }
     }
 }
