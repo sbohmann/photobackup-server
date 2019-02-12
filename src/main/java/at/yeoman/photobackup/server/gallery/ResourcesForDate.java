@@ -1,12 +1,11 @@
 package at.yeoman.photobackup.server.gallery;
 
-import at.yeoman.photobackup.server.api.ResourceDescription;
+import at.yeoman.photobackup.server.assets.ResourceDescription;
 import at.yeoman.photobackup.server.core.Core;
 import org.springframework.lang.Nullable;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 class ResourcesForDate {
     List<ResourceDescription> result;

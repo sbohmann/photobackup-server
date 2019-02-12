@@ -2,9 +2,9 @@ package at.yeoman.photobackup.server.service;
 
 import at.yeoman.photobackup.server.Directories;
 import at.yeoman.photobackup.server.api.AssetReport;
-import at.yeoman.photobackup.server.api.Checksum;
+import at.yeoman.photobackup.server.assets.Checksum;
 import at.yeoman.photobackup.server.api.MissingAssets;
-import at.yeoman.photobackup.server.api.ResourceDescription;
+import at.yeoman.photobackup.server.assets.ResourceDescription;
 import at.yeoman.photobackup.server.core.Core;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

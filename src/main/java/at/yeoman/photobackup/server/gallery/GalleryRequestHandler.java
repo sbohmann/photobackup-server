@@ -1,6 +1,6 @@
 package at.yeoman.photobackup.server.gallery;
 
-import at.yeoman.photobackup.server.api.ResourceDescription;
+import at.yeoman.photobackup.server.assets.ResourceDescription;
 import at.yeoman.photobackup.server.core.Core;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

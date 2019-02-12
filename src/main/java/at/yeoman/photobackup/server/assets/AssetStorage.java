@@ -1,6 +1,7 @@
 package at.yeoman.photobackup.server.assets;
 
 import at.yeoman.photobackup.server.Directories;
+import at.yeoman.photobackup.server.core.Assets;
 import at.yeoman.photobackup.server.resource.ResourceTypeForFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,23 +19,23 @@ public class AssetStorage {
     private Assets data;
 
     AssetStorage() {
-        scanResources();
+        //scanResources();
         loadAssetData();
     }
 
-    private void scanResources() {
-        logger.info("Scanning resources...");
-        File[] files = Directories.Photos.listFiles();
-        Arrays
-                .stream(files)
-                .map(ResourceTypeForFile::get)
-                .forEach(System.out::println);
-    }
+//    private void scanResources() {
+//        logger.info("Scanning resources...");
+//        File[] files = Directories.Photos.listFiles();
+//        Arrays
+//                .stream(files)
+//                .map(ResourceTypeForFile::get)
+//                .forEach(System.out::println);
+//    }
 
     private void loadAssetData() {
         data = new AssetStorageDataLoader().run();
         if (data == null) {
-            data = new AssetReportCollector().run();
+            data = new AssetReportCollector().result;
         }
     }
 }

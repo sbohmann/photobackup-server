@@ -2,7 +2,7 @@ package at.yeoman.photobackup.server.core;
 
 import at.yeoman.photobackup.server.Directories;
 import at.yeoman.photobackup.server.api.AssetReport;
-import at.yeoman.photobackup.server.api.Checksum;
+import at.yeoman.photobackup.server.assets.Checksum;
 import at.yeoman.photobackup.server.configuration.CoreConfiguration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;

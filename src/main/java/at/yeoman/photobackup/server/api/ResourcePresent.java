@@ -1,5 +1,7 @@
 package at.yeoman.photobackup.server.api;
 
+import at.yeoman.photobackup.server.assets.Checksum;
+
 public class ResourcePresent {
     public static final String Yes = "6c34e454bfb6ced8";
     public static final String No = "367011a20b690e6a";
@@ -14,14 +16,6 @@ public class ResourcePresent {
         this.confirmation = confirmation;
         this.checksum = checksum;
         this.trivialChecksum = trivialChecksum;
-    }
-
-    public static String getYes() {
-        return Yes;
-    }
-
-    public static String getNo() {
-        return No;
     }
 
     public boolean isPresent() {

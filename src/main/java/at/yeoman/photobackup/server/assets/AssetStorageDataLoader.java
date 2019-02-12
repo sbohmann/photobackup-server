@@ -1,5 +1,6 @@
 package at.yeoman.photobackup.server.assets;
 
+import at.yeoman.photobackup.server.core.Assets;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+// TODO use or delete
 class AssetStorageDataLoader {
     private static final Logger logger = LoggerFactory.getLogger(AssetStorage.class);
     private static final String StoragePath = "assets.json";

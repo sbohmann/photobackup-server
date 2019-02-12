@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
+// TODO use or delete
 public class ResourceTypeForFile {
     private static Logger logger = LoggerFactory.getLogger(ResourceTypeForFile.class);
 

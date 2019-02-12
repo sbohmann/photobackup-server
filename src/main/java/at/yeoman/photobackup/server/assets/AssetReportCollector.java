@@ -2,8 +2,10 @@ package at.yeoman.photobackup.server.assets;
 
 import at.yeoman.photobackup.server.Directories;
 import at.yeoman.photobackup.server.api.AssetReport;
+import at.yeoman.photobackup.server.core.Assets;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,11 +23,13 @@ class AssetReportCollector {
     private static final Logger logger = LoggerFactory.getLogger(AssetReportCollector.class);
 
     private ObjectReader reader = new ObjectMapper().readerFor(AssetReport.class);
-    private List<Asset> assets = new ArrayList<>();
+    private List<AssetDescription> assets = new ArrayList<>();
 
-    Assets run() {
+    public final Assets result;
+
+    AssetReportCollector() {
         collectAssetReports();
-        return new Assets(assets);
+        result = new Assets(assets);
     }
 
     private void collectAssetReports() {
