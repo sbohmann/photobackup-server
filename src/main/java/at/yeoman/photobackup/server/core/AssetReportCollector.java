@@ -1,11 +1,10 @@
-package at.yeoman.photobackup.server.assets;
+package at.yeoman.photobackup.server.core;
 
 import at.yeoman.photobackup.server.Directories;
 import at.yeoman.photobackup.server.api.AssetReport;
-import at.yeoman.photobackup.server.core.Assets;
+import at.yeoman.photobackup.server.assets.AssetDescription;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
-import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +23,7 @@ class AssetReportCollector {
 
     private ObjectReader reader = new ObjectMapper().readerFor(AssetReport.class);
     private List<AssetDescription> assets = new ArrayList<>();
+    private Set<AssetDescription> knownAssets = new HashSet<>();
 
     public final Assets result;
 
@@ -90,9 +90,10 @@ class AssetReportCollector {
     }
 
     private void integrateReport(AssetReport report) {
-        report.getDescriptions().forEach(description -> {
-            //description.
-            // TODO
-        });
+        List<AssetDescription> filtered = report.getDescriptions().stream()
+                .filter(asset -> !knownAssets.contains(asset))
+                .collect(Collectors.toList());
+        assets.addAll(filtered);
+        knownAssets.addAll(filtered);
     }
 }
