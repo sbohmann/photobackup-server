@@ -1,5 +1,6 @@
 package at.yeoman.photobackup.server.core;
 
+import at.yeoman.photobackup.server.api.AssetReport;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import org.slf4j.Logger;
@@ -16,7 +17,7 @@ class AssetStorageDataLoader {
     private static final Logger log = LoggerFactory.getLogger(AssetStorageDataLoader.class);
     private static final String StoragePath = "assets.json";
 
-    private ObjectMapper objectMapper = new ObjectMapper().registerModule(new GuavaModule());
+    private ObjectMapper objectMapper = new ObjectMapper();
     private final File storageFile;
 
     @Nullable
@@ -39,9 +40,7 @@ class AssetStorageDataLoader {
 
     @SuppressWarnings("unused")
     private void loadDataFromFileOrThrow() throws IOException {
-        try (RandomAccessFile randomAccessFile = new RandomAccessFile(storageFile, "rw")) {
-            randomAccessFile.getChannel().lock();
-            result = objectMapper.readerFor(Assets.class).readValue(randomAccessFile);
-        }
+        // TODO find a reasonable way to lock the file - RandomAccessFile is way too slow
+        result = objectMapper.readerFor(Assets.class).readValue(storageFile);
     }
 }

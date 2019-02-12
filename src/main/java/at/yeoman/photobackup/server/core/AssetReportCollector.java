@@ -22,7 +22,7 @@ class AssetReportCollector {
 
     private static final Logger logger = LoggerFactory.getLogger(AssetReportCollector.class);
 
-    private ObjectReader reader = new ObjectMapper().registerModule(new GuavaModule()).readerFor(AssetReport.class);
+    private ObjectReader reader = new ObjectMapper().readerFor(AssetReport.class);
     private List<AssetDescription> assets = new ArrayList<>();
     private Set<AssetDescription> knownAssets = new HashSet<>();
 

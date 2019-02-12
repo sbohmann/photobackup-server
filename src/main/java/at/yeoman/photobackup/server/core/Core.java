@@ -64,5 +64,6 @@ public class Core {
             new AssetStorageWriter(assets).run();
         }
         log.info("Finished reading assets.");
+        log.info(assets.assets.size() + " assets, " + assets.assetsForResource.size() + " known resources.");
     }
 }

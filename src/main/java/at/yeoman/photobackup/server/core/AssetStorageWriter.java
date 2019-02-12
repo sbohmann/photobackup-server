@@ -18,7 +18,7 @@ class AssetStorageWriter {
 
     private Assets assets;
 
-    private ObjectMapper objectMapper = new ObjectMapper().registerModule(new GuavaModule());
+    private ObjectMapper objectMapper = new ObjectMapper();
     private File storageFile;
 
     AssetStorageWriter(Assets assets) {
