@@ -21,10 +21,14 @@ function requestImageList() {
 
 function imageListUrl() {
     let dateSuffix = date ? '/' + date : ''
-    return '/gallery/imageList' + dateSuffix;
+    return '/gallery/imageList' + dateSuffix
 }
 
 function handleImageListResponse(response) {
     console.log('type of response: ' + typeof response)
-    console.log(response)
+    //console.log('response: [' + response + ']')
+    let assets = JSON.parse(response)
+    for (let asset of assets) {
+        console.log(asset)
+    }
 }
