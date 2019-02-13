@@ -29,7 +29,13 @@ function handleImageListResponse(response) {
     for (let asset of assets) {
         let div = document.createElement("div")
         let header = document.createElement('h5')
-        let creationDate = jsJoda.Instant. ofEpochMilli(asset.creationDateMs)
+        let creationDate;
+        try {
+            creationDate = jsJoda.Instant.ofEpochMilli(asset.creationDateMs)
+        } catch (error) {
+            console.log(error)
+            creationDate = 'Creation date (ms) out of range [' + asset.creationDateMs + ']'
+        }
         header.appendChild(document.createTextNode(creationDate))
         div.appendChild(header)
         for (let resource of asset.resourceDescriptions) {

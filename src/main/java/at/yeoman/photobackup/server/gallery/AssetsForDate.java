@@ -8,6 +8,8 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,8 +34,9 @@ class AssetsForDate {
                     .filter(asset -> inRange(asset.creationDateMs))
                     .collect(Collectors.toList());
         } else {
-            result = core.getAssets().assets;
+            result = new ArrayList<>(core.getAssets().assets);
         }
+        result.sort(Comparator.comparing(asset -> asset.creationDateMs));
     }
 
     private boolean inRange(long creationDateMs) {
