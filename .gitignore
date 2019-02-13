@@ -1,4 +1,4 @@
-.idea/libraries
-photos
-assets
-uploads
+./.idea/libraries
+./photos
+./assets
+./uploads
