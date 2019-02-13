@@ -72,7 +72,7 @@ public final class Checksum {
                 '}';
     }
 
-    String toJson() {
+    public String toRawString() {
         return value.toRawString();
     }
 }

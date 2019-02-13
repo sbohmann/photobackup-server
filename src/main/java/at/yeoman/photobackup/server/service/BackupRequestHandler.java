@@ -147,7 +147,7 @@ public class BackupRequestHandler {
     }
 
     private String fileNameForChecksum(Checksum checksum) {
-        return checksum.getValue().toRawString() + ".jpg";
+        return checksum.getValue().toRawString();
     }
 
     private ResponseEntity<String> success(String message) {

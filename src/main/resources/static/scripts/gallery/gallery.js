@@ -25,13 +25,21 @@ function imageListUrl() {
 }
 
 function handleImageListResponse(response) {
-    console.log('type of response: ' + typeof response)
-    //console.log('response: [' + response + ']')
     let assets = JSON.parse(response)
     for (let asset of assets) {
-        console.log(asset.name)
+        let div = document.createElement("div")
+        let header = document.createElement('h5')
+        let creationDate = jsJoda.Instant. ofEpochMilli(asset.creationDateMs)
+        header.appendChild(document.createTextNode(creationDate))
+        div.appendChild(header)
         for (let resource of asset.resourceDescriptions) {
-            console.log(resource.name + ', ' + resource.size)
+            let p = document.createElement("p")
+            let link = document.createElement('a')
+            link.href = '/photos/' + resource.checksum + '/' + resource.name
+            link.appendChild(document.createTextNode(resource.name))
+            p.append(link)
+            div.append(p)
         }
+        document.body.appendChild(div)
     }
 }
