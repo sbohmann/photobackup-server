@@ -1,4 +1,7 @@
 /.idea/libraries
+/gradle
+/.gradle
+/out
 /photos
 /assets
 /uploads
