@@ -4,15 +4,37 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 public class HeicToJpegTest {
     @Test
-    public void convertHeicFile() throws IOException {
+    public void convertHeicFile() throws IOException, InterruptedException {
         byte[] heicData = readHeicFile();
         System.out.println(heicData.length);
-        byte[] jpegData = HeicToJpeg.convert(heicData);
-        System.out.println(jpegData.length);
+
+        Consumer<Integer> convertImage = index -> {
+            byte[] jpegData = HeicToJpeg.convert(heicData);
+            System.out.println(index + " - " + jpegData.length);
+            if (index == 0) {
+                writeJpegFile(jpegData);
+            }
+        };
+
+        ExecutorService executor = Executors.newFixedThreadPool(5);
+        for (int index = 0; index < 100; ++index) {
+            int oida = index;
+            executor.execute(() -> convertImage.accept(oida));
+        }
+        executor.shutdown();
+        while (!executor.isTerminated()) {
+            executor.awaitTermination(10, TimeUnit.SECONDS);
+        }
+        System.out.println("Finished all threads");
     }
 
     private byte[] readHeicFile() throws IOException {
@@ -34,5 +56,14 @@ public class HeicToJpegTest {
             throw new IOException("EOF not reached after reading " + bytesRead + " bytes");
         }
         return heicData;
+    }
+
+    private void writeJpegFile(byte[] jpegData) {
+        try {
+            FileOutputStream out = new FileOutputStream("e:/tmp/copy_from_java.jpg");
+            out.write(jpegData);
+        } catch (IOException error) {
+            throw new RuntimeException(error);
+        }
     }
 }

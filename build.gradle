@@ -2,6 +2,11 @@ plugins {
     id 'java'
 }
 
+compileJava {
+    options.compilerArgs += ["-h", file("generated_headers")]
+//    options.verbose = true
+}
+
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
@@ -28,7 +33,6 @@ dependencies {
     compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-guava', version: '2.9.8'
 
     compile 'org.webjars.npm:js-joda:1.8.2'
-    compile name: 'heif-java'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
