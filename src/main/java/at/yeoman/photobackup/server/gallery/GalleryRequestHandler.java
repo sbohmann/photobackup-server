@@ -98,7 +98,8 @@ public class GalleryRequestHandler {
                 try (ServletOutputStream out = response.getOutputStream()) {
                     written = StreamTransfer.copy(new ByteArrayInputStream(convertedBuffer), out);
                     if (written != convertedBuffer.length) {
-                        log.error("Converted buffer length: " + convertedBuffer.length + ", written: " + written + " for " + checksum);
+                        log.error("Converted buffer length: " + convertedBuffer.length +
+                                ", written: " + written + " for " + checksum);
                     }
                 }
             }
