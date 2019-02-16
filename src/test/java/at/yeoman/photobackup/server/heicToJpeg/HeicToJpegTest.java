@@ -38,7 +38,8 @@ public class HeicToJpegTest {
     }
 
     private byte[] readHeicFile() throws IOException {
-        File heicFile = new File("e:/tmp/original.heic");
+        File heicFile = new File("e:/tmp/photos/6AD4DE5BFDA456A85859C5D74DA2093CE33A430DB429AACA838FD996AE6F4A2B358E1CF98953FCCEA54C0130C4B524C00EFE9B974F390D47F66B8DF42B088369");
+        //File heicFile = new File("e:/tmp/original.heic");
         FileInputStream in = new FileInputStream(heicFile);
         if (heicFile.length() > Integer.MAX_VALUE) {
             throw new IOException("File too big: " + heicFile.length() + " bytes");

@@ -1,7 +1,5 @@
 package at.yeoman.photobackup.server.heicToJpeg;
 
-import java.io.File;
-
 public class HeicToJpeg {
     static {
         System.loadLibrary("CORE_RL_zlib_");
@@ -22,5 +20,5 @@ public class HeicToJpeg {
 
     native private static void initialize();
 
-    native static byte[] convert(byte[] heicData);
+    native public static byte[] convert(byte[] heicData);
 }

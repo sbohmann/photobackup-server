@@ -4,6 +4,7 @@ import at.yeoman.photobackup.server.Directories;
 import at.yeoman.photobackup.server.assets.AssetDescription;
 import at.yeoman.photobackup.server.assets.Checksum;
 import at.yeoman.photobackup.server.core.Core;
+import at.yeoman.photobackup.server.heicToJpeg.HeicToJpeg;
 import at.yeoman.photobackup.server.io.StreamTransfer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -60,7 +59,7 @@ public class GalleryRequestHandler {
     @GetMapping(value = ("/photos/{checksum}/*"), produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
     public void resource(@PathVariable Checksum checksum,
-                         //@PathVariable(required = false) String filename,
+                         //@PathVariable(required = false) String fileName,
                          HttpServletResponse response)
             throws IOException {
         File file = new File(Directories.Photos, checksum.toRawString());
@@ -75,6 +74,45 @@ public class GalleryRequestHandler {
             }
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown resource [" + checksum.toRawString() + "]");
+        }
+    }
+
+    @GetMapping(value = ("/photos/{checksum}/converted/*"), produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @ResponseBody
+    public void convertedResource(@PathVariable Checksum checksum,
+                         @PathVariable(required = false) String fileName,
+                         HttpServletResponse response)
+            throws IOException {
+        File file = new File(Directories.Photos, checksum.toRawString());
+        if (file.isFile()) {
+            try (FileInputStream in = new FileInputStream(file)) {
+                ByteArrayOutputStream originalBuffer = createFileBuffer(file);
+                long written = StreamTransfer.copy(in, originalBuffer);
+                if (written != file.length()) {
+                    log.error("File size: " + file.length() + ", written: " + written + " for " + checksum);
+                }
+                byte[] convertedBuffer = HeicToJpeg.convert(originalBuffer.toByteArray());
+                log.info("Original file size: " + file.length() + ", converted size: " + convertedBuffer.length +
+                        " for " + fileName + ", " + checksum);
+                response.setHeader("Content-Length", Long.toString(convertedBuffer.length));
+                try (ServletOutputStream out = response.getOutputStream()) {
+                    written = StreamTransfer.copy(new ByteArrayInputStream(convertedBuffer), out);
+                    if (written != convertedBuffer.length) {
+                        log.error("Converted buffer length: " + convertedBuffer.length + ", written: " + written + " for " + checksum);
+                    }
+                }
+            }
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown resource [" + checksum.toRawString() + "]");
+        }
+    }
+
+    private ByteArrayOutputStream createFileBuffer(File file) {
+        long size = file.length();
+        if (size <= Integer.MAX_VALUE) {
+            return new ByteArrayOutputStream((int) size);
+        } else {
+            throw new IllegalArgumentException("File size > Integer.MAX_VALUE: " + size);
         }
     }
 }

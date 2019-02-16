@@ -1,8 +1,9 @@
-
 const jsJoda = JSJoda
 let date = null
 
-window.onload = () => { setup() }
+window.onload = () => {
+    setup()
+}
 
 function setup() {
     if (dateArgument !== 'any') {
@@ -39,13 +40,28 @@ function handleImageListResponse(response) {
         header.appendChild(document.createTextNode(creationDate))
         div.appendChild(header)
         for (let resource of asset.resourceDescriptions) {
-            let p = document.createElement("p")
-            let link = document.createElement('a')
-            link.href = '/photos/' + resource.checksum + '/' + resource.name
-            link.appendChild(document.createTextNode(resource.name))
-            p.append(link)
-            div.append(p)
+            createLink(resource, div, resource.name, '/photos/' + resource.checksum + '/' + resource.name);
+            let convertedResourceName = jpegResourceName(resource.name);
+            createLink(resource, div, convertedResourceName + " (converted)",
+                '/photos/' + resource.checksum + '/converted/' + convertedResourceName);
         }
         document.body.appendChild(div)
     }
+}
+
+function createLink(resource, div, name, address) {
+    let p = document.createElement("p")
+    let link = document.createElement('a')
+    link.href = address
+    link.appendChild(document.createTextNode(name))
+    p.append(link)
+    div.append(p)
+}
+
+function jpegResourceName(originalResourceName) {
+    result = originalResourceName.replace('.(heic|png|tiff|jpg|jpeg|gif)', '.jpg');
+    if (!result.endsWith('.jpg')) {
+        result = result + '.jpg';
+    }
+    return result;
 }
