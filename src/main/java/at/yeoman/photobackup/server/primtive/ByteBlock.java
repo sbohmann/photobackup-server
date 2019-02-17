@@ -1,8 +1,9 @@
 package at.yeoman.photobackup.server.primtive;
 
+import javax.annotation.concurrent.Immutable;
 import java.util.Arrays;
 
-
+@Immutable
 public final class ByteBlock {
     private final byte[] value;
 

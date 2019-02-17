@@ -1,5 +1,7 @@
 package at.yeoman.photobackup.server.api;
 
+import at.yeoman.photobackup.server.assets.Checksum;
+
 import java.util.List;
 
 public class MissingAssets {

@@ -1,8 +1,9 @@
-
 const jsJoda = JSJoda
 let date = null
 
-window.onload = () => { setup() }
+window.onload = () => {
+    setup()
+}
 
 function setup() {
     if (dateArgument !== 'any') {
@@ -21,10 +22,58 @@ function requestImageList() {
 
 function imageListUrl() {
     let dateSuffix = date ? '/' + date : ''
-    return '/gallery/imageList' + dateSuffix;
+    return '/gallery/imageList' + dateSuffix
 }
 
 function handleImageListResponse(response) {
-    console.log('type of response: ' + typeof response)
-    console.log(response)
+    let assets = JSON.parse(response)
+    for (let asset of assets) {
+        let div = document.createElement("div")
+        let header = document.createElement('h5')
+        let creationDate
+        try {
+            creationDate = jsJoda.Instant.ofEpochMilli(asset.creationDateMs)
+        } catch (error) {
+            console.log(error)
+            creationDate = 'Creation date (ms) out of range [' + asset.creationDateMs + ']'
+        }
+        header.appendChild(document.createTextNode(creationDate))
+        div.appendChild(header)
+        for (let resource of asset.resourceDescriptions) {
+            createThumbnailImage(resource, div)
+            createLink(resource, div, resource.name, '/photos/' + resource.checksum + '/' + resource.name)
+            let convertedResourceName = jpegResourceName(resource.name)
+            createLink(resource, div, convertedResourceName + " (converted)",
+                '/photos/' + resource.checksum + '/converted/' + convertedResourceName)
+        }
+        document.body.appendChild(div)
+    }
+}
+
+function createThumbnailImage(resource, div) {
+    let img = document.createElement('img')
+    img.src = '/photos/' + resource.checksum + '/thumbnail/thumbnail.jpg'
+    div.appendChild(img)
+}
+
+function thumbnailName(originalResourceName) {
+    let nameWithoutImageExtension = originalResourceName.replace(/.(heic|png|tiff|jpg|jpeg|gif)/ig, '')
+    return nameWithoutImageExtension + '_thumbnail.jpg'
+}
+
+function createLink(resource, div, name, address) {
+    let p = document.createElement('p')
+    let link = document.createElement('a')
+    link.href = address
+    link.appendChild(document.createTextNode(name))
+    p.append(link)
+    div.append(p)
+}
+
+function jpegResourceName(originalResourceName) {
+    result = originalResourceName.replace(/.(heic|png|tiff|jpg|jpeg|gif)/ig, '.jpg')
+    if (!result.endsWith('.jpg')) {
+        result = result + '.jpg'
+    }
+    return result
 }

@@ -1,4 +1,4 @@
-package at.yeoman.photobackup.server.api;
+package at.yeoman.photobackup.server.assets;
 
 import at.yeoman.photobackup.server.primtive.ByteBlock;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -6,8 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import javax.annotation.concurrent.Immutable;
 import java.util.Objects;
 
+@Immutable
 @JsonSerialize(using = ChecksumSerializer.class)
 @JsonDeserialize(using = ChecksumDeserializer.class)
 public final class Checksum {
@@ -70,7 +72,7 @@ public final class Checksum {
                 '}';
     }
 
-    String toJson() {
+    public String toRawString() {
         return value.toRawString();
     }
 }

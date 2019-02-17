@@ -2,11 +2,10 @@ package at.yeoman.photobackup.server.service;
 
 import at.yeoman.photobackup.server.Directories;
 import at.yeoman.photobackup.server.api.AssetReport;
-import at.yeoman.photobackup.server.api.Checksum;
 import at.yeoman.photobackup.server.api.MissingAssets;
-import at.yeoman.photobackup.server.api.ResourceDescription;
+import at.yeoman.photobackup.server.assets.Checksum;
+import at.yeoman.photobackup.server.assets.ResourceDescription;
 import at.yeoman.photobackup.server.core.Core;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +16,12 @@ import org.springframework.web.bind.annotation.*;
 import java.io.*;
 import java.nio.channels.FileLock;
 import java.security.MessageDigest;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+
+import static at.yeoman.photobackup.server.io.TransactionalFileHandling.finishAndSync;
 
 @RestController
 public class BackupRequestHandler {
@@ -31,26 +31,12 @@ public class BackupRequestHandler {
     private final Logger log = LoggerFactory.getLogger(BackupRequestHandler.class);
 
     private final Core core;
-    private final File assetDirectory;
-    private final File uploadDirectory;
-    private final File photoDirectory;
 
     private final Set<Checksum> checksumsUploading = ConcurrentHashMap.newKeySet();
 
     @Autowired
     BackupRequestHandler(Core core) throws IOException {
         this.core = core;
-        assetDirectory = getDirectory(Directories.Assets);
-        uploadDirectory = getDirectory(Directories.Upload);
-        photoDirectory = getDirectory(Directories.Photos);
-    }
-
-    private static File getDirectory(String name) throws IOException {
-        File result = new File(name);
-        if (!result.isDirectory()) {
-            throw new IOException("Not a directory: " + result.getCanonicalPath());
-        }
-        return result;
     }
 
     @GetMapping("/")
@@ -61,7 +47,7 @@ public class BackupRequestHandler {
     @PostMapping("/asset-report")
     public MissingAssets handleAssetReport(@RequestBody AssetReport report) {
         log.info("Received asset report with " + report.getDescriptions().size() + " assets.");
-        writeAssetReport(report);
+        core.reportAssets(report);
         MissingAssets result = new MissingAssets();
         List<Checksum> checksums = report
                 .getDescriptions()
@@ -75,15 +61,6 @@ public class BackupRequestHandler {
         return result;
     }
 
-    private void writeAssetReport(AssetReport report) {
-        try {
-            File file = new File(assetDirectory, LocalDateTime.now().toString() + ".json");
-            new ObjectMapper().writeValue(file, report);
-        } catch (Exception exception) {
-            log.error(exception.getMessage(), exception);
-        }
-    }
-
     private boolean missing(Checksum checksum) {
         try {
             return !backupExists(checksum);
@@ -94,7 +71,7 @@ public class BackupRequestHandler {
     }
 
     private boolean backupExists(Checksum checksum) throws Exception {
-        File file = new File(photoDirectory, fileNameForChecksum(checksum));
+        File file = new File(Directories.Photos, fileNameForChecksum(checksum));
         log.info("File [" + file + "] exists for checksum [" + checksum + "]: " + file.exists() + ", is file: " + file.isFile());
         if (!file.isFile()) {
             return false;
@@ -125,14 +102,14 @@ public class BackupRequestHandler {
             }
             try {
                 String fileName = fileNameForChecksum(checksumFromPath);
-                File uploadTarget = new File(uploadDirectory, fileName);
+                File uploadTarget = new File(Directories.Upload, fileName);
                 final Checksum calculatedChecksum = writeFile(bodyStream, uploadTarget);
                 if (!calculatedChecksum.equals(checksumFromPath)) {
                     return error("Checksum mismatch - checksum from request path: " + checksumFromPath +
                                     ", calculated: " + calculatedChecksum,
                             HttpStatus.EXPECTATION_FAILED);
                 }
-                File renamedTarget = new File(photoDirectory, fileName);
+                File renamedTarget = new File(Directories.Photos, fileName);
                 if (renamedTarget.exists()) {
                     if (!renamedTarget.isFile()) {
                         return error("renamed target [" + renamedTarget.getCanonicalPath() + "] is not a file",
@@ -170,7 +147,7 @@ public class BackupRequestHandler {
     }
 
     private String fileNameForChecksum(Checksum checksum) {
-        return checksum.getValue().toRawString() + ".jpg";
+        return checksum.getValue().toRawString();
     }
 
     private ResponseEntity<String> success(String message) {
@@ -183,10 +160,11 @@ public class BackupRequestHandler {
         return new ResponseEntity<>(message, status);
     }
 
+    @SuppressWarnings("unused")
     private Checksum writeFile(InputStream in, File target) throws Exception {
         log.info("writing to file [" + target.getCanonicalPath() + "]...");
-        try (FileOutputStream out = new FileOutputStream(target);
-             FileLock lock = out.getChannel().lock()) {
+        try (FileOutputStream out = new FileOutputStream(target)) {
+            out.getChannel().lock();
             MessageDigest md = MessageDigest.getInstance("SHA-512");
             byte[] buffer = new byte[1024 * 1024];
             long bytesWritten = 0;
@@ -199,12 +177,7 @@ public class BackupRequestHandler {
                 md.update(buffer, 0, n);
                 bytesWritten += n;
             }
-            out.getChannel().force(true);
-            try {
-                out.getFD().sync();
-            } catch (SyncFailedException exception) {
-                log.debug("Unable to sync file [" + target.getCanonicalPath() + "]", exception);
-            }
+            finishAndSync(out, log, target);
             log.info("finished writing " + bytesWritten + " bytes to file [" + target.getCanonicalPath() + "].");
             return new Checksum(md.digest());
         }

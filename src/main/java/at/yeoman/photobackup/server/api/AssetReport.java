@@ -1,5 +1,7 @@
 package at.yeoman.photobackup.server.api;
 
+import at.yeoman.photobackup.server.assets.AssetDescription;
+
 import java.util.List;
 
 public class AssetReport {
