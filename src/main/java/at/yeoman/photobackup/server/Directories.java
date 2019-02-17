@@ -7,12 +7,14 @@ public class Directories {
     public static final File Assets;
     public static final File Upload;
     public static final File Photos;
+    public static final File Thumbnails;
 
     static {
         try {
             Assets = getDirectory("assets");
             Upload = getDirectory("upload");
             Photos = getDirectory("photos");
+            Thumbnails = getDirectory("thumbnails");
         } catch (IOException error) {
             throw new RuntimeException(error);
         }

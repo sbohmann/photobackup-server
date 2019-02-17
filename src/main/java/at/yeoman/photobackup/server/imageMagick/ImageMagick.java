@@ -1,6 +1,6 @@
-package at.yeoman.photobackup.server.heicToJpeg;
+package at.yeoman.photobackup.server.imageMagick;
 
-public class HeicToJpeg {
+public class ImageMagick {
     static {
         System.loadLibrary("CORE_RL_zlib_");
         System.loadLibrary("CORE_RL_glib_");
@@ -20,5 +20,8 @@ public class HeicToJpeg {
 
     native private static void initialize();
 
-    native public static byte[] convert(byte[] heicData);
+    native public static byte[] convertToJpeg(byte[] heicData);
+
+    native public static byte[] convertToJpegWithMaximumSize(byte[] originalImageFileContent,
+                                                             int maximumWidth, int maximumHeight);
 }

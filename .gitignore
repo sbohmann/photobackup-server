@@ -2,8 +2,9 @@
 /gradle
 /.gradle
 /out
-/photos
 /assets
 /uploads
+/photos
+/thumbnails
 /assets.json
 /libraries

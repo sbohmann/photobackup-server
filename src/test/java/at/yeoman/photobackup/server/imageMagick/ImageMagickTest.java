@@ -1,4 +1,4 @@
-package at.yeoman.photobackup.server.heicToJpeg;
+package at.yeoman.photobackup.server.imageMagick;
 
 import org.junit.Test;
 
@@ -11,14 +11,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
-public class HeicToJpegTest {
+public class ImageMagickTest {
     @Test
-    public void convertHeicFile() throws IOException, InterruptedException {
+    public void convertFileToJpeg() throws IOException, InterruptedException {
         byte[] heicData = readHeicFile();
         System.out.println(heicData.length);
 
         Consumer<Integer> convertImage = index -> {
-            byte[] jpegData = HeicToJpeg.convert(heicData);
+            byte[] jpegData = ImageMagick.convertToJpeg(heicData);
             System.out.println(index + " - " + jpegData.length);
             if (index == 0) {
                 writeJpegFile(jpegData);
