@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.annotation.concurrent.Immutable;
+import java.util.Objects;
 
 @Immutable
 public final class ResourceDescription {
@@ -48,5 +49,21 @@ public final class ResourceDescription {
                 ", name='" + name + '\'' +
                 ", creationDateMs=" + creationDateMs +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ResourceDescription that = (ResourceDescription) o;
+        return size == that.size &&
+                creationDateMs == that.creationDateMs &&
+                Objects.equals(checksum, that.checksum) &&
+                Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(checksum, size, name, creationDateMs);
     }
 }

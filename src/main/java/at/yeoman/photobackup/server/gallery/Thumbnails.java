@@ -1,11 +1,17 @@
 package at.yeoman.photobackup.server.gallery;
 
 import at.yeoman.photobackup.server.Directories;
+import at.yeoman.photobackup.server.assets.AssetDescription;
 import at.yeoman.photobackup.server.assets.Checksum;
+import at.yeoman.photobackup.server.assets.ResourceDescription;
+import at.yeoman.photobackup.server.core.Core;
+import at.yeoman.photobackup.server.core.ResourceClassification;
 import at.yeoman.photobackup.server.imageMagick.ImageMagick;
 import at.yeoman.photobackup.server.io.FileContent;
+import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -13,17 +19,33 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class Thumbnails {
-    Logger log = LoggerFactory.getLogger(Thumbnails.class);
-    private static final Pattern thumbnailFileNamePattern = Pattern.compile("([0-9a-zA-Z]{128}).jpg");
-    private Map<Checksum, File> thumbnailForChecksum= new HashMap<>();
+    private static final Logger log = LoggerFactory.getLogger(Thumbnails.class);
+    private static final Pattern thumbnailFileNamePattern = Pattern.compile("([0-9a-fA-F]{128}).jpg");
 
-    Thumbnails() throws IOException {
+    private final Core core;
+
+    private Map<Checksum, File> thumbnailForChecksum = new HashMap<>();
+    private LinkedBlockingQueue<Checksum> backgroundCreationQueue = new LinkedBlockingQueue<>();
+
+    @Autowired
+    Thumbnails(Core core) throws IOException {
+        this.core = core;
+        readExistingThumbnails();
+        new Thread(this::handleBackgroundCreationQueue).start();
+    }
+
+    private void readExistingThumbnails() throws IOException {
         for (File file : listFilesInThumbnailsDirectory()) {
             Matcher matcher = thumbnailFileNamePattern.matcher(file.getName());
             if (matcher.matches()) {
@@ -48,6 +70,60 @@ public class Thumbnails {
         }
     }
 
+    private void handleBackgroundCreationQueue() {
+        log.info("Enqueuing existing resources for background thumbnail creation...");
+        enqueueExistingResourceChecksums();
+        log.info("Finished enqueuing existing resources for background thumbnail creation. Listening for new checksums.");
+        while (!Thread.interrupted()) {
+            try {
+                Checksum checksum = backgroundCreationQueue.take();
+                if (potentialImageResource(checksum)) {
+                    createIfMissing(checksum);
+                }
+            } catch (InterruptedException interrupted) {
+                log.info("Thumbnails background creation thread interrupted via exception", interrupted);
+            } catch (Exception error) {
+                log.error(error.getMessage(), error);
+            }
+        }
+        log.info("Thumbnails background creation thread stopping.");
+    }
+
+    private boolean potentialImageResource(Checksum checksum) {
+        List<ResourceDescription> resourcesForChecksum = core.getAssets().resourcesForChecksum.get(checksum);
+        if (resourcesForChecksum == null || resourcesForChecksum.isEmpty()) {
+            return true;
+        }
+        for (ResourceDescription resource : resourcesForChecksum) {
+            if (!ResourceClassification.nonImageName(resource.name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void enqueueExistingResourceChecksums() {
+        try {
+            for (File file : listResourceFiles()) {
+                Checksum checksum = new Checksum(file.getName());
+                backgroundCreationQueue.put(checksum);
+            }
+        } catch (Exception error) {
+            log.error("Error while enqueuing existing files for background thumbnail creation", error);
+        }
+    }
+
+    private File[] listResourceFiles() {
+        return Directories.Photos.listFiles(this::isRessourceFile);
+    }
+
+    private boolean isRessourceFile(File file) {
+        return Checksum
+                .StringPattern
+                .matcher(file.getName())
+                .matches();
+    }
+
     private void addFileForCalculatedChecksum(File file, String checksumString) {
         Checksum checksum = new Checksum(checksumString);
         addFileForChecksum(file, checksum);
@@ -69,6 +145,21 @@ public class Thumbnails {
         }
     }
 
+    synchronized public void createInBackgroundIfMissing(Checksum checksum) {
+        if (checksum != null) {
+            if (!backgroundCreationQueue.offer(checksum)) {
+                log.error("Unable to enqueue checksum for background thumbnail creation: " + checksum);
+            }
+        }
+    }
+
+    synchronized private void createIfMissing(Checksum checksum) throws IOException {
+        File existingFile = thumbnailForChecksum.get(checksum);
+        if (existingFile == null || !existingFile.isFile()) {
+            createThumbnail(checksum);
+        }
+    }
+
     private byte[] createThumbnail(Checksum checksum) {
         try {
             File originalImageFile = new File(Directories.Photos, checksum.toRawString());
@@ -85,15 +176,33 @@ public class Thumbnails {
         byte[] originalImageFileContent = FileContent.read(originalImageFile);
         byte[] thumbnailContent = ImageMagick.convertToJpegWithMaximumSize(originalImageFileContent, 200, 200);
         if (thumbnailContent == null) {
-            log.info("Thumbnail creation failed (null) for resource " + checksum.toRawString());
+            log.info("Thumbnail creation failed (null) for " + resourceType(checksum) + " resource " + checksum.toRawString());
             return null;
         }
         if (thumbnailContent.length == 0) {
-            log.info("Thumbnail creation failed (empty data) for resource " + checksum.toRawString());
+            log.info("Thumbnail creation failed (empty data) for " + resourceType(checksum) + " resource " + checksum.toRawString());
             return null;
         }
         writeThumbnailFile(checksum, thumbnailContent);
         return thumbnailContent;
+    }
+
+    private String resourceType(Checksum checksum) {
+        List<ResourceDescription> resources = core.getAssets().resourcesForChecksum.get(checksum);
+        if (resources == null || resources.isEmpty()) {
+            return "unknown";
+        } else {
+            return resources
+                    .stream()
+                    .flatMap(this::fileType)
+                    .distinct()
+                    .collect(Collectors.joining());
+        }
+    }
+
+    private Stream<String> fileType(ResourceDescription resource) {
+        Optional<String> result = ResourceClassification.fileType(resource.name);
+        return result.isPresent() ? Stream.of(result.get()) : Stream.empty();
     }
 
     private void writeThumbnailFile(Checksum checksum, byte[] thumbnailContent) {

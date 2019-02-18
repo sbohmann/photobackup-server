@@ -11,49 +11,32 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Assets {
     public final ImmutableList<AssetDescription> assets;
-    @JsonIgnore public final ImmutableMap<Checksum, ImmutableList<AssetDescription>> assetsForResource;
+    @JsonIgnore public final ImmutableMap<Checksum, ImmutableList<AssetDescription>> assetsForChecksum;
+    @JsonIgnore public final ImmutableMap<Checksum, ImmutableList<ResourceDescription>> resourcesForChecksum;
     @JsonIgnore public final ImmutableSet<AssetDescription> knownAssets;
 
     public Assets(ImmutableList<AssetDescription> assets,
-                  ImmutableMap<Checksum, ImmutableList<AssetDescription>> assetsForResource) {
+                  ImmutableMap<Checksum, ImmutableList<AssetDescription>> assetsForChecksum, ImmutableMap<Checksum, ImmutableList<ResourceDescription>> resourcesForChecksum) {
         this.assets = assets;
-        this.assetsForResource = assetsForResource;
+        this.assetsForChecksum = assetsForChecksum;
+        this.resourcesForChecksum = resourcesForChecksum;
         knownAssets = ImmutableSet.copyOf(assets);
     }
 
     @JsonCreator
     public Assets(@JsonProperty("assets") List<AssetDescription> assets) {
         this.assets = ImmutableList.copyOf(assets);
-        assetsForResource = createAssetsForResource(assets);
+        AssetsAndResourcesForChecksum assetsAndresourcesForChecksum = new AssetsAndResourcesForChecksum(assets);
+        assetsForChecksum = assetsAndresourcesForChecksum.assetsForChecksum;
+        resourcesForChecksum = assetsAndresourcesForChecksum.resourcesForChecksum;
         knownAssets = ImmutableSet.copyOf(assets);
-    }
-
-    private ImmutableMap<Checksum, ImmutableList<AssetDescription>> createAssetsForResource(List<AssetDescription> assets) {
-        Map<Checksum, List<AssetDescription>> result = new HashMap<>();
-        for (AssetDescription asset : assets) {
-            for (ResourceDescription resource : asset.getResourceDescriptions()) {
-                List<AssetDescription> assetsForResource = listForKey(result, resource.checksum);
-                assetsForResource.add(asset);
-            }
-        }
-        return ImmutableMap.copyOf(
-                withImmutableLists(result));
-    }
-
-    private static <K,E> List<E> listForKey(Map<K, List<E>> map, K key) {
-        return map.computeIfAbsent(key, x -> new ArrayList<>());
-    }
-
-    private Map<Checksum, ImmutableList<AssetDescription>> withImmutableLists(Map<Checksum, List<AssetDescription>> result) {
-        return result.entrySet().stream()
-                    .collect(Collectors.toMap(Map.Entry::getKey, entry -> ImmutableList.copyOf(entry.getValue())));
     }
 
     public Assets plus(List<AssetDescription> newAssets) {
@@ -77,8 +60,17 @@ public class Assets {
     private ArrayList<AssetDescription> concatenate(List<AssetDescription> newAssets) {
         ArrayList<AssetDescription> combined =
                 new ArrayList<>(assets.size() + newAssets.size());
-        combined.addAll(assets);
-        combined.addAll(newAssets);
+        Set<AssetDescription> set = new HashSet<>();
+        addMissing(assets, combined, set);
+        addMissing(newAssets, combined, set);
         return combined;
+    }
+
+    private void addMissing(List<AssetDescription> source, List<AssetDescription> result, Set<AssetDescription> set) {
+        for (AssetDescription asset : source) {
+            if (set.add(asset)) {
+                result.add(asset);
+            }
+        }
     }
 }

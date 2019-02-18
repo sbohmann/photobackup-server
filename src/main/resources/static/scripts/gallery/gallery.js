@@ -43,21 +43,27 @@ function handleImageListResponse(response) {
             createThumbnailImage(resource, div)
             createLink(resource, div, resource.name, '/photos/' + resource.checksum + '/' + resource.name)
             let convertedResourceName = jpegResourceName(resource.name)
-            createLink(resource, div, convertedResourceName + " (converted)",
-                '/photos/' + resource.checksum + '/converted/' + convertedResourceName)
+            createConvertedLink(resource, div, convertedResourceName);
         }
         document.body.appendChild(div)
     }
 }
 
 function createThumbnailImage(resource, div) {
+    if (isNonImageResource(resource)) {
+        return
+    }
     let img = document.createElement('img')
-    img.src = '/photos/' + resource.checksum + '/thumbnail/thumbnail.jpg'
+    img.src = '/photos/' + resource.checksum + '/thumbnail/' + thumbnailName(resource.name)
     div.appendChild(img)
 }
 
+function isNonImageResource(resource) {
+    return resource.name.match(/.*\.(mov|plist|mp4)/i);
+}
+
 function thumbnailName(originalResourceName) {
-    let nameWithoutImageExtension = originalResourceName.replace(/.(heic|png|tiff|jpg|jpeg|gif)/ig, '')
+    let nameWithoutImageExtension = originalResourceName.replace(/\.(heic|png|tiff|jpg|jpeg|gif)$/ig, '')
     return nameWithoutImageExtension + '_thumbnail.jpg'
 }
 
@@ -70,8 +76,15 @@ function createLink(resource, div, name, address) {
     div.append(p)
 }
 
+function createConvertedLink(resource, div, convertedResourceName) {
+    if (!isNonImageResource(resource)) {
+        createLink(resource, div, convertedResourceName + " (converted)",
+            '/photos/' + resource.checksum + '/converted/' + convertedResourceName)
+    }
+}
+
 function jpegResourceName(originalResourceName) {
-    result = originalResourceName.replace(/.(heic|png|tiff|jpg|jpeg|gif)/ig, '.jpg')
+    result = originalResourceName.replace(/\.(heic|png|tiff|jpg|jpeg|gif)$/ig, '.jpg')
     if (!result.endsWith('.jpg')) {
         result = result + '.jpg'
     }

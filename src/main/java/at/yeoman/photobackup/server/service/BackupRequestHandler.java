@@ -6,6 +6,7 @@ import at.yeoman.photobackup.server.api.MissingAssets;
 import at.yeoman.photobackup.server.assets.Checksum;
 import at.yeoman.photobackup.server.assets.ResourceDescription;
 import at.yeoman.photobackup.server.core.Core;
+import at.yeoman.photobackup.server.gallery.Thumbnails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.*;
-import java.nio.channels.FileLock;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.security.MessageDigest;
 import java.util.List;
 import java.util.Set;
@@ -33,10 +36,12 @@ public class BackupRequestHandler {
     private final Core core;
 
     private final Set<Checksum> checksumsUploading = ConcurrentHashMap.newKeySet();
+    private Thumbnails thumbnails;
 
     @Autowired
-    BackupRequestHandler(Core core) throws IOException {
+    BackupRequestHandler(Core core, Thumbnails thumbnails) {
         this.core = core;
+        this.thumbnails = thumbnails;
     }
 
     @GetMapping("/")
@@ -137,6 +142,7 @@ public class BackupRequestHandler {
                 return success(calculatedChecksum.toString());
             } finally {
                 checksumsUploading.remove(checksumFromPath);
+                thumbnails.createInBackgroundIfMissing(checksumFromPath);
             }
         } catch (Exception exception) {
             bodyStream.close();

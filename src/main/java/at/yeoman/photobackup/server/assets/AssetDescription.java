@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableList;
 
 import javax.annotation.concurrent.Immutable;
 import java.util.List;
+import java.util.Objects;
 
 @Immutable
 public final class AssetDescription {
@@ -45,5 +46,20 @@ public final class AssetDescription {
                 ", creationDateMs=" + creationDateMs +
                 ", resourceDescriptions=" + resourceDescriptions +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AssetDescription that = (AssetDescription) o;
+        return creationDateMs == that.creationDateMs &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(resourceDescriptions, that.resourceDescriptions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, creationDateMs, resourceDescriptions);
     }
 }

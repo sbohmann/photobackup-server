@@ -8,11 +8,14 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.annotation.concurrent.Immutable;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 @Immutable
 @JsonSerialize(using = ChecksumSerializer.class)
 @JsonDeserialize(using = ChecksumDeserializer.class)
 public final class Checksum {
+    public static final Pattern StringPattern = Pattern.compile("[0-9a-fA-F]{128}");
+
     private static final int Length = 64;
 
     private final ByteBlock value;
