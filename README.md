@@ -103,7 +103,9 @@ sub-directory of the ```photobackup-server``` project.
 
 ### Go to the directory of the project photobackup-server
 
-Start the server by calling gradle run.
+Start the server by calling
+
+    gradle run
 
 It does not currently run in the background.
 
@@ -117,7 +119,9 @@ Finding out how to run in in background is the very next thing I'm going to do ^
 
 Even before doing the android client.
 
-### On a mac, build and install the photobackup iOS client
+### On a mac, build and install the project photobackup
+
+This project contains the iOS client.
 
 I will put it on the app store. But right now, you still have to change the hard-coded server host address.
 
