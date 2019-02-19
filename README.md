@@ -150,5 +150,4 @@ Navigation, month views, &c. are coming soon.
 
 There isn't a comfortable installer *yet* 😎
 
-I will probably do it in bash, even though bash isn't strictly necessary for something like this, as csh is theoretically sufficient. it's just *better* for complex scripting 🤣😎
-
+I will probably do it in bash, even though bash isn't strictly necessary for something like this, as csh is theoretically sufficient. it's just *better* for complex scripting 🤣
