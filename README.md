@@ -74,7 +74,7 @@ Then, call
 
 from the current directory
 
-    ls /usr/ports/graphics/ImageMagick7
+    /usr/ports/graphics/ImageMagick7
 
 in order to install your freshly configured port of ImageMagick7.0.8-22, which will have HEIF support enabled and thus can read HEIC files.
 
