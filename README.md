@@ -2,7 +2,7 @@
 
 ## Supported platforms
 
-For now, just FreeBSD
+For now, just FreeBSD.
 
 Linux, macOS, and Windows following soon.
 
