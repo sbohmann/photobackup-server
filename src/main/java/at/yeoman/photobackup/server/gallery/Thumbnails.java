@@ -108,8 +108,10 @@ public class Thumbnails {
                 Checksum checksum = new Checksum(file.getName());
                 backgroundCreationQueue.put(checksum);
             }
+            log.info("Enqueued " + backgroundCreationQueue.size() +
+                    " existing resources for background thumbnail creation");
         } catch (Exception error) {
-            log.error("Error while enqueuing existing files for background thumbnail creation", error);
+            log.error("Error while enqueuing existing resources for background thumbnail creation", error);
         }
     }
 
