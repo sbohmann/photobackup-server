@@ -18,7 +18,7 @@ public class ImageMagick {
             System.loadLibrary("CORE_RL_Magick++_");
         } else {
             System.loadLibrary("z");
-            System.loadLibrary("glib");
+            //System.loadLibrary("glib");
             System.loadLibrary("bzlib");
             System.loadLibrary("lcms");
             System.loadLibrary("libxml");
