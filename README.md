@@ -12,7 +12,7 @@ Please feel free to add Solaris support in case you like ^^
 
 It's a Java daemon but requires ImageMagick7 with HEIC support enabled.
 
-## Installation- FreeBSD
+## Installation - FreeBSD
 
 ### Create a ZFS mirror or Raid 6 with new hard disks, ideally not from the same batch
 
