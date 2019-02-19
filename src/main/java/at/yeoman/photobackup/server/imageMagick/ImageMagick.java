@@ -3,18 +3,31 @@ package at.yeoman.photobackup.server.imageMagick;
 public class ImageMagick {
     static {
         boolean windows = System.getProperty("os.name").startsWith("Windows");
-        String prefix = windows ? "CORE_RL_" : "";
-        String suffix = windows ? "_" : "";
-        System.loadLibrary(prefix + "zlib" + suffix);
-        System.loadLibrary(prefix + "glib" + suffix);
-        System.loadLibrary(prefix + "bzlib" + suffix);
-        System.loadLibrary(prefix + "lcms" + suffix);
-        System.loadLibrary(prefix + "libxml" + suffix);
-        System.loadLibrary(prefix + "lqr" + suffix);
-        System.loadLibrary(prefix + "ttf" + suffix);
-        System.loadLibrary(prefix + "zlib" + suffix);
-        System.loadLibrary(prefix + "MagickCore" + suffix);
-        System.loadLibrary(prefix + "MagickWand" + suffix);
+
+        if (windows) {
+            System.loadLibrary("CORE_RL_zlib_");
+            System.loadLibrary("CORE_RL_glib_");
+            System.loadLibrary("CORE_RL_bzlib_");
+            System.loadLibrary("CORE_RL_lcms_");
+            System.loadLibrary("CORE_RL_libxml_");
+            System.loadLibrary("CORE_RL_lqr_");
+            System.loadLibrary("CORE_RL_ttf_");
+            System.loadLibrary("CORE_RL_zlib_");
+            System.loadLibrary("CORE_RL_MagickCore_");
+            System.loadLibrary("CORE_RL_MagickWand_");
+            System.loadLibrary("CORE_RL_Magick++_");
+        } else {
+            System.loadLibrary("z");
+            System.loadLibrary("glib");
+            System.loadLibrary("bzlib");
+            System.loadLibrary("lcms");
+            System.loadLibrary("libxml");
+            System.loadLibrary("lqr");
+            System.loadLibrary("ttf");
+            System.loadLibrary("zlib");
+            System.loadLibrary("MagickCore");
+            System.loadLibrary("MagickWand");
+        }
         System.loadLibrary("photobackup_server_native");
 
         initialize();
