@@ -19,12 +19,12 @@ public class ImageMagick {
         } else {
             System.loadLibrary("z");
             //System.loadLibrary("glib");
-            System.loadLibrary("bzlib");
-            System.loadLibrary("lcms");
-            System.loadLibrary("libxml");
-            System.loadLibrary("lqr");
-            System.loadLibrary("ttf");
-            System.loadLibrary("zlib");
+//            System.loadLibrary("bz2");
+//            System.loadLibrary("lcms");
+//            System.loadLibrary("libxml");
+//            System.loadLibrary("lqr");
+//            System.loadLibrary("ttf");
+//            System.loadLibrary("zlib");
             System.loadLibrary("MagickCore");
             System.loadLibrary("MagickWand");
         }
