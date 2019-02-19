@@ -1,5 +1,7 @@
 # photobackup-server
 
+A Photo Backup Server
+
 ## Supported platforms
 
 For now, just FreeBSD.
