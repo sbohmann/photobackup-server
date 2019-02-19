@@ -131,4 +131,12 @@ Again, I am not joking. I will finish the settings dialog in between making grad
 
 Currently, the server still listens on port 8080 only. I will make that configurable at the same time as making it run in background.
 
-But before any of that, I will create issues for alll these things here in this github repository, including for photobackup-server-native and the photobackup client.
+The photos are in the path
+
+    /gallery
+
+but as you probably do not want to see all of them at once, you can pick a date, e.g.
+
+    /gallery/2019-01-31
+
+for just the photos from the 31st of January, 2019.
