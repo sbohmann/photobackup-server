@@ -116,9 +116,9 @@ You need to use screen or tmux.
 
 No, seriously. I am not joking.
 
-nohup doesn't seem to wirk with gradle.
+nohup doesn't seem to work with gradle.
 
-Finding out how to run in in background is the very next thing I'm going to do ^^
+Finding out how to run it in in background is the very next thing I'm going to do ^^
 
 Even before doing the android client.
 
@@ -126,7 +126,7 @@ Even before doing the android client.
 
 This project contains the iOS client.
 
-I will put it on the app store. But right now, you still have to change the hard-coded server host address.
+I will put it on the app store but right now, you still have to change the hard-coded server host address in the source code.
 
 Again, I am not joking. I will finish the settings dialog in between making gradle run in background and the android client.
 
