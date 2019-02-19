@@ -149,3 +149,5 @@ Navigation, month views, &c. are coming soon.
 ### Why isn't there a comfortable installer?
 
 There isn't a comfortable installer *yet* 😎
+
+I will probably do it in bash.
