@@ -17,7 +17,7 @@ It's a Java daemon but requires ImageMagick7 with HEIC support enabled.
 ### Create a ZFS mirror or Raid 6 with new hard disks, ideally not from the same batch
 
 It's not straightforward to find out which batch they're from. It's better if they are
-from different batches because that makes it less likely to fail around the same time.
+from different batches because that makes them less likely to fail around the same time.
 
 BackBlaze has written a great blog post about hard disks, please use that as s starting
 point, or ask people how are more knowledgable about these things.
