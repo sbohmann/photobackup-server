@@ -43,7 +43,7 @@ The correct version is ImageMagick7.0.8-22.
 
     sudo portsnap fetch
 
-installs all ports. They are relatively tiny, less than 1GB at the moment for all of them, as they only contain scripts, patches, &c. but not the entire source code.
+installs or updates all ports. They are relatively tiny, less than 1GB at the moment for all of them, as they only contain scripts, patches, &c. but not the entire source code.
 
 go to 
 
