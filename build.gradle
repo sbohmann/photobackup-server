@@ -41,7 +41,7 @@ dependencies {
 task run(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
 
-    systemProperty "java.library.path", "libraries:/usr/local/lib"
+    systemProperty "java.library.path", "libraries:/usr/lib:/usr/local/lib"
 
     main = 'at.yeoman.photobackup.server.Server'
 }
