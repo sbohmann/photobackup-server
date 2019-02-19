@@ -45,7 +45,7 @@ The correct version is ImageMagick7.0.8-22.
 
 installs or updates all ports. They are relatively tiny, less than 1GB at the moment for all of them, as they only contain scripts, patches, &c. but not the entire source code.
 
-go to 
+Then, go to 
 
     ls /usr/ports/graphics/ImageMagick7
 
@@ -61,7 +61,7 @@ HEIF is necessary for reading HEIC files, which is the current format of the iPh
 
 Please enable HEIF support.
 
-Now, in case ImageMagick7 is already installed from a package (in which case it currently does not have HEIF enabled and thus can't read HEIC images), plase uninstall using
+Now, in case ImageMagick7 is already installed from a package (in which case it currently does not have HEIF enabled and thus can't read HEIC images), plase uninstall it using
 
     sudo pkg remove ImageMagick7
 
@@ -69,11 +69,15 @@ Then, call
 
     sudo make install
 
-to install your configured port of ImageMagick7.0.8-22.
+from the current directory
+
+    ls /usr/ports/graphics/ImageMagick7
+
+in order to install your freshly configured port of ImageMagick7.0.8-22, which will have HEIF support enabled and thus can read HEIC files.
 
 ### Clone and build the project photobackup-server-native
 
-It contains the JNI code for accessing the ImageMagick7 libraries.
+It contains the JNI code necessary for accessing the native ImageMagick7 libraries from Java.
 
 Build the project by calling
 
@@ -87,7 +91,15 @@ or
 
     photobackup-server-native.dll
 
-thus created in build/ needs to be copied in to the ```libraries``` sub-directory of the photobackup-server project.
+thus created in the sub-directory
+
+    build/
+
+needs to be copied in to the
+
+    libraries
+
+sub-directory of the ```photobackup-server``` project.
 
 ### Go to the directory of the project photobackup-server
 
