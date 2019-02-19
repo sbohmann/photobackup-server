@@ -140,3 +140,5 @@ but as you probably do not want to see all of them at once, you can pick a date,
     /gallery/2019-01-31
 
 for just the photos from the 31st of January, 2019.
+
+Navigation, month views &c. are coming soon.
