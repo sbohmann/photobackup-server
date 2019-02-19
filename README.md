@@ -35,6 +35,7 @@ It needs to exist so you can copy a shared library file into it.
 Create the following sub-directories:
 
     assets
+    upload
     photos
     thumbnails
     libraries
