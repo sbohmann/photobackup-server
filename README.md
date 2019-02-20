@@ -2,6 +2,25 @@
 
 A Photo Backup Server
 
+Entirely file system based backups of photos and videos from iOS including all resources,
+including original, unedited version, editing plists, &c.
+
+An asset catalog containing metadata is stored as JSON files - historical as well as consolidated.
+
+All resources are identified and stored by their SHA-512 keys.
+
+The server's web gallery creates JPEG vrsions of HEIC and other non-JPEG image files on demand and
+as thumbnails.
+
+All resources and assets are accessible via a REST API as well, including JPEG conversions and thumbnails.
+
+No information at all is stored in an opaque manner.
+
+Everything is stored in local JSON and image files, except non-image resources from photo backups,
+like plists (which are just XML).
+
+The ImageMagick 7 library is used to convert photos and create thumbnails.
+
 ## Supported platforms
 
 For now, just FreeBSD.
@@ -10,7 +29,7 @@ Linux, macOS, and Windows following soon.
 
 FreeBSD will remain the suggested platform, though, as it has native support for ZFS.
 
-Please feel free to add Solaris support in case you like ^^
+Support for Solaris is not planned but it should be fairly easy to get it running there.
 
 It's a Java daemon but requires ImageMagick7 with HEIC support enabled.
 
