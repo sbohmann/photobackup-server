@@ -125,9 +125,11 @@ sub-directory of the ```photobackup-server``` project.
 
 ### Go to the directory of the project photobackup-server
 
-Start the server by calling
+Start the server by running the executable jar from the directory of ```photobackup-server``` project :
 
-    gradle run
+    java -Djava.library.path="libraries" build/libs/photobackup-server-<version>.jar
+
+You need
 
 It does not currently run in the background.
 
@@ -169,4 +171,4 @@ Navigation, month views, &c. are coming soon.
 
 There isn't a comfortable installer *yet* 😎
 
-I will probably do it in bash, even though bash isn't strictly necessary for something like this, as sh is theoretically sufficient. It's just *better* for complex scripting 🤣
+I will probably do it in bash, even though bash isn't strictly necessary for something like this, as sh is theoretically sufficient. It's just *better* for complex scripting 🙂
