@@ -135,15 +135,13 @@ The execution directory must be that of the ```photobackup-server``` project n a
 
 PLease, run it as a user with just minimum necessary privileges in all these cases, and consider making it only indirectly accessible by e.g. putting an nginex or similar in front of it and making it only locally accessible.
 
-Please consider sources and literature more knowledge about the security issues of running a spring boot mvc server in your environment.
+Please, consider sources and literature more knowledge about the security issues of running a spring boot mvc server in your environment.
 
 ### On a mac, build and install the project photobackup
 
 This project contains the iOS client.
 
-I will put it on the app store but right now, you still have to change the hard-coded server host address in the source code.
-
-Again, I am not joking. I will finish the settings dialog in between making gradle run in background and the android client.
+I will put it on the app store soon but right now, the only way to install it is to build it yourself.
 
 ### Use the browser to view your photos
 
