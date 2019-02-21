@@ -1,6 +1,17 @@
-plugins {
-    id 'java'
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    ext {
+        springBootVersion = '2.0.4.RELEASE'
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+    }
 }
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
 
 compileJava {
     options.compilerArgs += ["-h", file("generated_headers")]
@@ -12,7 +23,7 @@ dependencies {
 }
 
 group 'at.yeoman.photobackup'
-version '1.0-SNAPSHOT'
+version '1.0.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
@@ -25,7 +36,7 @@ repositories {
 }
 
 dependencies {
-    def springBootVersion = '2.0.4.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-gradle-plugin', version: springBootVersion
 
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: springBootVersion
@@ -44,4 +55,8 @@ task run(type: JavaExec) {
     systemProperty "java.library.path", "libraries:/usr/lib:/usr/local/lib"
 
     main = 'at.yeoman.photobackup.server.Server'
+}
+
+bootJar {
+    launchScript()
 }

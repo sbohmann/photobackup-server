@@ -9,7 +9,7 @@ import java.io.IOException;
 public class BasicSerialization {
     @Test
     public void deserializeAssetReport() throws IOException {
-        String json = "{\"descriptions\":[{\"name\":\"hello\"}]}";
+        String json = "{\"descriptions\":[{\"name\":\"hello\", \"resourceDescriptions\": []}]}";
         System.out.println(json);
         AssetReport result = new ObjectMapper().readValue(json, AssetReport.class);
         System.out.println(result);
