@@ -125,23 +125,17 @@ sub-directory of the ```photobackup-server``` project.
 
 ### Go to the directory of the project photobackup-server
 
-Start the server by running the executable jar from the directory of ```photobackup-server``` project :
+Start the server by running the executable jar from the directory of ```photobackup-server``` project:
 
     java -Djava.library.path="libraries" build/libs/photobackup-server-<version>.jar
 
-You need
+You have all the usual options, like running it in the foreground, with screen or tmus, with nohup, or as a proper daemon, including via the boot process.
 
-It does not currently run in the background.
+The execution directory must be that of the ```photobackup-server``` project n all cases.
 
-You need to use screen or tmux.
+PLease, run it as a user with just minimum necessary privileges in all these cases, and consider making it only indirectly accessible by e.g. putting an nginex or similar in front of it and making it only locally accessible.
 
-No, seriously. I am not joking.
-
-nohup doesn't seem to work with gradle.
-
-Finding out how to run it in in background is the very next thing I'm going to do ^^
-
-Even before doing the android client.
+Please consider sources and literature more knowledge about the security issues of running a spring boot mvc server in your environment.
 
 ### On a mac, build and install the project photobackup
 
