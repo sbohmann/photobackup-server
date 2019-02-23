@@ -1,5 +1,6 @@
 package at.yeoman.photobackup.server.imageMagick;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -12,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 public class ImageMagickTest {
+    @Ignore
     @Test
     public void convertFileToJpeg() throws IOException, InterruptedException {
         byte[] heicData = readHeicFile();
