@@ -32,7 +32,7 @@ public class ImageMagick {
             System.loadLibrary("MagickCore-7");
             System.loadLibrary("MagickWand-7");
             FileFilter isLibraryFile = file -> file.getName().endsWith(".so");
-            File[] rawLibraryFiles = new File("libraries/coders")
+            File[] rawLibraryFiles = new File("libraries/coders/modules-Q16HDRI/coders")
                     .listFiles(isLibraryFile);
             File[] libraryFiles = Objects.requireNonNull(rawLibraryFiles);
             for (File libraryFile : libraryFiles) {
