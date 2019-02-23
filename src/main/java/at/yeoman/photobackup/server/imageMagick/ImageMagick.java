@@ -36,6 +36,7 @@ public class ImageMagick {
                     .listFiles(isLibraryFile);
             File[] libraryFiles = Objects.requireNonNull(rawLibraryFiles);
             for (File libraryFile : libraryFiles) {
+                System.out.println("Loading coder " + libraryFile);
                 System.load(libraryFile.getAbsolutePath());
             }
         }
