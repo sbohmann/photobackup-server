@@ -52,7 +52,7 @@ public class ImageMagickTest {
             executor.awaitTermination(10, TimeUnit.SECONDS);
         }
         System.out.println("Finished all threads");
-        assertEquals("Cobversion failed " + failCount.get() + " times out of " + numRounds + " times",
+        assertEquals("Cobversion failed " + failCount.get() + " out of " + numRounds + " times",
                 0, failCount.get());
     }
 

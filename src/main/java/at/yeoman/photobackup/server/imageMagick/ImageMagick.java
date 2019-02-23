@@ -1,5 +1,9 @@
 package at.yeoman.photobackup.server.imageMagick;
 
+import java.io.File;
+import java.io.FileFilter;
+import java.util.Objects;
+
 public class ImageMagick {
     static {
         boolean windows = System.getProperty("os.name").startsWith("Windows");
@@ -27,6 +31,13 @@ public class ImageMagick {
 //            System.loadLibrary("zlib");
             System.loadLibrary("MagickCore-7");
             System.loadLibrary("MagickWand-7");
+            FileFilter isLibraryFile = file -> file.getName().endsWith(".so");
+            File[] rawLibraryFiles = new File("libraries/coders")
+                    .listFiles(isLibraryFile);
+            File[] libraryFiles = Objects.requireNonNull(rawLibraryFiles);
+            for (File libraryFile : libraryFiles) {
+                System.load(libraryFile.getAbsolutePath());
+            }
         }
         System.loadLibrary("photobackup_server_native");
 
