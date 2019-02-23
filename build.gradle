@@ -60,3 +60,9 @@ task run(type: JavaExec) {
 bootJar {
     launchScript()
 }
+
+test {
+    testLogging {
+        exceptionFormat = 'full'
+    }
+}
