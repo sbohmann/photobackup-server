@@ -13,6 +13,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 public class ImageMagickTest {
+    @Test
+    public void loadLibrary() {
+        System.out.println(ImageMagick.class);
+    }
+
     @Ignore
     @Test
     public void convertFileToJpeg() throws IOException, InterruptedException {
