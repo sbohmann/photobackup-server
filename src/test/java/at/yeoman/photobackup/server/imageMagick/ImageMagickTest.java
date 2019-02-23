@@ -15,7 +15,8 @@ import java.util.function.Consumer;
 public class ImageMagickTest {
     @Test
     public void loadLibrary() {
-        System.out.println(ImageMagick.class);
+        byte[] result = ImageMagick.convertToJpeg(new byte[0]);
+        System.out.println(result.length);
     }
 
     @Ignore
