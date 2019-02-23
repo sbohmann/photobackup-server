@@ -3,12 +3,14 @@ package at.yeoman.photobackup.server.imageMagick;
 import at.yeoman.photobackup.server.io.StreamTransfer;
 import org.junit.Test;
 
-import java.io.*;
-import java.net.URL;
-import java.net.URLClassLoader;
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 public class ImageMagickTest {
@@ -19,18 +21,18 @@ public class ImageMagickTest {
 
     @Test
     public void convertFileToJpeg() throws IOException, InterruptedException {
-        ClassLoader cl = ClassLoader.getSystemClassLoader();
-        URL[] urls = ((URLClassLoader)cl).getURLs();
-        for(URL url: urls){
-            System.out.println(url.getFile());
-        }
-
         byte[] heicData = readHeicFile();
         System.out.println(heicData.length);
+
+        AtomicBoolean success = new AtomicBoolean(true);
 
         Consumer<Integer> convertImage = index -> {
             byte[] jpegData = ImageMagick.convertToJpeg(heicData);
             System.out.println(index + " - " + jpegData.length);
+            if (jpegData.length == 0) {
+                System.err.println(index + " - conversion failed");
+                success.set(false);
+            }
             if (index == 0) {
                 writeJpegFile(jpegData);
             }
