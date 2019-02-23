@@ -17,7 +17,7 @@ public class ImageMagick {
             System.loadLibrary("CORE_RL_MagickWand_");
             System.loadLibrary("CORE_RL_Magick++_");
         } else {
-            System.loadLibrary("z");
+//            System.loadLibrary("z");
             //System.loadLibrary("glib");
 //            System.loadLibrary("bz2");
 //            System.loadLibrary("lcms");
@@ -25,7 +25,7 @@ public class ImageMagick {
 //            System.loadLibrary("lqr");
 //            System.loadLibrary("ttf");
 //            System.loadLibrary("zlib");
-            System.loadLibrary("MagickCore-7");
+//            System.loadLibrary("MagickCore-7");
             System.loadLibrary("MagickWand-7");
         }
         System.loadLibrary("photobackup_server_native");
