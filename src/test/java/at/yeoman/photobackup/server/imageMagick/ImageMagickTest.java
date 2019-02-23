@@ -4,6 +4,8 @@ import at.yeoman.photobackup.server.io.StreamTransfer;
 import org.junit.Test;
 
 import java.io.*;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -17,6 +19,12 @@ public class ImageMagickTest {
 
     @Test
     public void convertFileToJpeg() throws IOException, InterruptedException {
+        ClassLoader cl = ClassLoader.getSystemClassLoader();
+        URL[] urls = ((URLClassLoader)cl).getURLs();
+        for(URL url: urls){
+            System.out.println(url.getFile());
+        }
+
         byte[] heicData = readHeicFile();
         System.out.println(heicData.length);
 
