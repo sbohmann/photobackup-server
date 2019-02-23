@@ -11,7 +11,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
+
+import static org.junit.Assert.assertEquals;
 
 public class ImageMagickTest {
     @Test
@@ -24,14 +27,14 @@ public class ImageMagickTest {
         byte[] heicData = readHeicFile();
         System.out.println(heicData.length);
 
-        AtomicBoolean success = new AtomicBoolean(true);
+        AtomicInteger failCount = new AtomicInteger();
 
         Consumer<Integer> convertImage = index -> {
             byte[] jpegData = ImageMagick.convertToJpeg(heicData);
             System.out.println(index + " - " + jpegData.length);
             if (jpegData.length == 0) {
                 System.err.println(index + " - conversion failed");
-                success.set(false);
+                failCount.incrementAndGet();
             }
             if (index == 0) {
                 writeJpegFile(jpegData);
@@ -39,7 +42,8 @@ public class ImageMagickTest {
         };
 
         ExecutorService executor = Executors.newFixedThreadPool(5);
-        for (int index = 0; index < 100; ++index) {
+        int numRounds = 100;
+        for (int index = 0; index < numRounds; ++index) {
             int oida = index;
             executor.execute(() -> convertImage.accept(oida));
         }
@@ -48,6 +52,8 @@ public class ImageMagickTest {
             executor.awaitTermination(10, TimeUnit.SECONDS);
         }
         System.out.println("Finished all threads");
+        assertEquals("Cobversion failed " + failCount.get() + " times out of " + numRounds + " times",
+                0, failCount.get());
     }
 
     private byte[] readHeicFile() throws IOException {
