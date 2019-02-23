@@ -125,29 +125,23 @@ sub-directory of the ```photobackup-server``` project.
 
 ### Go to the directory of the project photobackup-server
 
-Start the server by calling
+Start the server by running the executable jar from the directory of ```photobackup-server``` project:
 
-    gradle run
+    java -Djava.library.path="libraries" build/libs/photobackup-server-<version>.jar
 
-It does not currently run in the background.
+You have all the usual options, like running it in the foreground, with screen or tmus, with nohup, or as a proper daemon, including via the boot process.
 
-You need to use screen or tmux.
+The execution directory must be that of the ```photobackup-server``` project n all cases.
 
-No, seriously. I am not joking.
+PLease, run it as a user with just minimum necessary privileges in all these cases, and consider making it only indirectly accessible by e.g. putting an nginex or similar in front of it and making it only locally accessible.
 
-nohup doesn't seem to work with gradle.
-
-Finding out how to run it in in background is the very next thing I'm going to do ^^
-
-Even before doing the android client.
+Please, consider sources and literature more knowledge about the security issues of running a spring boot mvc server in your environment.
 
 ### On a mac, build and install the project photobackup
 
 This project contains the iOS client.
 
-I will put it on the app store but right now, you still have to change the hard-coded server host address in the source code.
-
-Again, I am not joking. I will finish the settings dialog in between making gradle run in background and the android client.
+I will put it on the app store soon but right now, the only way to install it is to build it yourself.
 
 ### Use the browser to view your photos
 
@@ -169,4 +163,4 @@ Navigation, month views, &c. are coming soon.
 
 There isn't a comfortable installer *yet* 😎
 
-I will probably do it in bash, even though bash isn't strictly necessary for something like this, as sh is theoretically sufficient. It's just *better* for complex scripting 🤣
+I will probably do it in bash, even though bash isn't strictly necessary for something like this, as sh is theoretically sufficient. It's just *better* for complex scripting 🙂
