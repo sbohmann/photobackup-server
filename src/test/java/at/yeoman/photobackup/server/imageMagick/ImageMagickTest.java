@@ -17,11 +17,6 @@ import static org.junit.Assert.assertEquals;
 
 public class ImageMagickTest {
     @Test
-    public void loadLibrary() {
-        ImageMagick.convertToJpeg(new byte[0]);
-    }
-
-    @Test
     public void convertFileToJpeg() throws IOException, InterruptedException {
         byte[] heicData = readHeicFile();
         System.out.println(heicData.length);
