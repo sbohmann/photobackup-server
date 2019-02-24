@@ -21,24 +21,8 @@ public class ImageMagick {
             System.loadLibrary("CORE_RL_MagickWand_");
             System.loadLibrary("CORE_RL_Magick++_");
         } else {
-//            System.loadLibrary("z");
-            //System.loadLibrary("glib");
-//            System.loadLibrary("bz2");
-//            System.loadLibrary("lcms");
-//            System.loadLibrary("libxml");
-//            System.loadLibrary("lqr");
-//            System.loadLibrary("ttf");
-//            System.loadLibrary("zlib");
             System.loadLibrary("MagickCore-7");
             System.loadLibrary("MagickWand-7");
-            FileFilter isLibraryFile = file -> file.getName().endsWith(".so");
-            File[] rawLibraryFiles = new File("libraries/coders/modules-Q16HDRI/coders")
-                    .listFiles(isLibraryFile);
-            File[] libraryFiles = Objects.requireNonNull(rawLibraryFiles);
-            for (File libraryFile : libraryFiles) {
-                System.out.println("Loading coder " + libraryFile);
-                System.load(libraryFile.getAbsolutePath());
-            }
         }
         System.loadLibrary("photobackup_server_native");
 

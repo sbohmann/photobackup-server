@@ -62,7 +62,7 @@ bootJar {
 }
 
 test {
-    systemProperty "java.library.path", "libraries"
+    systemProperty "java.library.path", "libraries:/usr/lib:/usr/local/lib"
 
     testLogging {
         exceptionFormat = 'full'
