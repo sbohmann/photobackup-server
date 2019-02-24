@@ -10,7 +10,6 @@ import java.io.InputStream;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
@@ -30,14 +29,22 @@ public class ImageMagickTest {
         AtomicInteger failCount = new AtomicInteger();
 
         Consumer<Integer> convertImage = index -> {
-            byte[] jpegData = ImageMagick.convertToJpeg(heicData);
-            System.out.println(index + " - " + jpegData.length);
-            if (jpegData.length == 0) {
-                System.err.println(index + " - conversion failed");
-                failCount.incrementAndGet();
-            }
-            if (index == 0) {
-                writeJpegFile(jpegData);
+            try {
+                byte[] jpegData = ImageMagick.convertToJpeg(heicData);
+                System.out.println(index + " - " + jpegData.length);
+                if (jpegData.length == 0) {
+                    System.err.println(index + " - conversion failed");
+                    failCount.getAndIncrement();
+                    return;
+                }
+                if (index == 0) {
+                    writeJpegFile(jpegData);
+                }
+            } catch (Exception error) {
+                int originalFailCount = failCount.getAndIncrement();
+                if (originalFailCount == 0) {
+                    throw error;
+                }
             }
         };
 
@@ -52,7 +59,7 @@ public class ImageMagickTest {
             executor.awaitTermination(10, TimeUnit.SECONDS);
         }
         System.out.println("Finished all threads");
-        assertEquals("Cobversion failed " + failCount.get() + " out of " + numRounds + " times",
+        assertEquals("Conversion failed " + failCount.get() + " out of " + numRounds + " times",
                 0, failCount.get());
     }
 
