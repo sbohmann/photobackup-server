@@ -5,6 +5,7 @@ public class ImageMagick {
         String osName = System.getProperty("os.name");
         System.out.println("os.name: [" + osName + "]");
         boolean windows = osName.startsWith("Windows");
+        boolean linux = osName.startsWith("Linux");
 
         if (windows) {
             System.loadLibrary("CORE_RL_zlib_");
@@ -18,6 +19,9 @@ public class ImageMagick {
             System.loadLibrary("CORE_RL_MagickCore_");
             System.loadLibrary("CORE_RL_MagickWand_");
             System.loadLibrary("CORE_RL_Magick++_");
+        } else if (linux) {
+            System.loadLibrary("MagickCore-7.Q16HDRI");
+            System.loadLibrary("MagickWand-7.Q16HDRI");
         } else {
             System.loadLibrary("MagickCore-7");
             System.loadLibrary("MagickWand-7");
