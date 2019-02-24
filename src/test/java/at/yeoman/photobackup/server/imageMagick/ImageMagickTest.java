@@ -35,7 +35,7 @@ public class ImageMagickTest {
                 if (index == 0) {
                     writeJpegFile(jpegData);
                 }
-            } catch (Exception error) {
+            } catch (Throwable error) {
                 int originalFailCount = failCount.getAndIncrement();
                 if (originalFailCount == 0) {
                     throw error;

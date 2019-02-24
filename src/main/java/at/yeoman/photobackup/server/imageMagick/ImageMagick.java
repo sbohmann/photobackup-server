@@ -21,7 +21,7 @@ public class ImageMagick {
             System.loadLibrary("CORE_RL_Magick++_");
         } else if (linux) {
             System.loadLibrary("MagickCore-7.Q16HDRI");
-            System.loadLibrary("MagickWand-7.Q16HDRI");
+            System.loadLibrary("MagickWand-7.Q16HDRIa");
         } else {
             System.loadLibrary("MagickCore-7");
             System.loadLibrary("MagickWand-7");
