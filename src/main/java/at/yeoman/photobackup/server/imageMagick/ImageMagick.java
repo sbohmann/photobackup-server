@@ -1,12 +1,10 @@
 package at.yeoman.photobackup.server.imageMagick;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.util.Objects;
-
 public class ImageMagick {
     static {
-        boolean windows = System.getProperty("os.name").startsWith("Windows");
+        String osName = System.getProperty("os.name");
+        System.out.println("os.name: [" + osName + "]");
+        boolean windows = osName.startsWith("Windows");
 
         if (windows) {
             System.loadLibrary("CORE_RL_zlib_");
