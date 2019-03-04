@@ -44,7 +44,7 @@ function handleImageListResponse(response) {
 }
 
 function back() {
-    if (index > numPhotos) {
+    if (index > 0) {
         index -= numPhotos
         showAssets()
     }
