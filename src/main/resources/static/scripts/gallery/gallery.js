@@ -102,7 +102,7 @@ function buildAssetList() {
 function appendAsset(asset, node) {
     let div = document.createElement("div")
     div.classList.add('asset')
-    let header = document.createElement('h5')
+    let header = document.createElement('h3')
     let creationDate
     try {
         creationDate = jsJoda.Instant.ofEpochMilli(asset.creationDateMs)
