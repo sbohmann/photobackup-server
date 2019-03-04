@@ -27,7 +27,7 @@ function imageListUrl() {
 
 function handleImageListResponse(response) {
     let assets = JSON.parse(response)
-    for (let asset of assets) {
+    for (let asset of assets.slice(-100).reverse()) {
         let div = document.createElement("div")
         let header = document.createElement('h5')
         let creationDate
