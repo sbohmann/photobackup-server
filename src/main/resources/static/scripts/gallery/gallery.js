@@ -1,8 +1,13 @@
 const jsJoda = JSJoda
+
+const numPhotos = 250
+
 let date = null
 let assets
 let infoLabel
 let assetList
+let index = 0
+let reverse = false
 
 window.onload = () => {
     setup()
@@ -33,7 +38,23 @@ function imageListUrl() {
 
 function handleImageListResponse(response) {
     assets = JSON.parse(response)
+    document.getElementById('back').onclick = back
+    document.getElementById('forward').onclick = forward
     showAssets();
+}
+
+function back() {
+    if (index > numPhotos) {
+        index -= numPhotos
+        showAssets()
+    }
+}
+
+function forward() {
+    if (index < assets.length - numPhotos) {
+        index += numPhotos
+        showAssets()
+    }
 }
 
 function showAssets() {
@@ -48,8 +69,8 @@ function removeOldAssets() {
 }
 
 function buildAssetList() {
-    infoLabel.textContent = 'Showing the 250 most recent photos'
-    for (let asset of assets.slice(-250).reverse()) {
+    infoLabel.textContent = numPhotos + (reverse ? 'oldest' : 'most recent') + ' photos from index ' + index
+    for (let asset of assets.slice(-numPhotos).reverse()) {
         appendAsset(asset, assetList);
     }
 }
