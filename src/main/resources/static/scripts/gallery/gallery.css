@@ -5,3 +5,7 @@ img {
 body {
     font-family: sans-serif;
 }
+
+.asset {
+    float: left;
+}

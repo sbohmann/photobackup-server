@@ -101,7 +101,7 @@ function buildAssetList() {
 
 function appendAsset(asset, node) {
     let div = document.createElement("div")
-    div.id = 'assets'
+    div.classList.add('asset')
     let header = document.createElement('h5')
     let creationDate
     try {
