@@ -63,17 +63,14 @@ function showAssets() {
 }
 
 function removeOldAssets() {
-    console.log('assetList before removing ' + assetList.childNodes.length)
     while (assetList.hasChildNodes()) {
-        console.log('assetList removing ' + assetList.childNodes.length)
         assetList.removeChild(assetList.lastChild)
     }
-    console.log('assetList after removing ' + assetList.childNodes.length)
 }
 
 function buildAssetList() {
     infoLabel.textContent = numPhotos + (reverse ? ' oldest' : ' most recent') + ' photos from index ' + index
-    for (let asset of assets.slice(-numPhotos - index).reverse()) {
+    for (let asset of assets.slice(-index - numPhotos, -index).reverse()) {
         appendAsset(asset, assetList);
     }
 }
