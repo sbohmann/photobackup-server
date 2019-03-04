@@ -38,9 +38,22 @@ function imageListUrl() {
 
 function handleImageListResponse(response) {
     assets = JSON.parse(response)
+    document.getElementById('start').onclick = start
     document.getElementById('back').onclick = back
     document.getElementById('forward').onclick = forward
+    document.getElementById('end').onclick = end
+    document.getElementById('bottom-start').onclick = start
+    document.getElementById('bottom-back').onclick = back
+    document.getElementById('bottom-forward').onclick = forward
+    document.getElementById('bottom-end').onclick = end
     showAssets();
+}
+
+function start() {
+    if (index !== 0) {
+        index = 0
+        showAssets()
+    }
 }
 
 function back() {
@@ -53,6 +66,14 @@ function back() {
 function forward() {
     if (index < assets.length - numPhotos) {
         index += numPhotos
+        showAssets()
+    }
+}
+
+function end() {
+    let lastIndex = Math.trunc((assets.length - 1) / numPhotos) * numPhotos
+    if (index !== lastIndex) {
+        index = lastIndex
         showAssets()
     }
 }
