@@ -9,4 +9,5 @@ body {
 .asset {
     float: left;
     border: 1px black solid;
+    padding: 5px;
 }
