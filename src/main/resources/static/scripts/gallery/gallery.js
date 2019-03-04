@@ -69,8 +69,8 @@ function removeOldAssets() {
 }
 
 function buildAssetList() {
-    infoLabel.textContent = numPhotos + (reverse ? 'oldest' : 'most recent') + ' photos from index ' + index
-    for (let asset of assets.slice(-numPhotos).reverse()) {
+    infoLabel.textContent = numPhotos + (reverse ? ' oldest' : ' most recent') + ' photos from index ' + index
+    for (let asset of assets.slice(-numPhotos - index).reverse()) {
         appendAsset(asset, assetList);
     }
 }
