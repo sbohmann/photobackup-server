@@ -71,7 +71,7 @@ function removeOldAssets() {
 function buildAssetList() {
     infoLabel.textContent = numPhotos + (reverse ? ' oldest' : ' most recent') + ' photos from index ' + index
     let start = -index - numPhotos
-    let end = -index
+    let end = assets.length - index
     console.log(start + ' - ' + end)
     for (let asset of assets.slice(start, end).reverse()) {
         appendAsset(asset, assetList);
