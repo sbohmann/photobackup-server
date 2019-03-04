@@ -63,9 +63,12 @@ function showAssets() {
 }
 
 function removeOldAssets() {
+    console.log('assetList before removing ' + assetList.childNodes.length)
     while (assetList.hasChildNodes()) {
-        assetList.removeChild(assetList.lastChild);
+        console.log('assetList removing ' + assetList.childNodes.length)
+        assetList.removeChild(assetList.lastChild)
     }
+    console.log('assetList after removing ' + assetList.childNodes.length)
 }
 
 function buildAssetList() {
