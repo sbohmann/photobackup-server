@@ -1,5 +1,8 @@
 const jsJoda = JSJoda
 let date = null
+let assets
+let infoLabel
+let assetList
 
 window.onload = () => {
     setup()
@@ -10,6 +13,9 @@ function setup() {
         date = jsJoda.LocalDate.parse(dateArgument)
     }
     document.getElementById('date-paragraph').textContent = date ? date : "all dates"
+    infoLabel = document.getElementById('info-paragraph')
+    infoLabel.textContent = 'Requesting image list...'
+    assetList = document.getElementById('assets')
     requestImageList()
 }
 
@@ -26,27 +32,48 @@ function imageListUrl() {
 }
 
 function handleImageListResponse(response) {
-    let assets = JSON.parse(response)
-    for (let asset of assets.slice(-250).reverse()) {
-        let div = document.createElement("div")
-        let header = document.createElement('h5')
-        let creationDate
-        try {
-            creationDate = jsJoda.Instant.ofEpochMilli(asset.creationDateMs)
-        } catch (error) {
-            console.log(error)
-            creationDate = 'Creation date (ms) out of range [' + asset.creationDateMs + ']'
-        }
-        header.appendChild(document.createTextNode(creationDate))
-        div.appendChild(header)
-        for (let resource of asset.resourceDescriptions) {
-            createThumbnailImage(resource, div)
-            createLink(resource, div, resource.name, '/photos/' + resource.checksum + '/' + resource.name)
-            let convertedResourceName = jpegResourceName(resource.name)
-            createConvertedLink(resource, div, convertedResourceName);
-        }
-        document.body.appendChild(div)
+    assets = JSON.parse(response)
+    showAssets();
+}
+
+function showAssets() {
+    removeOldAssets();
+    buildAssetList();
+}
+
+function removeOldAssets() {
+    while (assetList.hasChildNodes()) {
+        assetList.removeChild(assetList.lastChild);
     }
+}
+
+function buildAssetList() {
+    infoLabel.textContent = 'Showing the 250 most recent photos'
+    for (let asset of assets.slice(-250).reverse()) {
+        appendAsset(asset, assetList);
+    }
+}
+
+function appendAsset(asset, node) {
+    let div = document.createElement("div")
+    div.id = 'assets'
+    let header = document.createElement('h5')
+    let creationDate
+    try {
+        creationDate = jsJoda.Instant.ofEpochMilli(asset.creationDateMs)
+    } catch (error) {
+        console.log(error)
+        creationDate = 'Creation date (ms) out of range [' + asset.creationDateMs + ']'
+    }
+    header.appendChild(document.createTextNode(creationDate))
+    div.appendChild(header)
+    for (let resource of asset.resourceDescriptions) {
+        createThumbnailImage(resource, div)
+        createLink(resource, div, resource.name, '/photos/' + resource.checksum + '/' + resource.name)
+        let convertedResourceName = jpegResourceName(resource.name)
+        createConvertedLink(resource, div, convertedResourceName);
+    }
+    node.appendChild(div)
 }
 
 function createThumbnailImage(resource, div) {
@@ -84,7 +111,7 @@ function createConvertedLink(resource, div, convertedResourceName) {
 }
 
 function jpegResourceName(originalResourceName) {
-    result = originalResourceName.replace(/\.(heic|png|tiff|jpg|jpeg|gif)$/ig, '.jpg')
+    let result = originalResourceName.replace(/\.(heic|png|tiff|jpg|jpeg|gif)$/ig, '.jpg')
     if (!result.endsWith('.jpg')) {
         result = result + '.jpg'
     }
