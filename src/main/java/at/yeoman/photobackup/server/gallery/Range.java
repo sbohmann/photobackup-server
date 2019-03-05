@@ -29,22 +29,27 @@ final class Range {
 
     static Range parse(String rangeHeader) {
         if (rangeHeader != null) {
-            log.info("Non-null range header: " + rangeHeader);
             Matcher matcher = RangePattern.matcher(rangeHeader);
             if (matcher.matches()) {
                 if (matcher.group(2).isEmpty()) {
-                    log.info("returning an open range");
                     return new Range(
                             Long.parseLong(matcher.group(1)));
                 } else {
-                    log.info("returning a closed range");
                     return new Range(
                             Long.parseLong(matcher.group(1)),
                             Long.parseLong(matcher.group(2)));
                 }
             }
         }
-        log.info("returning a null range");
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "Range{" +
+                "first=" + first +
+                ", last=" + last +
+                ", open=" + open +
+                '}';
     }
 }

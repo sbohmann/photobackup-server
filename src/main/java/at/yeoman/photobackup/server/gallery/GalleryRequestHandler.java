@@ -121,7 +121,7 @@ public class GalleryRequestHandler {
         if (range != null) {
             response.setStatus(HttpStatus.PARTIAL_CONTENT.value());
             long actualLength = partialFileLength(file.length(), range);
-            log.info("Writing content length " + actualLength + " for file length " + file.length());
+            log.info("Writing content length " + actualLength + " for file length " + file.length() + ", " + range);
             response.setHeader("Content-Length", Long.toString(actualLength));
             response.addHeader("Content-Range", range.first + "-" + (range.first + actualLength - 1));
         } else {
