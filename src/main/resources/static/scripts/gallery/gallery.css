@@ -23,3 +23,7 @@ body {
     position: absolute;
     bottom: 10px;
 }
+
+.video {
+    background-color: #333;
+}
