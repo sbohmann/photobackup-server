@@ -8,16 +8,14 @@ body {
 
 #assets {
     position: absolute;
-    top: 250px;
+    top: 200px;
     bottom: 50px;
-    left: 0;
-    right: 0;
+    left: 10px;
+    right: 10px;
     overflow: scroll;
 }
 
 .asset {
-    /*border: 1px black solid;*/
-    /*padding: 5px;*/
     margin-bottom: 5px;
 }
 
