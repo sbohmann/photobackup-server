@@ -14,19 +14,31 @@ window.onload = () => {
 }
 
 function setup() {
-    if (dateArgument !== 'any') {
-        let yearAndMonth = dateArgument.match(/(\d{4})-(\d{2})/)
-        if (yearAndMonth != null) {
-            date = yearAndMonth[0]
-        } else {
-            date = jsJoda.LocalDate.parse(dateArgument)
-        }
-    }
+    parseDateArgument();
     document.getElementById('date-paragraph').textContent = date ? date : "all dates"
     infoLabel = document.getElementById('info-paragraph')
     infoLabel.textContent = 'Requesting image list...'
     assetList = document.getElementById('assets')
     requestImageList()
+}
+
+function parseDateArgument() {
+    if (dateArgument !== 'any') {
+        try {
+            parseDateAregumentThrowing();
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+function parseDateAregumentThrowing() {
+    let yearAndMonth = dateArgument.match(/(\d{4})-(\d{2})/)
+    if (yearAndMonth != null) {
+        date = yearAndMonth[0]
+    } else {
+        date = jsJoda.LocalDate.parse(dateArgument)
+    }
 }
 
 function requestImageList() {
