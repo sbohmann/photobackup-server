@@ -131,6 +131,7 @@ function appendAsset(asset, node) {
     div.appendChild(header)
     for (let resource of asset.resourceDescriptions) {
         createThumbnailImage(resource, div)
+        createThumbnailPlayer(resource, div)
         createLink(resource, div, resource.name, '/photos/' + resource.checksum + '/' + resource.name)
         let convertedResourceName = jpegResourceName(resource.name)
         createConvertedLink(resource, div, convertedResourceName);
@@ -154,6 +155,17 @@ function isNonImageResource(resource) {
 function thumbnailName(originalResourceName) {
     let nameWithoutImageExtension = originalResourceName.replace(/\.(heic|png|tiff|jpg|jpeg|gif)$/ig, '')
     return nameWithoutImageExtension + '_thumbnail.jpg'
+}
+
+function createThumbnailPlayer(resource, div) {
+    if (resource.match(/.*\.mov/i) == null) {
+        return
+    }
+    let video = document.createElement('video')
+    let source = document.createElement('source')
+    video.src = '/photos/' + resource.checksum + '/' + thumbnailName(resource.name)
+    video.appendChild(source)
+    div.appendChild(video)
 }
 
 function createLink(resource, div, name, address) {
