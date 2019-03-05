@@ -8,8 +8,8 @@ body {
 
 #assets {
     position: absolute;
-    top: 200px;
-    bottom: 50px;
+    top: 190px;
+    bottom: 60px;
     left: 10px;
     right: 10px;
     overflow-y: scroll;
