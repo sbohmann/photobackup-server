@@ -42,7 +42,13 @@ public class GalleryRequestHandler {
     @GetMapping(value = {"/gallery", "/gallery/{date}"})
     public String gallery(Model model, @PathVariable(required = false) String date) {
         if (date != null) {
-            model.addAttribute("date", LocalDate.parse(date));
+            YearAndMonth yearAndMonth = new YearAndMonth(date);
+            if (yearAndMonth.valid) {
+                model.addAttribute("date",
+                        String.format("%04d-%02d", yearAndMonth.year, yearAndMonth.month));
+            } else {
+                model.addAttribute("date", LocalDate.parse(date));
+            }
         } else {
             model.addAttribute("date", "any");
         }

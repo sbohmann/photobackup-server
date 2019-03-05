@@ -15,7 +15,12 @@ window.onload = () => {
 
 function setup() {
     if (dateArgument !== 'any') {
-        date = jsJoda.LocalDate.parse(dateArgument)
+        let yearAndMonth = dateArgument.match(/(\d{4})-(\d{2})/)
+        if (yearAndMonth != null) {
+            date = yearAndMonth[0]
+        } else {
+            date = jsJoda.LocalDate.parse(dateArgument)
+        }
     }
     document.getElementById('date-paragraph').textContent = date ? date : "all dates"
     infoLabel = document.getElementById('info-paragraph')
