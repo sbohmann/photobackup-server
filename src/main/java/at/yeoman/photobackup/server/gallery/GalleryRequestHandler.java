@@ -21,8 +21,8 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Collections;
 import java.util.List;
 
@@ -60,7 +60,7 @@ public class GalleryRequestHandler {
                 try {
                     LocalDate parsedDate = LocalDate.parse(date);
                     return new AssetsForDate(core, parsedDate).result;
-                } catch(DateTimeException error) {
+                } catch(DateTimeParseException error) {
                     log.error("Invalid date argument [" + date + "]", error);
                     return Collections.emptyList();
                 }
