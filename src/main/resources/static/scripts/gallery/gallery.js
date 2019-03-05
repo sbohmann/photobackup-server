@@ -158,7 +158,7 @@ function thumbnailName(originalResourceName) {
 }
 
 function createThumbnailPlayer(resource, div) {
-    if (resource.match(/.*\.mov/i) == null) {
+    if (resource.name.match(/.*\.mov/i) == null) {
         return
     }
     let video = document.createElement('video')
