@@ -121,7 +121,9 @@ public class GalleryRequestHandler {
         if (range != null) {
             response.setStatus(HttpStatus.PARTIAL_CONTENT.value());
             long actualLength = partialFileLength(file.length(), range);
+            log.info("Writing content length " + actualLength + " for file length " + file.length());
             response.setHeader("Content-Length", Long.toString(actualLength));
+            response.addHeader("Content-Range", range.first + "-" + (range.first + actualLength - 1));
         } else {
             response.setHeader("Content-Length", Long.toString(file.length()));
         }
@@ -133,6 +135,7 @@ public class GalleryRequestHandler {
             throws IOException {
         long bytesToWrite = partialFileLength(fileLength, range);
         long written = PartialStreamTransfer.copy(in, out, range.first, bytesToWrite);
+        log.info("Finished writing partial data for file of length " + fileLength + " - bytes to write: " + bytesToWrite + ", bytes written: " + written);
         if (written != bytesToWrite) {
             log.error("File size: " + fileLength + ", written: " + written + " for " + checksum);
         }
@@ -147,8 +150,11 @@ public class GalleryRequestHandler {
     }
 
     private long partialFileLength(long fileLength, Range range) {
-        long requestedContentLength = range.last - range.first + 1;
         long lengthToEndOfFile = fileLength - range.first;
+        if (range.open) {
+            return lengthToEndOfFile;
+        }
+        long requestedContentLength = range.last - range.first + 1;
         long result = Math.min(requestedContentLength, lengthToEndOfFile);
         result = Math.max(result, 0);
         return result;

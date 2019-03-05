@@ -16,7 +16,7 @@ public class StreamTransfer {
             if (n == 0) {
                 throw new IOException("read returned 0");
             }
-            out.write(buffer);
+            out.write(buffer, 0, n);
             written += n;
         }
         return written;
