@@ -21,11 +21,10 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-
-import static javax.swing.UIManager.get;
 
 @Controller
 public class GalleryRequestHandler {
@@ -54,8 +53,18 @@ public class GalleryRequestHandler {
     @ResponseBody
     public List<AssetDescription> imageList(@PathVariable(required = false) String date) {
         if (date != null) {
-            LocalDate parsedDate = LocalDate.parse(date);
-            return new AssetsForDate(core, parsedDate).result;
+            YearAndMonth yearAndMonth = new YearAndMonth(date);
+            if (yearAndMonth.valid) {
+                return new AssetsForMonth(core, yearAndMonth.year, yearAndMonth.month).result;
+            } else {
+                try {
+                    LocalDate parsedDate = LocalDate.parse(date);
+                    return new AssetsForDate(core, parsedDate).result;
+                } catch(DateTimeException error) {
+                    log.error("Invalid date argument [" + date + "]", error);
+                    return Collections.emptyList();
+                }
+            }
         } else {
             return new AssetsForDate(core, null).result;
         }
