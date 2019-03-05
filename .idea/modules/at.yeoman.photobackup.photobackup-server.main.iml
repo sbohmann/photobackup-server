@@ -22,6 +22,7 @@
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-gradle-plugin:2.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-web:2.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-thymeleaf:2.0.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-security:2.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.datatype:jackson-datatype-guava:2.9.8" level="project" />
     <orderEntry type="library" name="Gradle: com.google.guava:guava:27.0.1-jre" level="project" />
     <orderEntry type="library" name="Gradle: org.webjars.npm:js-joda:1.8.2" level="project" />
@@ -33,9 +34,16 @@
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-tomcat:2.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.hibernate.validator:hibernate-validator:6.0.11.Final" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-webmvc:5.0.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-web:5.0.7.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-web:5.0.8.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.thymeleaf:thymeleaf-spring5:3.0.9.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.1.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-config:5.0.7.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-autoconfigure:2.0.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot:2.0.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.security:spring-security-core:5.0.7.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-context:5.0.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-aop:5.0.8.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: com.google.guava:failureaccess:1.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava" level="project" />
     <orderEntry type="library" name="Gradle: com.google.code.findbugs:jsr305:3.0.2" level="project" />
@@ -48,10 +56,6 @@
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.module:jackson-module-parameter-names:2.9.6" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.9.8" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.8" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-autoconfigure:2.0.4.RELEASE" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot:2.0.4.RELEASE" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework:spring-context:5.0.8.RELEASE" level="project" />
-    <orderEntry type="library" name="Gradle: org.springframework:spring-aop:5.0.8.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-beans:5.0.8.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-expression:5.0.8.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework:spring-core:5.0.8.RELEASE" level="project" />
