@@ -163,7 +163,7 @@ function createThumbnailPlayer(resource, div) {
     }
     let video = document.createElement('video')
     let source = document.createElement('source')
-    video.src = '/photos/' + resource.checksum + '/' + thumbnailName(resource.name)
+    video.src = '/photos/' + resource.checksum + '/' + resource.name
     video.appendChild(source)
     div.appendChild(video)
 }
