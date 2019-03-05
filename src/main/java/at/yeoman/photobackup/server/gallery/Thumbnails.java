@@ -1,14 +1,12 @@
 package at.yeoman.photobackup.server.gallery;
 
 import at.yeoman.photobackup.server.Directories;
-import at.yeoman.photobackup.server.assets.AssetDescription;
 import at.yeoman.photobackup.server.assets.Checksum;
 import at.yeoman.photobackup.server.assets.ResourceDescription;
 import at.yeoman.photobackup.server.core.Core;
 import at.yeoman.photobackup.server.core.ResourceClassification;
 import at.yeoman.photobackup.server.imageMagick.ImageMagick;
 import at.yeoman.photobackup.server.io.FileContent;
-import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
