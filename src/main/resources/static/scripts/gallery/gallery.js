@@ -165,12 +165,12 @@ function createThumbnailPlayer(resource, div) {
     video.width = 200
     video.height = 200
     video.controls = true
-    let rawSource = document.createElement('source')
-    rawSource.src = '/photos/' + resource.checksum + '/' + resource.name
-    video.appendChild(rawSource)
     let mp4Source = document.createElement('source')
     mp4Source.src = '/videos/' + resource.checksum + '/' + resource.name
     video.appendChild(mp4Source)
+    let rawSource = document.createElement('source')
+    rawSource.src = '/photos/' + resource.checksum + '/' + resource.name
+    video.appendChild(rawSource)
     div.appendChild(video)
 }
 
