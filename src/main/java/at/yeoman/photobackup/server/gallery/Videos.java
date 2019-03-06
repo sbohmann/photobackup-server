@@ -162,8 +162,8 @@ public class Videos {
 
     private void createAndWriteVideoContent(Checksum checksum, File originalVideoFile) {
         // TODO
-        log.info("Not creating mp4 converted video for " + resourceType(checksum) + " resource " + checksum.toRawString() +
-                " - not yet implemented.");
+//        log.info("Not creating mp4 converted video for " + resourceType(checksum) + " resource " + checksum.toRawString() +
+//                " - not yet implemented.");
     }
 
     private String resourceType(Checksum checksum) {
