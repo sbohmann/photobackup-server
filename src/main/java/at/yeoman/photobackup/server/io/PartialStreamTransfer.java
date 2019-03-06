@@ -16,7 +16,11 @@ public class PartialStreamTransfer {
 
         long skipped = 0;
         while (skipped < offset) {
-            in.skip(offset - skipped);
+            long n = in.skip(offset - skipped);
+            if (n == 0) {
+                return 0;
+            }
+            skipped += n;
         }
 
         long written = 0;
