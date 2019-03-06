@@ -57,6 +57,7 @@ Create the following sub-directories:
     upload
     photos
     thumbnails
+    videos
     libraries
 
 ### Fetch and build ImageMagick7 with HEIC support.
