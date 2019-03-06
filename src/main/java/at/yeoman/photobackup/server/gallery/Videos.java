@@ -26,7 +26,7 @@ import static at.yeoman.photobackup.server.configuration.OperatingSystem.Windows
 @Component
 public class Videos {
     private static final Logger log = LoggerFactory.getLogger(Videos.class);
-    private static final Pattern videoFileNamePattern = Pattern.compile("([0-9a-fA-F]{128}).jpg");
+    private static final Pattern videoFileNamePattern = Pattern.compile("([0-9a-fA-F]{128}).mp4");
 
     private final Core core;
 
