@@ -7,6 +7,7 @@ import at.yeoman.photobackup.server.assets.Checksum;
 import at.yeoman.photobackup.server.assets.ResourceDescription;
 import at.yeoman.photobackup.server.core.Core;
 import at.yeoman.photobackup.server.gallery.Thumbnails;
+import at.yeoman.photobackup.server.gallery.Videos;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,11 +38,13 @@ public class BackupRequestHandler {
 
     private final Set<Checksum> checksumsUploading = ConcurrentHashMap.newKeySet();
     private Thumbnails thumbnails;
+    private Videos videos;
 
     @Autowired
-    BackupRequestHandler(Core core, Thumbnails thumbnails) {
+    BackupRequestHandler(Core core, Thumbnails thumbnails, Videos videos) {
         this.core = core;
         this.thumbnails = thumbnails;
+        this.videos = videos;
     }
 
     @GetMapping("/")
@@ -143,6 +146,7 @@ public class BackupRequestHandler {
             } finally {
                 checksumsUploading.remove(checksumFromPath);
                 thumbnails.createInBackgroundIfMissing(checksumFromPath);
+                videos.createInBackgroundIfMissing(checksumFromPath);
             }
         } catch (Exception exception) {
             bodyStream.close();
