@@ -10,10 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -172,8 +169,13 @@ public class Videos {
         }
 
         try {
-            Process process = Runtime.getRuntime().exec(array("./create_mp4.sh", checksum.toRawString()));
+            ProcessBuilder builder = new ProcessBuilder("./create_mp4.sh", checksum.toRawString());
+            // TODO redirect to log
+            builder.redirectError(ProcessBuilder.Redirect.INHERIT);
+            builder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+            Process process = builder.start();
             int exitCode = process.waitFor();
+
             if (exitCode != 0) {
                 log.error("Unable to create mp4 for " + resourceType(checksum) + " resource " + checksum.toRawString() +
                         " - exit code: " + exitCode);
@@ -182,10 +184,6 @@ public class Videos {
             log.error("Unable to create mp4 for " + resourceType(checksum) + " resource " + checksum.toRawString(),
                     error);
         }
-    }
-
-    private String[] array(String ... elements) {
-        return elements;
     }
 
     private String resourceType(Checksum checksum) {
