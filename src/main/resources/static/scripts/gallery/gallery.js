@@ -133,8 +133,7 @@ function appendAsset(asset, node) {
         createThumbnailImage(resource, div)
         createThumbnailPlayer(resource, div)
         createLink(resource, div, resource.name, '/photos/' + resource.checksum + '/' + resource.name)
-        let convertedResourceName = jpegResourceName(resource.name)
-        createConvertedLink(resource, div, convertedResourceName);
+        createConvertedLink(resource, div, resource.name);
     }
     node.appendChild(div)
 }
@@ -158,7 +157,7 @@ function thumbnailName(originalResourceName) {
 }
 
 function createThumbnailPlayer(resource, div) {
-    if (resource.name.match(/.*\.mov/i) == null) {
+    if (resource.name.match(/.*\.(mov|mp4)/i) == null) {
         return
     }
     let video = document.createElement('video')
@@ -183,10 +182,15 @@ function createLink(resource, div, name, address) {
     div.append(p)
 }
 
-function createConvertedLink(resource, div, convertedResourceName) {
+function createConvertedLink(resource, div, resourceName) {
     if (!isNonImageResource(resource)) {
+        let convertedResourceName = jpegResourceName(resourceName)
         createLink(resource, div, convertedResourceName + " (converted)",
             '/photos/' + resource.checksum + '/converted/' + convertedResourceName)
+    } else if (resource.name.match(/.*\.mov/i)) {
+        let convertedResourceName = mp4ResourceName(resourceName)
+        createLink(resource, div, convertedResourceName + " (converted)",
+            '/videos/' + resource.checksum + '/' + convertedResourceName)
     }
 }
 
@@ -194,6 +198,14 @@ function jpegResourceName(originalResourceName) {
     let result = originalResourceName.replace(/\.(heic|png|tiff|jpg|jpeg|gif)$/ig, '.jpg')
     if (!result.endsWith('.jpg')) {
         result = result + '.jpg'
+    }
+    return result
+}
+
+function mp4ResourceName(originalResourceName) {
+    let result = originalResourceName.replace(/\.(mov)$/ig, '.mp4')
+    if (!result.endsWith('.mp4')) {
+        result = result + '.mp4'
     }
     return result
 }
