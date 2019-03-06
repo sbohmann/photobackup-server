@@ -1,13 +1,10 @@
 package at.yeoman.photobackup.server.imageMagick;
 
+import static at.yeoman.photobackup.server.configuration.OperatingSystem.*;
+
 public class ImageMagick {
     static {
-        String osName = System.getProperty("os.name");
-        System.out.println("os.name: [" + osName + "]");
-        boolean windows = osName.startsWith("Windows");
-        boolean linux = osName.startsWith("Linux");
-
-        if (windows) {
+        if (Windows) {
             System.loadLibrary("CORE_RL_zlib_");
             System.loadLibrary("CORE_RL_glib_");
             System.loadLibrary("CORE_RL_bzlib_");
@@ -19,7 +16,7 @@ public class ImageMagick {
             System.loadLibrary("CORE_RL_MagickCore_");
             System.loadLibrary("CORE_RL_MagickWand_");
             System.loadLibrary("CORE_RL_Magick++_");
-        } else if (linux) {
+        } else if (Linux) {
             System.loadLibrary("MagickCore-7.Q16HDRI");
             System.loadLibrary("MagickWand-7.Q16HDRI");
         } else {

@@ -24,6 +24,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static at.yeoman.photobackup.server.configuration.OperatingSystem.Windows;
+
 @Component
 public class Videos {
     private static final Logger log = LoggerFactory.getLogger(Videos.class);
@@ -164,6 +166,26 @@ public class Videos {
         // TODO
 //        log.info("Not creating mp4 converted video for " + resourceType(checksum) + " resource " + checksum.toRawString() +
 //                " - not yet implemented.");
+
+        if (Windows) {
+            return;
+        }
+
+        try {
+            Process process = Runtime.getRuntime().exec(array("./create_mp4.sh", checksum.toRawString()));
+            int exitCode = process.waitFor();
+            if (exitCode != 0) {
+                log.error("Unable to create mp4 for " + resourceType(checksum) + " resource " + checksum.toRawString() +
+                        " - exit code: " + exitCode);
+            }
+        } catch (Exception error) {
+            log.error("Unable to create mp4 for " + resourceType(checksum) + " resource " + checksum.toRawString(),
+                    error);
+        }
+    }
+
+    private String[] array(String ... elements) {
+        return elements;
     }
 
     private String resourceType(Checksum checksum) {
