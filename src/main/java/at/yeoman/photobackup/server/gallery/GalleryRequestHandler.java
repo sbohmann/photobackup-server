@@ -102,17 +102,53 @@ public class GalleryRequestHandler {
             throws IOException {
         File file = new File(Directories.Photos, checksum.toRawString());
         if (file.isFile()) {
-            Range range = writeResourceResponseHeaders(request, response, file);
-            try (FileInputStream in = new FileInputStream(file);
-                 ServletOutputStream out = response.getOutputStream()) {
-                if (range != null) {
-                    writePartialData(checksum, file.length(), in, out, range);
-                } else {
-                    writeFullData(checksum, file.length(), in, out);
-                }
-            }
+            writeResourceResponseForFile(checksum, request, response, file);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown resource [" + checksum.toRawString() + "]");
+        }
+    }
+
+    @RequestMapping(value = ("/videos/{checksum}/*"),
+            method = RequestMethod.HEAD,
+            produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @ResponseBody
+    public void videoHead(@PathVariable Checksum checksum,
+                             //@PathVariable(required = false) String fileName,
+                             HttpServletRequest request,
+                             HttpServletResponse response) {
+        File file = new File(Directories.Videos, checksum.toRawString() + ".mp4");
+        if (file.isFile()) {
+            writeResourceResponseHeaders(request, response, file);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown resource [" + checksum.toRawString() + "]");
+        }
+    }
+
+    @GetMapping(value = ("/videos/{checksum}/*"),
+            produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @ResponseBody
+    public void videoData(@PathVariable Checksum checksum,
+                             //@PathVariable(required = false) String fileName,
+                             HttpServletRequest request,
+                             HttpServletResponse response)
+            throws IOException {
+        File file = new File(Directories.Videos, checksum.toRawString() + ".mp4");
+        if (file.isFile()) {
+            writeResourceResponseForFile(checksum, request, response, file);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown resource [" + checksum.toRawString() + "]");
+        }
+    }
+
+    private void writeResourceResponseForFile(@PathVariable Checksum checksum, HttpServletRequest request, HttpServletResponse response, File file) throws IOException {
+        Range range = writeResourceResponseHeaders(request, response, file);
+        try (FileInputStream in = new FileInputStream(file);
+             ServletOutputStream out = response.getOutputStream()) {
+            if (range != null) {
+                writePartialData(checksum, file.length(), in, out, range);
+            } else {
+                writeFullData(checksum, file.length(), in, out);
+            }
         }
     }
 

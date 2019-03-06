@@ -8,6 +8,7 @@ public class Directories {
     public static final File Upload;
     public static final File Photos;
     public static final File Thumbnails;
+    public static final File Videos;
 
     static {
         try {
@@ -15,6 +16,7 @@ public class Directories {
             Upload = getDirectory("upload");
             Photos = getDirectory("photos");
             Thumbnails = getDirectory("thumbnails");
+            Videos = getDirectory("videos");
         } catch (IOException error) {
             throw new RuntimeException(error);
         }
