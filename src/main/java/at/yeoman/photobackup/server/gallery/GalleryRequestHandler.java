@@ -154,6 +154,7 @@ public class GalleryRequestHandler {
 
     private Range writeResourceResponseHeaders(HttpServletRequest request, HttpServletResponse response, File file) {
         Range range = Range.parse(request.getHeader("Range"));
+        response.setContentType("application/octet-stream");
         if (range != null) {
             response.setStatus(HttpStatus.PARTIAL_CONTENT.value());
             long actualLength = partialFileLength(file.length(), range);
