@@ -28,3 +28,9 @@ body {
 .video {
     background-color: #333;
 }
+
+.play-button {
+    width: 200px;
+    height: 200px;
+    background-color: #333;
+}
