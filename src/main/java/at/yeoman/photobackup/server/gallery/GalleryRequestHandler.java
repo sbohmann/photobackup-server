@@ -21,6 +21,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Collections;
@@ -154,7 +155,7 @@ public class GalleryRequestHandler {
 
     private Range writeResourceResponseHeaders(HttpServletRequest request, HttpServletResponse response, File file) {
         Range range = Range.parse(request.getHeader("Range"));
-        response.setContentType("application/octet-stream");
+        response.setContentType(getContentType(file));
         if (range != null) {
             response.setStatus(HttpStatus.PARTIAL_CONTENT.value());
             long actualLength = partialFileLength(file.length(), range);
@@ -167,6 +168,15 @@ public class GalleryRequestHandler {
         }
         response.setHeader("Accept-Ranges", "bytes");
         return range;
+    }
+
+    private String getContentType(File file) {
+        try {
+            return Files.probeContentType(file.toPath());
+        } catch (IOException error) {
+            log.error("Unable to probe content type for file [" + file + "]", error);
+            return "application/octet-stream";
+        }
     }
 
     private void writePartialData(Checksum checksum, long fileLength, InputStream in, OutputStream out, Range range)
@@ -215,6 +225,7 @@ public class GalleryRequestHandler {
                 byte[] convertedBuffer = ImageMagick.convertToJpeg(originalBuffer.toByteArray());
                 log.info("Original file size: " + file.length() + ", converted size: " + convertedBuffer.length +
                         " for " + fileName + ", " + checksum);
+                response.setContentType("image/jpeg");
                 response.setHeader("Content-Length", Long.toString(convertedBuffer.length));
                 try (ServletOutputStream out = response.getOutputStream()) {
                     written = StreamTransfer.copy(new ByteArrayInputStream(convertedBuffer), out);
