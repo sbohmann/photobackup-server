@@ -174,8 +174,6 @@ public class Videos {
             // TODO check once calling ffmpeg via JNI
 //            checkPath(videoFile);
             ProcessBuilder builder = new ProcessBuilder("./create_mp4.sh", checksum.toRawString());
-            // TODO redirect to log
-            builder.redirectError(ProcessBuilder.Redirect.INHERIT);
             Process process = builder.start();
             int exitCode = process.waitFor();
 
