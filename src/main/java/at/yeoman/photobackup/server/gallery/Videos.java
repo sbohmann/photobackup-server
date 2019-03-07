@@ -176,7 +176,6 @@ public class Videos {
             ProcessBuilder builder = new ProcessBuilder("./create_mp4.sh", checksum.toRawString());
             // TODO redirect to log
             builder.redirectError(ProcessBuilder.Redirect.INHERIT);
-            builder.redirectOutput(ProcessBuilder.Redirect.INHERIT);
             Process process = builder.start();
             int exitCode = process.waitFor();
 
@@ -185,10 +184,35 @@ public class Videos {
             } else {
                 log.error("Unable to create mp4 for " + resourceType(checksum) + " resource " + checksum.toRawString() +
                         " - exit code: " + exitCode);
+                logSpecificErrorMessage(exitCode);
             }
         } catch (Exception error) {
             log.error("Unable to create mp4 for " + resourceType(checksum) + " resource " + checksum.toRawString(),
                     error);
+        }
+    }
+
+    private void logSpecificErrorMessage(int exitCode) {
+        String message = specificErrorMessage(exitCode);
+        if (message != null) {
+            log.error(message);
+        }
+    }
+
+    private String specificErrorMessage(int exitCode) {
+        switch (exitCode) {
+            case 21:
+                return "Output file already exists";
+            case 22:
+                return "Unable to delete existing temporary file";
+            case 23:
+                return "Not allowed to delete temporary file";
+            case 24:
+                return "Call to ffmpeg failed";
+            case 25:
+                return "Unable to rename temporary file";
+            default:
+                return null;
         }
     }
 
