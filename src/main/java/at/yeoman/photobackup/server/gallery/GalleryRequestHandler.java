@@ -30,16 +30,16 @@ import java.util.List;
 @Controller
 public class GalleryRequestHandler {
     private static final Logger log = LoggerFactory.getLogger(GalleryRequestHandler.class);
-
+    
     private final Core core;
     private final Thumbnails thumbnails;
-
+    
     @Autowired
     public GalleryRequestHandler(Core core, Thumbnails thumbnails) {
         this.core = core;
         this.thumbnails = thumbnails;
     }
-
+    
     @GetMapping(value = {"/gallery", "/gallery/{date}"})
     public String gallery(Model model, @PathVariable(required = false) String date) {
         if (date != null) {
@@ -55,7 +55,7 @@ public class GalleryRequestHandler {
         }
         return "gallery/gallery";
     }
-
+    
     @GetMapping(value = {"/gallery/imageList", "/gallery/imageList/{date}"})
     @ResponseBody
     public List<AssetDescription> imageList(@PathVariable(required = false) String date) {
@@ -76,7 +76,7 @@ public class GalleryRequestHandler {
             return new AssetsForDate(core, null).result;
         }
     }
-
+    
     @RequestMapping(value = ("/photos/{checksum}/*"),
             method = RequestMethod.HEAD,
             produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
@@ -92,7 +92,7 @@ public class GalleryRequestHandler {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown resource [" + checksum.toRawString() + "]");
         }
     }
-
+    
     @GetMapping(value = ("/photos/{checksum}/*"),
             produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
@@ -108,15 +108,15 @@ public class GalleryRequestHandler {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown resource [" + checksum.toRawString() + "]");
         }
     }
-
+    
     @RequestMapping(value = ("/videos/{checksum}/*"),
             method = RequestMethod.HEAD,
             produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
     public void videoHead(@PathVariable Checksum checksum,
-                             //@PathVariable(required = false) String fileName,
-                             HttpServletRequest request,
-                             HttpServletResponse response) {
+                          //@PathVariable(required = false) String fileName,
+                          HttpServletRequest request,
+                          HttpServletResponse response) {
         File file = new File(Directories.Videos, checksum.toRawString() + ".mp4");
         if (file.isFile()) {
             writeResourceResponseHeaders(request, response, file);
@@ -124,14 +124,14 @@ public class GalleryRequestHandler {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown resource [" + checksum.toRawString() + "]");
         }
     }
-
+    
     @GetMapping(value = ("/videos/{checksum}/*"),
             produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
     public void videoData(@PathVariable Checksum checksum,
-                             //@PathVariable(required = false) String fileName,
-                             HttpServletRequest request,
-                             HttpServletResponse response)
+                          //@PathVariable(required = false) String fileName,
+                          HttpServletRequest request,
+                          HttpServletResponse response)
             throws IOException {
         File file = new File(Directories.Videos, checksum.toRawString() + ".mp4");
         if (file.isFile()) {
@@ -140,7 +140,7 @@ public class GalleryRequestHandler {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown resource [" + checksum.toRawString() + "]");
         }
     }
-
+    
     private void writeResourceResponseForFile(@PathVariable Checksum checksum, HttpServletRequest request, HttpServletResponse response, File file) throws IOException {
         Range range = writeResourceResponseHeaders(request, response, file);
         try (FileInputStream in = new FileInputStream(file);
@@ -152,7 +152,7 @@ public class GalleryRequestHandler {
             }
         }
     }
-
+    
     private Range writeResourceResponseHeaders(HttpServletRequest request, HttpServletResponse response, File file) {
         Range range = Range.parse(request.getHeader("Range"));
         response.setContentType(getContentType(file));
@@ -169,7 +169,7 @@ public class GalleryRequestHandler {
         response.setHeader("Accept-Ranges", "bytes");
         return range;
     }
-
+    
     private String getContentType(File file) {
         try {
             return Files.probeContentType(file.toPath());
@@ -178,7 +178,7 @@ public class GalleryRequestHandler {
             return "application/octet-stream";
         }
     }
-
+    
     private void writePartialData(Checksum checksum, long fileLength, InputStream in, OutputStream out, Range range)
             throws IOException {
         long bytesToWrite = partialFileLength(fileLength, range);
@@ -188,7 +188,7 @@ public class GalleryRequestHandler {
             log.error("File size: " + fileLength + ", written: " + written + " for " + checksum);
         }
     }
-
+    
     private void writeFullData(Checksum checksum, long fileLength, InputStream in, OutputStream out)
             throws IOException {
         long written = StreamTransfer.copy(in, out);
@@ -196,7 +196,7 @@ public class GalleryRequestHandler {
             log.error("File size: " + fileLength + ", written: " + written + " for " + checksum);
         }
     }
-
+    
     private long partialFileLength(long fileLength, Range range) {
         long lengthToEndOfFile = fileLength - range.first;
         if (range.open) {
@@ -207,7 +207,7 @@ public class GalleryRequestHandler {
         result = Math.max(result, 0);
         return result;
     }
-
+    
     @GetMapping(value = ("/photos/{checksum}/converted/*"), produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
     public void convertedResource(@PathVariable Checksum checksum,
@@ -240,7 +240,7 @@ public class GalleryRequestHandler {
                     "Unknown resource [" + checksum.toRawString() + "]");
         }
     }
-
+    
     @GetMapping(value = ("/photos/{checksum}/thumbnail/*"), produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
     public void thumbnail(@PathVariable Checksum checksum,
@@ -260,7 +260,7 @@ public class GalleryRequestHandler {
                     "No thumbnail available for resource [" + checksum.toRawString() + "]");
         }
     }
-
+    
     private ByteArrayOutputStream createFileBuffer(File file) {
         long size = file.length();
         if (size <= Integer.MAX_VALUE) {

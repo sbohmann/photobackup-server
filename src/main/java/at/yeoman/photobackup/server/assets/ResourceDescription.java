@@ -12,7 +12,7 @@ public final class ResourceDescription {
     public final long size;
     public final String name;
     public final long creationDateMs;
-
+    
     @JsonCreator
     public ResourceDescription(
             @JsonProperty("checksum") Checksum checksum,
@@ -24,23 +24,23 @@ public final class ResourceDescription {
         this.name = name;
         this.creationDateMs = creationDateMs;
     }
-
+    
     public Checksum getChecksum() {
         return checksum;
     }
-
+    
     public long getSize() {
         return size;
     }
-
+    
     public String getName() {
         return name;
     }
-
+    
     public long getCreationDateMs() {
         return creationDateMs;
     }
-
+    
     @Override
     public String toString() {
         return "ResourceDescription{" +
@@ -50,7 +50,7 @@ public final class ResourceDescription {
                 ", creationDateMs=" + creationDateMs +
                 '}';
     }
-
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -61,7 +61,7 @@ public final class ResourceDescription {
                 Objects.equals(checksum, that.checksum) &&
                 Objects.equals(name, that.name);
     }
-
+    
     @Override
     public int hashCode() {
         return Objects.hash(checksum, size, name, creationDateMs);

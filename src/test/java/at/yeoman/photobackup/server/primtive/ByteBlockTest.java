@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
 public class ByteBlockTest {
     @Test
     public void toStringIsHex() {
-        byte[] data = new byte[] { 1, 10, -128, -1 };
+        byte[] data = new byte[]{1, 10, -128, -1};
         ByteBlock byteBlock = new ByteBlock(data, data.length);
         assertEquals("010A80FF", byteBlock.toString());
     }

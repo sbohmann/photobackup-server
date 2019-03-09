@@ -15,27 +15,27 @@ import java.time.LocalDateTime;
 @Component
 public class Core {
     private final Logger log = LoggerFactory.getLogger(Core.class);
-
+    
     private CoreConfiguration configuration;
     private Assets assets;
-
+    
     @Autowired
     Core(CoreConfiguration configuration) {
         this.configuration = configuration;
         assets = new AssetsFromFileSystem(configuration).result;
         loadAssetData();
     }
-
+    
     synchronized public Assets getAssets() {
         return assets;
     }
-
+    
     synchronized public void reportAssets(AssetReport report) {
         assets = assets.plus(report.getDescriptions());
         writeAssetReport(report);
         writeAssetData();
     }
-
+    
     private void writeAssetReport(AssetReport report) {
         try {
             assets = assets.plus(report.getDescriptions());
@@ -45,7 +45,7 @@ public class Core {
             log.error(exception.getMessage(), exception);
         }
     }
-
+    
     private void writeAssetData() {
         try {
             new AssetStorageWriter(assets).run();
@@ -53,7 +53,7 @@ public class Core {
             log.error(exception.getMessage(), exception);
         }
     }
-
+    
     synchronized private void loadAssetData() {
         log.info("Reading assets...");
         assets = new AssetStorageDataLoader().result;

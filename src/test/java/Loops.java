@@ -1,7 +1,5 @@
 import org.junit.Test;
 
-import java.util.function.Consumer;
-
 public class Loops {
     @Test
     public void breakOuterLoop() {

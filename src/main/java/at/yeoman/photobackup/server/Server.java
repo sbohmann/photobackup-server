@@ -13,7 +13,7 @@ import java.nio.channels.FileLock;
 @SpringBootApplication
 public class Server {
     private static final Logger log = LoggerFactory.getLogger(Server.class);
-
+    
     public static void main(String[] args) throws IOException {
         FileLock lock = new RandomAccessFile("photobackup-server.lock", "rw").getChannel().tryLock();
         if (lock == null) {

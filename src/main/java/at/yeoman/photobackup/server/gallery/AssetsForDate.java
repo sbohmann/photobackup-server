@@ -15,16 +15,16 @@ import java.util.stream.Collectors;
 
 class AssetsForDate {
     List<AssetDescription> result;
-
+    
     private final Core core;
     private final LocalDate date;
-
+    
     AssetsForDate(Core core, @Nullable LocalDate date) {
         this.core = core;
         this.date = date;
         determineResult();
     }
-
+    
     private void determineResult() {
         if (date != null) {
             result = core
@@ -38,7 +38,7 @@ class AssetsForDate {
         }
         result.sort(Comparator.comparing(asset -> asset.creationDateMs));
     }
-
+    
     private boolean inRange(long creationDateMs) {
         return LocalDateTime
                 .ofInstant(Instant.ofEpochMilli(creationDateMs), ZoneOffset.UTC)

@@ -13,9 +13,9 @@ public class Directories {
     public static final File Photos;
     public static final File Thumbnails;
     public static final File Videos;
-
+    
     static final ImmutableList<File> values;
-
+    
     static {
         try {
             Builder<File> builder = ImmutableList.builder();
@@ -29,7 +29,7 @@ public class Directories {
             throw new RuntimeException(error);
         }
     }
-
+    
     private static File getDirectory(String name, Builder<File> builder) throws IOException {
         File result = new File(name);
         if (!result.isDirectory()) {

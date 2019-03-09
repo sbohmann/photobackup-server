@@ -1,17 +1,12 @@
 package at.yeoman.photobackup.server.core;
 
-import at.yeoman.photobackup.server.api.AssetReport;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.nio.channels.FileLock;
 
 class AssetStorageDataLoader {
     private static final Logger log = LoggerFactory.getLogger(AssetStorageDataLoader.class);

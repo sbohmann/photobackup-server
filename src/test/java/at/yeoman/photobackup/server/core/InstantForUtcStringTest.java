@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import java.time.Instant;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class InstantForUtcStringTest {
     @Test

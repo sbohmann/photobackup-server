@@ -5,7 +5,6 @@ import at.yeoman.photobackup.server.api.AssetReport;
 import at.yeoman.photobackup.server.assets.AssetDescription;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
-import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +40,7 @@ class AssetReportCollector {
     }
 
     private List<Report> reportsForFiles(File[] files) {
-         return Arrays
+        return Arrays
                 .stream(Objects.requireNonNull(files))
                 .flatMap(this::createReport)
                 .collect(Collectors.toList());
@@ -59,7 +58,7 @@ class AssetReportCollector {
         String rawDate = rawDateForFileName(file.getName());
         try {
             return createReportStreamOrThrow(file, rawDate);
-        } catch(DateTimeParseException error) {
+        } catch (DateTimeParseException error) {
             logger.error("Unable to read raw instant from name of file [" + file.getAbsolutePath() + "]", error);
             return Stream.empty();
         }

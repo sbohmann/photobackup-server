@@ -16,17 +16,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private Logger log = LoggerFactory.getLogger(SecurityConfiguration.class);
-
+    
     private final PasswordEncoder encoder;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
-
+    
     @Autowired
     SecurityConfiguration(AuthenticationManagerBuilder authenticationManagerBuilder) {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         configureUser();
     }
-
+    
     private void configureUser() {
         try {
             configureUserThrowing();
@@ -34,14 +34,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             log.error("Unable to configure user", error);
         }
     }
-
+    
     private void configureUserThrowing() throws Exception {
         UserDetails user = createUserDetails();
         authenticationManagerBuilder
                 .inMemoryAuthentication()
                 .withUser(user);
     }
-
+    
     private UserDetails createUserDetails() {
         return User
                 .withUsername("user")
@@ -50,12 +50,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .roles("USER")
                 .build();
     }
-
+    
     @Bean
     PasswordEncoder getEncoder() {
         return encoder;
     }
-
+    
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity

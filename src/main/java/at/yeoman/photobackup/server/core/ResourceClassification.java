@@ -7,13 +7,13 @@ import java.util.regex.Pattern;
 public class ResourceClassification {
     private static final Pattern NameWithExtensionPattern =
             Pattern.compile(".*\\.(\\w+)");
-
+    
     private static final Pattern NonImageResourceNamePattern =
             Pattern.compile(".*\\.(mov|plist|mp4)", Pattern.CASE_INSENSITIVE);
-
+    
     private static final Pattern MovResourceNamePattern =
             Pattern.compile(".*\\.(mov)", Pattern.CASE_INSENSITIVE);
-
+    
     public static Optional<String> fileType(String name) {
         Matcher matcher = NameWithExtensionPattern.matcher(name);
         if (matcher.matches()) {
@@ -22,11 +22,11 @@ public class ResourceClassification {
             return Optional.empty();
         }
     }
-
+    
     public static boolean nonImageName(String name) {
         return NonImageResourceNamePattern.matcher(name).matches();
     }
-
+    
     public static boolean movName(String name) {
         return MovResourceNamePattern.matcher(name).matches();
     }

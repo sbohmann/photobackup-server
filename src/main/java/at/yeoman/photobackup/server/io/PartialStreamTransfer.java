@@ -10,10 +10,10 @@ import java.io.OutputStream;
 
 public class PartialStreamTransfer {
     private static final Logger log = LoggerFactory.getLogger(PartialStreamTransfer.class);
-
+    
     public static long copy(InputStream in, OutputStream out, long offset, long length) throws IOException {
         byte[] buffer = new byte[4096];
-
+        
         long skipped = 0;
         while (skipped < offset) {
             long n = in.skip(offset - skipped);
@@ -22,7 +22,7 @@ public class PartialStreamTransfer {
             }
             skipped += n;
         }
-
+        
         long written = 0;
         try {
             while (written < length) {
@@ -37,7 +37,7 @@ public class PartialStreamTransfer {
                 out.write(buffer, 0, n);
                 written += n;
             }
-        } catch(ClientAbortException error) {
+        } catch (ClientAbortException error) {
             log.info("Client closed connection after writing " + written + " out of " + length + " bytes");
             throw error;
         }

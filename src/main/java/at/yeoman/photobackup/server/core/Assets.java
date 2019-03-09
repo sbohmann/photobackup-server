@@ -18,9 +18,12 @@ import java.util.stream.Collectors;
 
 public class Assets {
     public final ImmutableList<AssetDescription> assets;
-    @JsonIgnore public final ImmutableMap<Checksum, ImmutableList<AssetDescription>> assetsForChecksum;
-    @JsonIgnore public final ImmutableMap<Checksum, ImmutableList<ResourceDescription>> resourcesForChecksum;
-    @JsonIgnore public final ImmutableSet<AssetDescription> knownAssets;
+    @JsonIgnore
+    public final ImmutableMap<Checksum, ImmutableList<AssetDescription>> assetsForChecksum;
+    @JsonIgnore
+    public final ImmutableMap<Checksum, ImmutableList<ResourceDescription>> resourcesForChecksum;
+    @JsonIgnore
+    public final ImmutableSet<AssetDescription> knownAssets;
 
     public Assets(ImmutableList<AssetDescription> assets,
                   ImmutableMap<Checksum, ImmutableList<AssetDescription>> assetsForChecksum, ImmutableMap<Checksum, ImmutableList<ResourceDescription>> resourcesForChecksum) {
@@ -53,8 +56,8 @@ public class Assets {
 
     private List<AssetDescription> filterOutKnownAssets(List<AssetDescription> newAssets) {
         return newAssets.stream()
-                    .filter(asset -> !knownAssets.contains(asset))
-                    .collect(Collectors.toList());
+                .filter(asset -> !knownAssets.contains(asset))
+                .collect(Collectors.toList());
     }
 
     private ArrayList<AssetDescription> concatenate(List<AssetDescription> newAssets) {
