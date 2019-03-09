@@ -10,17 +10,17 @@ import java.nio.file.Files;
 // TODO use or delete
 public class ResourceTypeForFile {
     private static Logger logger = LoggerFactory.getLogger(ResourceTypeForFile.class);
-
+    
     private File file;
-
+    
     public static ResourceType get(File file) {
         return new ResourceTypeForFile(file).run();
     }
-
+    
     private ResourceTypeForFile(File file) {
         this.file = file;
     }
-
+    
     private ResourceType run() {
         try {
             return probeContentType();
@@ -29,7 +29,7 @@ public class ResourceTypeForFile {
             return ResourceType.Unknown;
         }
     }
-
+    
     private ResourceType probeContentType() throws IOException {
         String rawContentType = Files.probeContentType(file.toPath());
         if (rawContentType != null) {

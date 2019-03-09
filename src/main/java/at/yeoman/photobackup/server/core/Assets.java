@@ -24,7 +24,7 @@ public class Assets {
     public final ImmutableMap<Checksum, ImmutableList<ResourceDescription>> resourcesForChecksum;
     @JsonIgnore
     public final ImmutableSet<AssetDescription> knownAssets;
-
+    
     public Assets(ImmutableList<AssetDescription> assets,
                   ImmutableMap<Checksum, ImmutableList<AssetDescription>> assetsForChecksum, ImmutableMap<Checksum, ImmutableList<ResourceDescription>> resourcesForChecksum) {
         this.assets = assets;
@@ -32,7 +32,7 @@ public class Assets {
         this.resourcesForChecksum = resourcesForChecksum;
         knownAssets = ImmutableSet.copyOf(assets);
     }
-
+    
     @JsonCreator
     public Assets(@JsonProperty("assets") List<AssetDescription> assets) {
         this.assets = ImmutableList.copyOf(assets);
@@ -41,7 +41,7 @@ public class Assets {
         resourcesForChecksum = assetsAndresourcesForChecksum.resourcesForChecksum;
         knownAssets = ImmutableSet.copyOf(assets);
     }
-
+    
     public Assets plus(List<AssetDescription> newAssets) {
         if (newAssets.isEmpty()) {
             return this;
@@ -53,13 +53,13 @@ public class Assets {
         ArrayList<AssetDescription> combined = concatenate(filtered);
         return new Assets(combined);
     }
-
+    
     private List<AssetDescription> filterOutKnownAssets(List<AssetDescription> newAssets) {
         return newAssets.stream()
                 .filter(asset -> !knownAssets.contains(asset))
                 .collect(Collectors.toList());
     }
-
+    
     private ArrayList<AssetDescription> concatenate(List<AssetDescription> newAssets) {
         ArrayList<AssetDescription> combined =
                 new ArrayList<>(assets.size() + newAssets.size());
@@ -68,7 +68,7 @@ public class Assets {
         addMissing(newAssets, combined, set);
         return combined;
     }
-
+    
     private void addMissing(List<AssetDescription> source, List<AssetDescription> result, Set<AssetDescription> set) {
         for (AssetDescription asset : source) {
             if (set.add(asset)) {
