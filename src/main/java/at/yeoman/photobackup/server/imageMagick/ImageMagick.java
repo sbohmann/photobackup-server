@@ -1,6 +1,7 @@
 package at.yeoman.photobackup.server.imageMagick;
 
-import static at.yeoman.photobackup.server.configuration.OperatingSystem.*;
+import static at.yeoman.photobackup.server.configuration.OperatingSystem.Linux;
+import static at.yeoman.photobackup.server.configuration.OperatingSystem.Windows;
 
 public class ImageMagick {
     static {
@@ -24,14 +25,14 @@ public class ImageMagick {
             System.loadLibrary("MagickWand-7");
         }
         System.loadLibrary("photobackup_server_native");
-
+        
         initialize();
     }
-
+    
     native private static void initialize();
-
+    
     native public static byte[] convertToJpeg(byte[] heicData);
-
+    
     native public static byte[] convertToJpegWithMaximumSize(byte[] originalImageFileContent,
                                                              int maximumWidth, int maximumHeight);
 }

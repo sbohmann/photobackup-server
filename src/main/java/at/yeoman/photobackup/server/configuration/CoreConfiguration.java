@@ -17,7 +17,7 @@ public class CoreConfiguration implements WebMvcConfigurer {
                 addResourceHandler("/js-joda/**").
                 addResourceLocations("classpath:/META-INF/resources/webjars/js-joda/1.8.2/dist/");
     }
-
+    
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new HandlerInterceptor() {

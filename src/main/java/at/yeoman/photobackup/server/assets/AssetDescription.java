@@ -12,11 +12,11 @@ import java.util.Objects;
 public final class AssetDescription {
     // TODO location information from PHAsset
     // TODO creation timestamp, name, tags, &c.
-
+    
     public final String name;
     public final long creationDateMs;
     public final ImmutableList<ResourceDescription> resourceDescriptions;
-
+    
     @JsonCreator
     public AssetDescription(
             @JsonProperty("name") String name,
@@ -26,19 +26,19 @@ public final class AssetDescription {
         this.creationDateMs = creationDateMs;
         this.resourceDescriptions = ImmutableList.copyOf(resourceDescriptions);
     }
-
+    
     public String getName() {
         return name;
     }
-
+    
     public long getCreationDateMs() {
         return creationDateMs;
     }
-
+    
     public List<ResourceDescription> getResourceDescriptions() {
         return resourceDescriptions;
     }
-
+    
     @Override
     public String toString() {
         return "AssetDescription{" +
@@ -47,7 +47,7 @@ public final class AssetDescription {
                 ", resourceDescriptions=" + resourceDescriptions +
                 '}';
     }
-
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -57,7 +57,7 @@ public final class AssetDescription {
                 Objects.equals(name, that.name) &&
                 Objects.equals(resourceDescriptions, that.resourceDescriptions);
     }
-
+    
     @Override
     public int hashCode() {
         return Objects.hash(name, creationDateMs, resourceDescriptions);

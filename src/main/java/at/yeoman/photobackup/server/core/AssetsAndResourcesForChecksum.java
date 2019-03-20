@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 class AssetsAndResourcesForChecksum {
     final ImmutableMap<Checksum, ImmutableList<AssetDescription>> assetsForChecksum;
     final ImmutableMap<Checksum, ImmutableList<ResourceDescription>> resourcesForChecksum;
-
+    
     AssetsAndResourcesForChecksum(List<AssetDescription> assets) {
         final Map<Checksum, List<AssetDescription>> assetsForChecksum = new HashMap<>();
         final Map<Checksum, List<ResourceDescription>> resourcesForChecksum = new HashMap<>();
@@ -30,11 +30,11 @@ class AssetsAndResourcesForChecksum {
         this.assetsForChecksum = ImmutableMap.copyOf(withImmutableLists(assetsForChecksum));
         this.resourcesForChecksum = ImmutableMap.copyOf(withImmutableLists(resourcesForChecksum));
     }
-
+    
     private static <K, E> List<E> listForKey(Map<K, List<E>> map, K key) {
         return map.computeIfAbsent(key, x -> new ArrayList<>());
     }
-
+    
     private <E> Map<Checksum, ImmutableList<E>> withImmutableLists(Map<Checksum, List<E>> result) {
         return result
                 .entrySet()

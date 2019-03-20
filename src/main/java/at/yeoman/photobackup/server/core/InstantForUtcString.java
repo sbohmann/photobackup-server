@@ -9,11 +9,11 @@ import java.util.regex.Pattern;
 class InstantForUtcString {
     private static Pattern utcStringPasttern =
             Pattern.compile("(\\d{4})(\\d{2})(\\d{2})T(\\d{2})(\\d{2})(\\d{2})\\.(\\d{3})");
-
+    
     private Matcher matcher;
-
+    
     public Instant result;
-
+    
     InstantForUtcString(String utcString) {
         matcher = match(utcString);
         int yesr = parseGroup(1);
@@ -26,7 +26,7 @@ class InstantForUtcString {
         result = LocalDateTime.of(yesr, month, day, hour, minute, second, millisecond * 1_000_000)
                 .toInstant(ZoneOffset.UTC);
     }
-
+    
     private Matcher match(String utcString) {
         matcher = utcStringPasttern.matcher(utcString);
         if (!matcher.matches()) {
@@ -34,7 +34,7 @@ class InstantForUtcString {
         }
         return matcher;
     }
-
+    
     private int parseGroup(int group) {
         return Integer.parseInt(matcher.group(group));
     }

@@ -20,9 +20,9 @@ public class ImageMagickTest {
     public void convertFileToJpeg() throws IOException, InterruptedException {
         byte[] heicData = readHeicFile();
         System.out.println(heicData.length);
-
+        
         AtomicInteger failCount = new AtomicInteger();
-
+        
         Consumer<Integer> convertImage = index -> {
             try {
                 byte[] jpegData = ImageMagick.convertToJpeg(heicData);
@@ -42,7 +42,7 @@ public class ImageMagickTest {
                 }
             }
         };
-
+        
         ExecutorService executor = Executors.newFixedThreadPool(5);
         int numRounds = 100;
         for (int index = 0; index < numRounds; ++index) {
@@ -57,7 +57,7 @@ public class ImageMagickTest {
         assertEquals("Conversion failed " + failCount.get() + " out of " + numRounds + " times",
                 0, failCount.get());
     }
-
+    
     private byte[] readHeicFile() throws IOException {
         String fileName = "example_image.heic";
         InputStream in = getClass().getResourceAsStream(fileName);
@@ -68,7 +68,7 @@ public class ImageMagickTest {
         StreamTransfer.copy(in, buffer);
         return buffer.toByteArray();
     }
-
+    
     private void writeJpegFile(byte[] jpegData) {
         try {
             FileOutputStream out = new FileOutputStream("converted.jpg");

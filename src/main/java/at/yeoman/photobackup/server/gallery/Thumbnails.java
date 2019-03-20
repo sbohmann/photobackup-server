@@ -30,19 +30,19 @@ import java.util.stream.Stream;
 public class Thumbnails {
     private static final Logger log = LoggerFactory.getLogger(Thumbnails.class);
     private static final Pattern thumbnailFileNamePattern = Pattern.compile("([0-9a-fA-F]{128}).jpg");
-
+    
     private final Core core;
-
+    
     private Map<Checksum, File> thumbnailForChecksum = new HashMap<>();
     private LinkedBlockingQueue<Checksum> backgroundCreationQueue = new LinkedBlockingQueue<>();
-
+    
     @Autowired
     Thumbnails(Core core) throws IOException {
         this.core = core;
         readExistingThumbnails();
         new Thread(this::handleBackgroundCreationQueue).start();
     }
-
+    
     private void readExistingThumbnails() throws IOException {
         for (File file : listFilesInThumbnailsDirectory()) {
             Matcher matcher = thumbnailFileNamePattern.matcher(file.getName());
@@ -51,7 +51,7 @@ public class Thumbnails {
             }
         }
     }
-
+    
     private File[] listFilesInThumbnailsDirectory() throws IOException {
         File[] result = Directories.Thumbnails.listFiles();
         if (result == null) {
@@ -59,7 +59,7 @@ public class Thumbnails {
         }
         return result;
     }
-
+    
     private void addFile(File file, String checksumString) {
         try {
             addFileForCalculatedChecksum(file, checksumString);
@@ -67,7 +67,7 @@ public class Thumbnails {
             log.error(error.getMessage(), error);
         }
     }
-
+    
     private void handleBackgroundCreationQueue() {
         log.info("Enqueuing existing resources for background thumbnail creation...");
         enqueueExistingResourceChecksums();
@@ -86,7 +86,7 @@ public class Thumbnails {
         }
         log.info("Thumbnails background creation thread stopping.");
     }
-
+    
     private boolean potentialImageResource(Checksum checksum) {
         List<ResourceDescription> resourcesForChecksum = core.getAssets().resourcesForChecksum.get(checksum);
         if (resourcesForChecksum == null || resourcesForChecksum.isEmpty()) {
@@ -99,7 +99,7 @@ public class Thumbnails {
         }
         return false;
     }
-
+    
     private void enqueueExistingResourceChecksums() {
         try {
             for (File file : listResourceFiles()) {
@@ -112,30 +112,30 @@ public class Thumbnails {
             log.error("Error while enqueuing existing resources for background thumbnail creation", error);
         }
     }
-
+    
     private File[] listResourceFiles() {
         return Directories.Photos.listFiles(this::isResourceFile);
     }
-
+    
     private boolean isResourceFile(File file) {
         return Checksum
                 .StringPattern
                 .matcher(file.getName())
                 .matches();
     }
-
+    
     private void addFileForCalculatedChecksum(File file, String checksumString) {
         Checksum checksum = new Checksum(checksumString);
         addFileForChecksum(file, checksum);
     }
-
+    
     private void addFileForChecksum(File file, Checksum checksum) {
         File previousValue = thumbnailForChecksum.put(checksum, file);
         if (previousValue != null) {
             throw new RuntimeException("Double occurence of " + checksum);
         }
     }
-
+    
     synchronized public byte[] get(Checksum checksum) throws IOException {
         File resultFile = thumbnailForChecksum.get(checksum);
         if (resultFile != null && resultFile.isFile()) {
@@ -144,7 +144,7 @@ public class Thumbnails {
             return createThumbnail(checksum);
         }
     }
-
+    
     synchronized public void createInBackgroundIfMissing(Checksum checksum) {
         if (checksum != null) {
             if (!backgroundCreationQueue.offer(checksum)) {
@@ -152,14 +152,14 @@ public class Thumbnails {
             }
         }
     }
-
+    
     synchronized private void createIfMissing(Checksum checksum) {
         File existingFile = thumbnailForChecksum.get(checksum);
         if (existingFile == null || !existingFile.isFile()) {
             createThumbnail(checksum);
         }
     }
-
+    
     private byte[] createThumbnail(Checksum checksum) {
         try {
             File originalImageFile = new File(Directories.Photos, checksum.toRawString());
@@ -171,7 +171,7 @@ public class Thumbnails {
         }
         return null;
     }
-
+    
     private byte[] createAndWriteThumbnailContent(Checksum checksum, File originalImageFile) throws IOException {
         byte[] originalImageFileContent = FileContent.read(originalImageFile);
         byte[] thumbnailContent = ImageMagick.convertToJpegWithMaximumSize(originalImageFileContent, 200, 200);
@@ -186,7 +186,7 @@ public class Thumbnails {
         writeThumbnailFile(checksum, thumbnailContent);
         return thumbnailContent;
     }
-
+    
     private String resourceType(Checksum checksum) {
         List<ResourceDescription> resources = core.getAssets().resourcesForChecksum.get(checksum);
         if (resources == null || resources.isEmpty()) {
@@ -199,12 +199,12 @@ public class Thumbnails {
                     .collect(Collectors.joining(", "));
         }
     }
-
+    
     private Stream<String> fileType(ResourceDescription resource) {
         Optional<String> result = ResourceClassification.fileType(resource.name);
         return result.map(Stream::of).orElseGet(Stream::empty);
     }
-
+    
     private void writeThumbnailFile(Checksum checksum, byte[] thumbnailContent) {
         File thumbnailFile = new File(Directories.Thumbnails, checksum.toRawString() + ".jpg");
         checkPath(thumbnailFile);
@@ -216,7 +216,7 @@ public class Thumbnails {
             log.error(error.getMessage(), error);
         }
     }
-
+    
     private void checkPath(File thumbnailFile) {
         if (!thumbnailFile.toPath().startsWith(Directories.Thumbnails.toPath())) {
             throw new RuntimeException("Not inside " + Directories.Thumbnails.getAbsolutePath() +
