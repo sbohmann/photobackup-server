@@ -1,0 +1,36 @@
+img {
+    image-orientation: from-image;
+}
+
+body {
+    font-family: sans-serif;
+}
+
+#assets {
+    position: absolute;
+    top: 200px;
+    bottom: 60px;
+    left: 10px;
+    right: 10px;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+.asset {
+    margin-bottom: 5px;
+}
+
+#bottom-navigation {
+    position: absolute;
+    bottom: 10px;
+}
+
+.video {
+    background-color: #333;
+}
+
+.play-button {
+    width: 200px;
+    height: 200px;
+    background-color: #333;
+}

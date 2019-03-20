@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/at.yeoman.photobackup.photobackup-server.iml" filepath="$PROJECT_DIR$/.idea/modules/at.yeoman.photobackup.photobackup-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/at.yeoman.photobackup.photobackup-server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/at.yeoman.photobackup.photobackup-server.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/at.yeoman.photobackup.photobackup-server.test.iml" filepath="$PROJECT_DIR$/.idea/modules/at.yeoman.photobackup.photobackup-server.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/server.iml" filepath="$PROJECT_DIR$/.idea/modules/server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/server_main.iml" filepath="$PROJECT_DIR$/.idea/modules/server_main.iml" group="server" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/server_test.iml" filepath="$PROJECT_DIR$/.idea/modules/server_test.iml" group="server" />
+    </modules>
+  </component>
+</project>

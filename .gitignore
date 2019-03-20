@@ -1,0 +1,12 @@
+/.idea/libraries
+/gradle
+/.gradle
+/out
+/assets
+/uploads
+/photos
+/thumbnails
+/videos
+/assets.json
+/libraries
+/converted.jpg

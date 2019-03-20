@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--/*@thymesVar id="date" type="java.lang.String"*/-->
+<head>
+    <title>Gallery</title>
+    <script>
+        /** @type {string} */
+        const dateArgument = "[[${date}]]"
+    </script>
+    <script src="/js-joda/js-joda.js"></script>
+    <script src="/scripts/gallery/gallery.js"></script>
+    <link rel="stylesheet" href="/scripts/gallery/gallery.css">
+</head>
+<body>
+<h1>Gallery</h1>
+<p id="date-paragraph"></p>
+<p id="info-paragraph"></p>
+<p id="top-navigation">
+    <button id="start">&lt;&lt;&lt;</button>
+    <button id="back">&lt;&lt;</button>
+    <button id="forward">&gt;&gt;</button>
+    <button id="end">&gt;&gt;&gt;</button>
+</p>
+<div id="assets"></div>
+<p id="bottom-navigation">
+    <button id="bottom-start">&lt;&lt;&lt;</button>
+    <button id="bottom-back">&lt;&lt;</button>
+    <button id="bottom-forward">&gt;&gt;</button>
+    <button id="bottom-end">&gt;&gt;&gt;</button>
+</p>
+</body>
+</html>

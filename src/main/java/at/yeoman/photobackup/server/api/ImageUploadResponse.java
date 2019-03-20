@@ -1,5 +1,5 @@
 package at.yeoman.photobackup.server.api;
 
 public class ImageUploadResponse {
-//    private final FilePresent filePresent;
+//    private final ResourcePresent filePresent;
 }

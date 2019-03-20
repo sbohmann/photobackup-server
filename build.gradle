@@ -1,14 +1,21 @@
-plugins {
-    id 'java'
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    ext {
+        springBootVersion = '2.0.4.RELEASE'
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+    }
 }
 
-group 'at.yeoman.photobackup'
-version '1.0-SNAPSHOT'
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
 
-sourceCompatibility = 1.8
-
-repositories {
-    mavenCentral()
+compileJava {
+    options.compilerArgs += ["-h", file("generated_headers")]
+//    options.verbose = true
 }
 
 dependencies {
@@ -16,19 +23,50 @@ dependencies {
 }
 
 group 'at.yeoman.photobackup'
-version '1.0-SNAPSHOT'
+version '1.0.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+
+    flatDir {
+        dirs 'libraries'
+    }
 }
 
 dependencies {
-    def springBootVersion = '2.0.4.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-gradle-plugin', version: springBootVersion
 
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: springBootVersion
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: springBootVersion
+
+    compile group: 'com.google.guava', name: 'guava', version: '27.0.1-jre'
+    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-guava', version: '2.9.8'
+
+    compile 'org.webjars.npm:js-joda:1.8.2'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
+}
+
+task run(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+
+    systemProperty "java.library.path", "libraries:/usr/lib:/usr/local/lib"
+
+    main = 'at.yeoman.photobackup.server.Server'
+}
+
+bootJar {
+    launchScript()
+}
+
+test {
+    systemProperty "java.library.path", "libraries:/usr/lib:/usr/local/lib"
+
+    testLogging {
+        exceptionFormat = 'full'
+    }
 }
