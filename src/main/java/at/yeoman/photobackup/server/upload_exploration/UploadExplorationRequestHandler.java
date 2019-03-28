@@ -1,4 +1,4 @@
-package upload_exploration;
+package at.yeoman.photobackup.server.upload_exploration;
 
 import at.yeoman.photobackup.server.assets.Checksum;
 import org.slf4j.Logger;
@@ -15,7 +15,7 @@ import java.security.MessageDigest;
 public class UploadExplorationRequestHandler {
     private final Logger log = LoggerFactory.getLogger(UploadExplorationRequestHandler.class);
 
-    @PostMapping("/upload_exploration")
+    @PostMapping("/at/yeoman/photobackup/server/upload_exploration")
     public ResponseEntity<String> handleResourceUpload(InputStream bodyStream) {
         try {
             final Checksum calculatedChecksum = processInputStream(bodyStream);
