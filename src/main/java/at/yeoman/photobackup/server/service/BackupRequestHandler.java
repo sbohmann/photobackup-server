@@ -154,7 +154,7 @@ public class BackupRequestHandler {
             try {
                 bodyStream.close();
             } catch (Exception error) {
-                log.error("Unable to close stram", error);
+                log.error("Unable to close stream", error);
             }
         }
     }
@@ -175,7 +175,6 @@ public class BackupRequestHandler {
         return new ResponseEntity<>(message, status);
     }
 
-    @SuppressWarnings("unused")
     private Checksum writeFile(InputStream in, File target) throws Exception {
         log.info("writing to file [" + target.getCanonicalPath() + "]...");
         try (FileOutputStream out = new FileOutputStream(target)) {
