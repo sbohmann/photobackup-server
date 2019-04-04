@@ -15,10 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.security.MessageDigest;
 import java.util.List;
 import java.util.Set;
@@ -94,7 +93,10 @@ public class BackupRequestHandler {
     }
 
     @PostMapping("/resource-upload/{checksumString}")
-    public ResponseEntity<String> handleResourceUpload(@PathVariable final String checksumString, InputStream bodyStream) throws Exception {
+    public ResponseEntity<String> handleResourceUpload(
+            @PathVariable final String checksumString,
+            InputStream bodyStream,
+            OutputStream responseStream)  {
         try {
             final Checksum checksumFromPath;
             try {
@@ -153,6 +155,7 @@ public class BackupRequestHandler {
         } finally {
             try {
                 bodyStream.close();
+                responseStream.close();
             } catch (Exception error) {
                 log.error("Unable to close stream", error);
             }
