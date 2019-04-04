@@ -95,8 +95,7 @@ public class BackupRequestHandler {
     @PostMapping("/resource-upload/{checksumString}")
     public ResponseEntity<String> handleResourceUpload(
             @PathVariable final String checksumString,
-            InputStream bodyStream,
-            OutputStream responseStream)  {
+            InputStream bodyStream)  {
         try {
             final Checksum checksumFromPath;
             try {
@@ -144,7 +143,7 @@ public class BackupRequestHandler {
                     return error("Unable to rename [" + uploadTarget.getCanonicalPath() + "] to [" + renamedTarget.getCanonicalPath() + "]",
                             HttpStatus.INTERNAL_SERVER_ERROR);
                 }
-                return success(checksumFromPath, calculatedChecksum.toString());
+                return success(checksumFromPath, "Successfully uploaded resource for checksum " + calculatedChecksum);
             } finally {
                 checksumsUploading.remove(checksumFromPath);
             }
@@ -152,13 +151,6 @@ public class BackupRequestHandler {
             log.error(exception.getMessage(), exception);
             return error("Error message: [" + exception.getMessage() + "]",
                     HttpStatus.EXPECTATION_FAILED);
-        } finally {
-            try {
-                bodyStream.close();
-                responseStream.close();
-            } catch (Exception error) {
-                log.error("Unable to close stream", error);
-            }
         }
     }
 
@@ -167,7 +159,7 @@ public class BackupRequestHandler {
     }
 
     private ResponseEntity<String> success(Checksum checksum, String message) {
-        log.info(message);
+        log.info("Successfully handled upload request - message: " + message);
         thumbnails.createInBackgroundIfMissing(checksum);
         videos.createInBackgroundIfMissing(checksum);
         return new ResponseEntity<>(message, HttpStatus.OK);
