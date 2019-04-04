@@ -151,6 +151,8 @@ public class BackupRequestHandler {
             log.error(exception.getMessage(), exception);
             return error("Error message: [" + exception.getMessage() + "]",
                     HttpStatus.EXPECTATION_FAILED);
+        } finally {
+            log.info("Returning from resource upload handler.");
         }
     }
 
