@@ -15,15 +15,18 @@ public final class AssetDescription {
     
     public final String name;
     public final long creationDateMs;
+    public final long modificationDateMs;
     public final ImmutableList<ResourceDescription> resourceDescriptions;
     
     @JsonCreator
     public AssetDescription(
             @JsonProperty("name") String name,
             @JsonProperty("creationDateMs") long creationDateMs,
+            @JsonProperty("modificationDateMs") long modificationDateMs,
             @JsonProperty("resourceDescriptions") List<ResourceDescription> resourceDescriptions) {
         this.name = name;
         this.creationDateMs = creationDateMs;
+        this.modificationDateMs = modificationDateMs;
         this.resourceDescriptions = ImmutableList.copyOf(resourceDescriptions);
     }
     
@@ -34,7 +37,11 @@ public final class AssetDescription {
     public long getCreationDateMs() {
         return creationDateMs;
     }
-    
+
+    public long getModificationDateMs() {
+        return modificationDateMs;
+    }
+
     public List<ResourceDescription> getResourceDescriptions() {
         return resourceDescriptions;
     }
