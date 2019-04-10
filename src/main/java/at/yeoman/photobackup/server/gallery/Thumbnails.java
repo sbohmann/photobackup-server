@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,7 +34,7 @@ public class Thumbnails {
     
     private final Core core;
     
-    private Map<Checksum, File> thumbnailForChecksum = new HashMap<>();
+    private ConcurrentHashMap<Checksum, File> thumbnailForChecksum = new ConcurrentHashMap<>();
     private LinkedBlockingQueue<Checksum> backgroundCreationQueue = new LinkedBlockingQueue<>();
     
     @Autowired
@@ -136,7 +137,7 @@ public class Thumbnails {
         }
     }
     
-    synchronized public byte[] get(Checksum checksum) throws IOException {
+    public byte[] get(Checksum checksum) throws IOException {
         File resultFile = thumbnailForChecksum.get(checksum);
         if (resultFile != null && resultFile.isFile()) {
             return FileContent.read(resultFile);
@@ -145,7 +146,7 @@ public class Thumbnails {
         }
     }
     
-    synchronized public void createInBackgroundIfMissing(Checksum checksum) {
+    public void createInBackgroundIfMissing(Checksum checksum) {
         if (checksum != null) {
             if (!backgroundCreationQueue.offer(checksum)) {
                 log.error("Unable to enqueue checksum for background thumbnail creation: " + checksum);
@@ -160,7 +161,7 @@ public class Thumbnails {
         }
     }
     
-    private byte[] createThumbnail(Checksum checksum) {
+    synchronized private byte[] createThumbnail(Checksum checksum) {
         try {
             File originalImageFile = new File(Directories.Photos, checksum.toRawString());
             if (originalImageFile.isFile()) {

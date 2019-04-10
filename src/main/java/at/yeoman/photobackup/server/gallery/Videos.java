@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,7 +32,7 @@ public class Videos {
     
     private final Core core;
     
-    private Map<Checksum, File> videoForChecksum = new HashMap<>();
+    private ConcurrentHashMap<Checksum, File> videoForChecksum = new ConcurrentHashMap<>();
     private LinkedBlockingQueue<Checksum> backgroundCreationQueue = new LinkedBlockingQueue<>();
     
     @Autowired
@@ -134,7 +135,7 @@ public class Videos {
         }
     }
     
-    synchronized public void createInBackgroundIfMissing(Checksum checksum) {
+    public void createInBackgroundIfMissing(Checksum checksum) {
         if (checksum != null) {
             if (!backgroundCreationQueue.offer(checksum)) {
                 log.error("Unable to enqueue checksum for background video creation: " + checksum);

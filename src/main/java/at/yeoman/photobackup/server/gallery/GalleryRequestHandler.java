@@ -133,6 +133,9 @@ public class GalleryRequestHandler {
                           HttpServletRequest request,
                           HttpServletResponse response)
             throws IOException {
+        // TODO write a Videos.get method that, unlike Thumbnails.get, doesn't render a missing video but enqueues
+        // it if necessary and reports that it's still missing. Plus, it should return the file, not its content
+        // adapt the head handler as well
         File file = new File(Directories.Videos, checksum.toRawString() + ".mp4");
         if (file.isFile()) {
             writeResourceResponseForFile(checksum, request, response, file);
