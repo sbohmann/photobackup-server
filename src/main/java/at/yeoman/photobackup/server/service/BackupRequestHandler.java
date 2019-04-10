@@ -161,19 +161,10 @@ public class BackupRequestHandler {
     }
 
     private ResponseEntity<String> success(Checksum checksum, String message) {
-        long a = System.currentTimeMillis();
         log.info("Successfully handled upload request - message: " + message);
-        long b = System.currentTimeMillis();
         thumbnails.createInBackgroundIfMissing(checksum);
-        long c = System.currentTimeMillis();
         videos.createInBackgroundIfMissing(checksum);
-        long d = System.currentTimeMillis();
-        ResponseEntity<String> result = new ResponseEntity<>(message, HttpStatus.OK);
-        long e = System.currentTimeMillis();
-        if (e - a > 1000) {
-            log.info("slow! " + (e - a) + ", ab " + (b - a) + ", bc " + (c - b) + ", cd " + (d - c) + ", de " + (e - d));
-        }
-        return result;
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     private ResponseEntity<String> error(String message, HttpStatus status) {
