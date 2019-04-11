@@ -40,7 +40,7 @@ It's a Java daemon but requires ImageMagick7 with HEIC support enabled.
 It's not straightforward to find out which batch they're from. It's better if they are
 from different batches because that makes them less likely to fail around the same time.
 
-BackBlaze has written a great blog post about hard disks, please use that as s starting
+BackBlaze has written a great blog post about hard disks, please use that as a starting
 point, or ask people how are more knowledgable about these things.
 
 ### Alternatively, use a partition on your existing robust backup grade storage solution
@@ -131,7 +131,7 @@ Start the server by running the executable jar from the directory of ```photobac
 
     java -Djava.library.path="libraries" build/libs/photobackup-server-<version>.jar
 
-You have all the usual options, like running it in the foreground, with screen or tmus, with nohup, or as a proper daemon, including via the boot process.
+You have all the usual options, like running it in the foreground, with screen or tmux, with nohup, or as a proper daemon, including via the boot process.
 
 The execution directory must be that of the ```photobackup-server``` project n all cases.
 
