@@ -180,6 +180,7 @@ public class Videos {
             
             if (exitCode == 0) {
                 videoForChecksum.put(checksum, videoFile);
+                log.error("Successfully created converted mp4 version for video " + resourceType(checksum) + " resource " + checksum.toRawString() + ".");
             } else {
                 log.error("Unable to create converted mp4 version for video " + resourceType(checksum) + " resource " + checksum.toRawString() +
                         " - exit code: " + exitCode);
