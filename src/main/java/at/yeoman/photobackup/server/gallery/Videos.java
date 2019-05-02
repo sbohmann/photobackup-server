@@ -162,13 +162,12 @@ public class Videos {
     }
     
     private void createAndWriteVideoContent(Checksum checksum, File originalVideoFile) {
-        // TODO
-//        log.info("Not creating mp4 converted video for " + resourceType(checksum) + " resource " + checksum.toRawString() +
-//                " - not yet implemented.");
-        
         if (Windows) {
-            return;
+            log.error("Not creating converted mp4 version for video " + resourceType(checksum) + " resource " + checksum.toRawString()
+                    + " on Windows platform - windows ffmpeg call not yet implemented.");
         }
+
+        log.error("Creating converted mp4 version for video " + resourceType(checksum) + " resource " + checksum.toRawString() + "...");
         
         try {
             File videoFile = new File(Directories.Videos, checksum.toRawString() + ".mp4");
@@ -182,7 +181,7 @@ public class Videos {
             if (exitCode == 0) {
                 videoForChecksum.put(checksum, videoFile);
             } else {
-                log.error("Unable to create mp4 for " + resourceType(checksum) + " resource " + checksum.toRawString() +
+                log.error("Unable to create converted mp4 version for video " + resourceType(checksum) + " resource " + checksum.toRawString() +
                         " - exit code: " + exitCode);
                 logSpecificErrorMessage(exitCode);
             }
