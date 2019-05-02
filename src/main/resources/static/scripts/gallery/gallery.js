@@ -157,9 +157,11 @@ function thumbnailName(originalResourceName) {
 }
 
 function createThumbnailPlayer(resource, div) {
-    if (resource.name.match(/.*\.(mov|mp4)/i) == null) {
+    let match = resource.name.match(/(.*\.)(mov|mp4)/i)
+    if (match == null) {
         return
     }
+    let rawResourceName = match[1]
     let playButton = document.createElement('img')
     playButton.src = '/images/gallery/play_button.png'
     playButton.classList.add('play-button')
@@ -171,7 +173,7 @@ function createThumbnailPlayer(resource, div) {
         video.controls = true
         video.autoplay = true
         let mp4Source = document.createElement('source')
-        mp4Source.src = '/videos/' + resource.checksum + '/' + resource.name
+        mp4Source.src = '/videos/' + resource.checksum + '/' + rawResourceName + '.mp4'
         video.appendChild(mp4Source)
         let rawSource = document.createElement('source')
         rawSource.src = '/photos/' + resource.checksum + '/' + resource.name
