@@ -78,59 +78,59 @@ public class GalleryRequestHandler {
         }
     }
 
-    @RequestMapping(value = ("/photos/{checksum}/*"),
+    @RequestMapping(value = ("/photos/{checksum}/{requestFilename}"),
             method = RequestMethod.HEAD,
             produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
     public void resourceHead(@PathVariable Checksum checksum,
-                             //@PathVariable(required = false) String fileName,
+                             @PathVariable(required = false) String requestFilename,
                              HttpServletRequest request,
                              HttpServletResponse response) {
         File file = new File(Directories.Photos, checksum.toRawString());
         if (file.isFile()) {
-            writeResourceResponseHeaders(request, response, file);
+            writeResourceResponseHeaders(request, response, requestFilename, file);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown resource [" + checksum.toRawString() + "]");
         }
     }
 
-    @GetMapping(value = ("/photos/{checksum}/*"),
+    @GetMapping(value = ("/photos/{checksum}/{requestFilename}"),
             produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
     public void resourceData(@PathVariable Checksum checksum,
-                             //@PathVariable(required = false) String fileName,
+                             @PathVariable(required = false) String requestFilename,
                              HttpServletRequest request,
                              HttpServletResponse response)
             throws IOException {
         File file = new File(Directories.Photos, checksum.toRawString());
         if (file.isFile()) {
-            writeResourceResponseForFile(checksum, request, response, file);
+            writeResourceResponseForFile(checksum, request, response, requestFilename, file);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown resource [" + checksum.toRawString() + "]");
         }
     }
 
-    @RequestMapping(value = ("/videos/{checksum}/*"),
+    @RequestMapping(value = ("/videos/{checksum}/{requestFilename}"),
             method = RequestMethod.HEAD,
             produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
     public void videoHead(@PathVariable Checksum checksum,
-                          //@PathVariable(required = false) String fileName,
+                          @PathVariable(required = false) String requestFilename,
                           HttpServletRequest request,
                           HttpServletResponse response) {
         File file = new File(Directories.Videos, checksum.toRawString() + ".mp4");
         if (file.isFile()) {
-            writeResourceResponseHeaders(request, response, file);
+            writeResourceResponseHeaders(request, response, requestFilename, file);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown resource [" + checksum.toRawString() + "]");
         }
     }
 
-    @GetMapping(value = ("/videos/{checksum}/*"),
+    @GetMapping(value = ("/videos/{checksum}/{requestFilename}"),
             produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
     public void videoData(@PathVariable Checksum checksum,
-                          //@PathVariable(required = false) String fileName,
+                          @PathVariable(required = false) String requestFilename,
                           HttpServletRequest request,
                           HttpServletResponse response)
             throws IOException {
@@ -139,14 +139,14 @@ public class GalleryRequestHandler {
         // adapt the head handler as well
         File file = new File(Directories.Videos, checksum.toRawString() + ".mp4");
         if (file.isFile()) {
-            writeResourceResponseForFile(checksum, request, response, file);
+            writeResourceResponseForFile(checksum, request, response, requestFilename, file);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unknown resource [" + checksum.toRawString() + "]");
         }
     }
 
-    private void writeResourceResponseForFile(@PathVariable Checksum checksum, HttpServletRequest request, HttpServletResponse response, File file) throws IOException {
-        Range range = writeResourceResponseHeaders(request, response, file);
+    private void writeResourceResponseForFile(@PathVariable Checksum checksum, HttpServletRequest request, HttpServletResponse response, String requestFilename, File file) throws IOException {
+        Range range = writeResourceResponseHeaders(request, response, requestFilename, file);
         try (FileInputStream in = new FileInputStream(file);
              ServletOutputStream out = response.getOutputStream()) {
             if (range != null) {
@@ -157,9 +157,9 @@ public class GalleryRequestHandler {
         }
     }
 
-    private Range writeResourceResponseHeaders(HttpServletRequest request, HttpServletResponse response, File file) {
+    private Range writeResourceResponseHeaders(HttpServletRequest request, HttpServletResponse response, String requestFileName, File file) {
         Range range = Range.parse(request.getHeader("Range"));
-        response.setContentType(getContentType(file));
+        response.setContentType(getContentType(requestFileName, file));
         if (range != null) {
             response.setStatus(HttpStatus.PARTIAL_CONTENT.value());
             long actualLength = partialFileLength(file.length(), range);
@@ -174,7 +174,23 @@ public class GalleryRequestHandler {
         return range;
     }
 
-    private String getContentType(File file) {
+    private String getContentType(String requestFilename, File file) {
+        if (requestFilename != null) {
+            String lowerCaseRequestFilename = requestFilename.toLowerCase();
+            if (lowerCaseRequestFilename.endsWith(".mov")) {
+                return "video/quicktime";
+            } else if (lowerCaseRequestFilename.endsWith(".mp4")) {
+                return "video/mp4";
+            } else if (lowerCaseRequestFilename.endsWith(".m4v")) {
+                return "video/x-m4v";
+            } else if (lowerCaseRequestFilename.endsWith(".3gp")) {
+                return "video/3gpp";
+            }
+        }
+        return getContentTypeForMissingRequestFilename(file);
+    }
+
+    private String getContentTypeForMissingRequestFilename(File file) {
         try {
             String urlConnectionContentType = URLConnection.guessContentTypeFromName(file.getName());
             if (urlConnectionContentType != null) {
