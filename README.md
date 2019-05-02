@@ -43,6 +43,19 @@ from different batches because that makes them less likely to fail around the sa
 BackBlaze has written a great blog post about hard disks, please use that as a starting
 point, or ask people how are more knowledgable about these things.
 
+Please, do not forget to add the line
+
+    zfs_enable="YES"
+
+to ``/etc/rc.conf``, if missing. Otherwise the zpool will not be mounted on reboot. I'm just
+mentioning this because I had made that mistake the first time around.
+
+Plus, as I understand it, there needs to be no directory created in your root file system
+as a mount point, as it will implicitly be there, in which case there can be no ambiguity
+about where files end up. Maybe it just creates it while mounting, in which case that
+advantage disappears. I really do not know much about these details, please consult the
+FreeBSD and ZFS documentation about all of this.
+
 ### Alternatively, use a partition on your existing robust backup grade storage solution
 
 In this case it matters a lot less whether you use FreeBSD as it's really all about the storage.
