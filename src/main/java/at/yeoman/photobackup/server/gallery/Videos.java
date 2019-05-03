@@ -167,7 +167,7 @@ public class Videos {
                     + " on Windows platform - windows ffmpeg call not yet implemented.");
         }
 
-        log.error("Creating converted mp4 version for video " + resourceType(checksum) + " resource " + checksum.toRawString() + "...");
+        log.info("Creating converted mp4 version for video " + resourceType(checksum) + " resource " + checksum.toRawString() + "...");
         
         try {
             File videoFile = new File(Directories.Videos, checksum.toRawString() + ".mp4");
@@ -180,7 +180,7 @@ public class Videos {
             
             if (exitCode == 0) {
                 videoForChecksum.put(checksum, videoFile);
-                log.error("Successfully created converted mp4 version for video " + resourceType(checksum) + " resource " + checksum.toRawString() + ".");
+                log.info("Successfully created converted mp4 version for video " + resourceType(checksum) + " resource " + checksum.toRawString() + ".");
             } else {
                 log.error("Unable to create converted mp4 version for video " + resourceType(checksum) + " resource " + checksum.toRawString() +
                         " - exit code: " + exitCode);
