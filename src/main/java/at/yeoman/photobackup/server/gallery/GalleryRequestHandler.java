@@ -159,6 +159,7 @@ public class GalleryRequestHandler {
 
     private Range writeResourceResponseHeaders(HttpServletRequest request, HttpServletResponse response, String requestFileName, File file) {
         Range range = Range.parse(request.getHeader("Range"));
+        response.setCharacterEncoding(null);
         response.setContentType(getContentType(requestFileName, file));
         if (range != null) {
             response.setStatus(HttpStatus.PARTIAL_CONTENT.value());
