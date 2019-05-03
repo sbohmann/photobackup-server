@@ -95,6 +95,7 @@ public class GalleryRequestHandler {
     }
 
     @GetMapping(value = {"/photos/{checksum}", "/photos/{checksum}/{requestFilename}"},
+            
             produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
     public void resourceData(@PathVariable Checksum checksum,
@@ -112,7 +113,7 @@ public class GalleryRequestHandler {
 
     @RequestMapping(value = {"/videos/{checksum}", "/videos/{checksum}/{requestFilename}"},
             method = RequestMethod.HEAD,
-            produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+            produces = "video/mp4")
     @ResponseBody
     public void videoHead(@PathVariable Checksum checksum,
                           @PathVariable(required = false) String requestFilename,
@@ -127,7 +128,7 @@ public class GalleryRequestHandler {
     }
 
     @GetMapping(value = {"/videos/{checksum}", "/videos/{checksum}/{requestFilename}"},
-            produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+            produces = "video/mp4")
     @ResponseBody
     public void videoData(@PathVariable Checksum checksum,
                           @PathVariable(required = false) String requestFilename,
