@@ -176,6 +176,7 @@ public class Videos {
             ProcessBuilder builder = new ProcessBuilder("./create_mp4.sh", checksum.toRawString());
             // TODO redirect to log
             Process process = builder.start();
+            new ProcessLogger(process, log);
             int exitCode = process.waitFor();
             
             if (exitCode == 0) {
