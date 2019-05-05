@@ -13,6 +13,10 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 
+tasks.withType(JavaExec) {
+    jvmArgs = ['-Xms512m', '-Xmx512m']
+}
+
 compileJava {
     options.compilerArgs += ["-h", file("generated_headers")]
 //    options.verbose = true
