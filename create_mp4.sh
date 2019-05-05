@@ -14,7 +14,7 @@ if test -e "${temporary_file}"; then exit 23; fi
 
 echo "Converting input file [${input_file}] to mp4 output file [${output_file}]..."
 
-ffmpeg -nostdin -n -i "${input_file}" -pix_fmt yuv420p "${temporary_file}"
+ffmpeg -nostdin -loglevel error -n -i "${input_file}" -pix_fmt yuv420p "${temporary_file}"
 export result="$?"
 
 if ! test "${result}" == "0"; then (echo "ffmpeg failed with exit code [${result}]" >&2); exit 24; fi
