@@ -25,14 +25,15 @@ function setup() {
 function parseDateArgument() {
     if (dateArgument !== 'any') {
         try {
-            parseDateAregumentThrowing();
+            parseDateArgumentThrowing();
         } catch (error) {
+            // TODO show error in UI
             console.log(error)
         }
     }
 }
 
-function parseDateAregumentThrowing() {
+function parseDateArgumentThrowing() {
     let yearAndMonth = dateArgument.match(/(\d{4})-(\d{2})/)
     if (yearAndMonth != null) {
         date = yearAndMonth[0]
@@ -143,6 +144,7 @@ function createThumbnailImage(resource, div) {
         return
     }
     let img = document.createElement('img')
+    img.classList.add('thumbnail')
     img.src = '/photos/' + resource.checksum + '/thumbnail/' + thumbnailName(resource.name)
     div.appendChild(img)
 }
