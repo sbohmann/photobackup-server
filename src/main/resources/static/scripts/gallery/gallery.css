@@ -17,8 +17,11 @@ body {
 }
 
 .asset {
-    padding: 5px;
     width: 600px;
+    padding: 5px;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
 }
 
 @media screen and (max-width: 700px) {
