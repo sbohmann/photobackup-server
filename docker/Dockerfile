@@ -7,7 +7,7 @@ RUN wget https://imagemagick.org/download/ImageMagick.tar.gz
 RUN apt-get -y build-dep imagemagick
 # TODO verify checksum in order to guard against accidental errors
 RUN tar xvzf ImageMagick.tar.gz && cd ImageMagick-7.* && ./configure --with-heic=yes && make
-RUN cd cd ImageMagick-7.* && make install
+RUN cd ImageMagick-7.* && make install
 RUN apt-get -y install ffmpeg
 #RUN wget https://services.gradle.org/distributions/gradle-5.4-bin.zip && mkdir /opt/gradle && unzip -d /opt/gradle gradle-5.4-bin.zip
 #ENV PATH="$PATH:/opt/gradle/gradle-5.4/bin"
