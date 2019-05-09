@@ -150,7 +150,7 @@ function createThumbnailImage(resource, div) {
 }
 
 function isNonImageResource(resource) {
-    return resource.name.match(/.*\.(mov|plist|mp4)/i);
+    return resource.name.match(/.*\.(mov|plist|mp4|m4v)/i);
 }
 
 function thumbnailName(originalResourceName) {
@@ -159,7 +159,7 @@ function thumbnailName(originalResourceName) {
 }
 
 function createThumbnailPlayer(resource, div) {
-    let match = resource.name.match(/(.*\.)(mov|mp4)/i)
+    let match = resource.name.match(/(.*\.)(mov|mp4|m4v)/i)
     if (match == null) {
         return
     }
