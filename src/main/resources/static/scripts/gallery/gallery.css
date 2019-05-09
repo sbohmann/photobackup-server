@@ -6,6 +6,21 @@ body {
     font-family: sans-serif;
 }
 
+h1 {
+    font-size: 120%;
+    font-weight: bold;
+}
+
+h1, p {
+    margin: 2px;
+    padding: 0;
+}
+
+#bottom-navigation {
+    position: absolute;
+    bottom: 5px;
+}
+
 #assets {
     position: absolute;
     top: 200px;
@@ -56,9 +71,4 @@ body {
         max-height: 75vw;
         height: auto;
     }
-}
-
-#bottom-navigation {
-    position: absolute;
-    bottom: 10px;
 }
