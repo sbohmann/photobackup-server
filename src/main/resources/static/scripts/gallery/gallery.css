@@ -17,17 +17,18 @@ body {
 }
 
 .asset {
-    margin: 5px;
-}
-
-.thumbnail {
+    padding: 5px;
     width: 600px;
 }
 
 @media screen and (max-width: 700px) {
-    .thumbnail {
+    .asset {
         width: 100%;
     }
+}
+
+.thumbnail {
+    width: 100%;
 }
 
 #bottom-navigation {
