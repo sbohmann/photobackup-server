@@ -170,6 +170,7 @@ function createThumbnailPlayer(resource, div) {
     div.appendChild(playButton)
     playButton.onclick = () => {
         let video = document.createElement('video')
+        video.classList.add('video')
         video.controls = true
         video.autoplay = true
         let mp4Source = document.createElement('source')
