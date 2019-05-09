@@ -13,5 +13,5 @@ RUN wget https://services.gradle.org/distributions/gradle-5.4-bin.zip && mkdir /
 ENV PATH="$PATH:/opt/gradle/gradle-5.4/bin"
 RUN git clone https://github.com/sbohmann/photobackup-server.git
 RUN cd photobackup-server; git pull; gradle -no-daemon compileJava
-RUN cd photobackup-server; git pull; gradle -no-daemon test --stacktrace
+RUN cd photobackup-server; git pull; gradle -no-daemon test
 CMD cd photobackup-server; git pull; gradle -no-daemon run
