@@ -25,16 +25,23 @@ body {
     vertical-align: top;
 }
 
+.thumbnail {
+    margin: 0;
+    width: 600px;
+    height: 600px;
+    object-fit: contain;
+}
+
 @media screen and (max-width: 700px) {
     .asset {
         width: 100%;
         margin: 0;
     }
-}
 
-.thumbnail {
-    margin: 0;
-    width: 100%;
+    .thumbnail {
+        width: 100%;
+        height: auto;
+    }
 }
 
 #bottom-navigation {
