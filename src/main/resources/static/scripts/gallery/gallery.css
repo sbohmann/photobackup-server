@@ -32,13 +32,26 @@ body {
     object-fit: contain;
 }
 
+.video {
+    margin: 0;
+    width: 600px;
+    height: 600px;
+    background-color: #333;
+}
+
+.play-button {
+    width: 600px;
+    height: 600px;
+    background-color: #333;
+}
+
 @media screen and (max-width: 700px) {
     .asset {
         width: 100%;
         margin: 0;
     }
 
-    .thumbnail {
+    .thumbnail .video .play-button {
         width: 100%;
         height: auto;
     }
@@ -47,14 +60,4 @@ body {
 #bottom-navigation {
     position: absolute;
     bottom: 10px;
-}
-
-.video {
-    background-color: #333;
-}
-
-.play-button {
-    width: 200px;
-    height: 200px;
-    background-color: #333;
 }
