@@ -4,7 +4,8 @@ FROM debian
 RUN apt-get update && apt-get -y install git openjdk-8-jre-headless wget
 RUN apt-get -y install unzip
 RUN wget https://imagemagick.org/download/ImageMagick.tar.gz
-RUN wget https://services.gradle.org/distributions/gradle-5.4-bin.zip && mkdir /opt/gradle && unzip -d /opt/gradle gradle-5.4-bin.zip
-ENV PATH="$PATH:/opt/gradle/gradle-5.4/bin"
-CMD echo Hi! && java -version && git --version && gradle -version
+RUN tar xvzf ImageMagick.tar.gz && cd ImageMagick-7.0.8 && ./configure && make
+#RUN wget https://services.gradle.org/distributions/gradle-5.4-bin.zip && mkdir /opt/gradle && unzip -d /opt/gradle gradle-5.4-bin.zip
+#ENV PATH="$PATH:/opt/gradle/gradle-5.4/bin"
+#CMD echo Hi! && java -version && git --version && gradle -version
 #CMD /bin/sh
