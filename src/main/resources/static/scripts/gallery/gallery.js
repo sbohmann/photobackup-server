@@ -164,23 +164,17 @@ function createThumbnailPlayer(resource, div) {
         return
     }
     let rawResourceName = match[1]
-    let playButton = document.createElement('img')
-    playButton.src = '/images/gallery/play_button.png'
-    playButton.classList.add('play-button')
-    div.appendChild(playButton)
-    playButton.onclick = () => {
-        let video = document.createElement('video')
-        video.classList.add('video')
-        video.controls = true
-        video.autoplay = true
-        let mp4Source = document.createElement('source')
-        mp4Source.src = '/videos/' + resource.checksum + '/' + rawResourceName + '.mp4'
-        video.appendChild(mp4Source)
-        let rawSource = document.createElement('source')
-        rawSource.src = '/photos/' + resource.checksum + '/' + resource.name
-        video.appendChild(rawSource)
-        div.replaceChild(video, playButton)
-    }
+    let video = document.createElement('video')
+    video.classList.add('video')
+    video.controls = true
+    video.autoplay = true
+    let mp4Source = document.createElement('source')
+    mp4Source.src = '/videos/' + resource.checksum + '/' + rawResourceName + '.mp4'
+    video.appendChild(mp4Source)
+    let rawSource = document.createElement('source')
+    rawSource.src = '/photos/' + resource.checksum + '/' + resource.name
+    video.appendChild(rawSource)
+    div.appendChild(video)
 }
 
 function createLink(resource, div, name, address) {
