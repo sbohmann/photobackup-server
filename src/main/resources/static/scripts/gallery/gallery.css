@@ -11,6 +11,12 @@ h1 {
     font-weight: bold;
 }
 
+h1, p {
+    margin: 2px;
+    padding: 3px;
+    background: aliceblue;
+}
+
 #bottom-navigation {
     position: absolute;
     bottom: 5px;
