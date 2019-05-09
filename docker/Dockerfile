@@ -11,6 +11,6 @@ RUN cd ImageMagick-7.* && make install
 RUN apt-get -y install ffmpeg
 RUN wget https://services.gradle.org/distributions/gradle-5.4-bin.zip && mkdir /opt/gradle && unzip -d /opt/gradle gradle-5.4-bin.zip
 ENV PATH="$PATH:/opt/gradle/gradle-5.4/bin"
-RUN mkdir photobackup-server; cd photobackup-server; git clone https://github.com/sbohmann/photobackup-server.git
+RUN git clone https://github.com/sbohmann/photobackup-server.git
 RUN cd photobackup-server; git pull; gradle test
 CMD cd photobackup-server; git pull; gradle run
