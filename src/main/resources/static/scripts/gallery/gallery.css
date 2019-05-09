@@ -24,8 +24,8 @@ h1, p {
 
 #assets {
     position: absolute;
-    top: 120px;
-    bottom: 60px;
+    top: 125px;
+    bottom: 50px;
     left: 10px;
     right: 10px;
     overflow-y: scroll;
