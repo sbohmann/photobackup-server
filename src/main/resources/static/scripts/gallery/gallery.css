@@ -51,21 +51,9 @@ body {
         margin: 0;
     }
 
-    .thumbnail {
+    .thumbnail, .video, .play-button {
         width: 100%;
-        max-height: 100vw;
-        height: auto;
-    }
-
-    .video {
-        width: 100%;
-        max-height: 100vw;
-        height: auto;
-    }
-
-    .play-button {
-        width: 100%;
-        max-height: 100vw;
+        max-height: 75vw;
         height: auto;
     }
 }
