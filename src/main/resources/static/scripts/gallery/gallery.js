@@ -117,9 +117,9 @@ function buildAssetList() {
     }
 }
 
-function appendAsset(asset, node) {
-    let div = document.createElement("div")
-    div.classList.add('asset')
+function appendAsset(asset, parent) {
+    let assetDiv = document.createElement("div")
+    assetDiv.classList.add('asset')
     let header = document.createElement('h3')
     let creationDate
     try {
@@ -129,14 +129,14 @@ function appendAsset(asset, node) {
         creationDate = 'Creation date (ms) out of range [' + asset.creationDateMs + ']'
     }
     header.appendChild(document.createTextNode(creationDate))
-    div.appendChild(header)
+    assetDiv.appendChild(header)
     for (let resource of asset.resourceDescriptions) {
-        createThumbnailImage(resource, div)
-        createThumbnailPlayer(resource, div)
-        createLink(resource, div, resource.name, '/photos/' + resource.checksum + '/' + resource.name)
-        createConvertedLink(resource, div, resource.name);
+        createThumbnailImage(resource, assetDiv)
+        createThumbnailPlayer(resource, assetDiv)
+        createLink(resource, assetDiv, resource.name, '/photos/' + resource.checksum + '/' + resource.name)
+        createConvertedLink(resource, assetDiv, resource.name);
     }
-    node.appendChild(div)
+    parent.appendChild(assetDiv)
 }
 
 function createThumbnailImage(resource, div) {
