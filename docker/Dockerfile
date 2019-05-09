@@ -3,7 +3,7 @@
 FROM debian:testing
 RUN apt-get update && apt-get -y install git openjdk-11-jdk-headless wget unzip build-essential libde265-dev libheif-dev
 RUN wget https://imagemagick.org/download/ImageMagick.tar.gz
-echo "deb-src http://deb.debian.org/debian testing main" >> /etc/apt/sources.list
+RUN echo "deb-src http://deb.debian.org/debian testing main" >> /etc/apt/sources.list
 RUN (echo start; cat /etc/apt/sources.list; echo end) && apt-get build-dep imagemagick
 # TODO verify checksum in order to guard against accidental errors
 RUN tar xvzf ImageMagick.tar.gz && cd ImageMagick-7.* && ./configure --with-heic=yes && make
