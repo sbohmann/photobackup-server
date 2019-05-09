@@ -3,7 +3,7 @@
 FROM debian:testing
 RUN apt-get update && apt-get -y install git openjdk-11-jdk-headless wget unzip build-essential libde265-dev libheif-dev
 RUN wget https://imagemagick.org/download/ImageMagick.tar.gz
-RUN cat /etc/apt/sources.list > /dev/stderr && apt-get build-dep imagemagick
+RUN echo 827436876 && apt-get build-dep imagemagick
 # TODO verify checksum in order to guard against accidental errors
 RUN tar xvzf ImageMagick.tar.gz && cd ImageMagick-7.* && ./configure --with-heic=yes && make
 #RUN wget https://services.gradle.org/distributions/gradle-5.4-bin.zip && mkdir /opt/gradle && unzip -d /opt/gradle gradle-5.4-bin.zip
