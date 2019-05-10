@@ -142,7 +142,7 @@ sub-directory of the ```photobackup-server``` project.
 
 Start the server by running the executable jar from the directory of ```photobackup-server``` project:
 
-    java -Djava.library.path="libraries" build/libs/photobackup-server-<version>.jar
+    java -Djava.library.path="libraries" -jar "build/libs/photobackup-server-<version>.jar"
 
 You have all the usual options, like running it in the foreground, with screen or tmux, with nohup, or as a proper daemon, including via the boot process.
 
