@@ -8,4 +8,4 @@ fi
 
 absolute_path="$(readlink -f "$1")"
 
-clear; docker build -t photobackup-server . && docker run -it --rm photobackup-server -v "$absolute_path":/storage
+clear; docker build -t photobackup-server . && docker run -it -v "$absolute_path":/storage --rm photobackup-server
