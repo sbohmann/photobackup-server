@@ -13,6 +13,7 @@ RUN wget https://services.gradle.org/distributions/gradle-5.4-bin.zip && mkdir /
 ENV PATH="$PATH:/opt/gradle/gradle-5.4/bin"
 RUN git clone https://github.com/sbohmann/photobackup-server.git && cd photobackup-server && mkdir assets upload photos thumbnails videos libraries
 RUN git clone https://github.com/sbohmann/photobackup-server-native.git
+RUN apt-get -y install cmake
 RUN cd photobackup-server-native && git pull && ./build.sh && cp build/libphotobackup-server-native.so ../photobackup-server/libraries/
 RUN cd photobackup-server && git pull && gradle -no-daemon compileJava
 RUN cd photobackup-server && git pull && gradle -no-daemon test
