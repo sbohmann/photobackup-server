@@ -8,7 +8,7 @@ then
     exit 1
 fi
 
-names = assets upload photos thumbnails videos
+names="assets upload photos thumbnails videos"
 
 for name in "@names"
 do
