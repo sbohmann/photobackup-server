@@ -184,7 +184,6 @@ public class Thumbnails {
             log.info("Thumbnail creation failed (empty data) for " + resourceType(checksum) + " resource " + checksum.toRawString());
             return null;
         }
-        log.info("Successfully created thumbnail data of size " + thumbnailContent.length + " for " + resourceType(checksum) + " resource " + checksum.toRawString());
         writeThumbnailFile(checksum, thumbnailContent);
         return thumbnailContent;
     }
