@@ -39,7 +39,7 @@ class InstantForIsoString {
     }
     
     private Matcher matchDecorated(String utcString) {
-        Matcher result result = decoratedUtcStringPasttern.matcher(utcString);
+        Matcher result = decoratedUtcStringPasttern.matcher(utcString);
         if (!result.matches()) {
             throw new IllegalArgumentException("Could not parse UTC string [" + utcString + "]");
         }
