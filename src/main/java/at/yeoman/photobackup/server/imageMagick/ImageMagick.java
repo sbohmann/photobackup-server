@@ -29,7 +29,7 @@ public class ImageMagick {
         initialize();
     }
     
-    native private static void initialize();
+    private static void initialize() {}
     
     public static byte[] convertToJpeg(byte[] heicData) { return new byte[0]; }
     
