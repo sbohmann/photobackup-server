@@ -31,8 +31,8 @@ public class ImageMagick {
     
     native private static void initialize();
     
-    native public static byte[] convertToJpeg(byte[] heicData);
+    public static byte[] convertToJpeg(byte[] heicData) { return new byte[0]; }
     
-    native public static byte[] convertToJpegWithMaximumSize(byte[] originalImageFileContent,
-                                                             int maximumWidth, int maximumHeight);
+    public static byte[] convertToJpegWithMaximumSize(byte[] originalImageFileContent,
+                                                             int maximumWidth, int maximumHeight) { return new byte[0]; }
 }
