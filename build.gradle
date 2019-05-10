@@ -61,6 +61,10 @@ task run(type: JavaExec) {
 
 bootJar {
     launchScript()
+
+    if (!System.properties['os.name'].toLowerCase().contains('windows')) {
+        exec { commandLine "ln", "-s", "build/libs/photobackup-server-$version.jar", "./photobackup-server.jar"}
+    }
 }
 
 test {
