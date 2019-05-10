@@ -118,7 +118,7 @@ It contains the JNI code necessary for accessing the native ImageMagick7 librari
 
 Build the project by calling
 
-    ./buiild.sh
+    ./build.sh
 
 The .so / .dll file
 
