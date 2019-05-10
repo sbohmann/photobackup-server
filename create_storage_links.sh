@@ -10,7 +10,7 @@ fi
 
 names = assets upload photos thumbnails videos
 
-for name in names
+for name in "@names"
 do
     subdirectory="$storage_directory/$name"
     if [[ ! -d "$subdirectory" ]]
