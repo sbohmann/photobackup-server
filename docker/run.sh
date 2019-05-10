@@ -6,4 +6,6 @@ then
   exit 1
 fi
 
-clear; docker build -t photobackup-server . && docker run -it --rm photobackup-server -v "$1":/storage
+absolute_path="$(readlink -f "$1")"
+
+clear; docker build -t photobackup-server . && docker run -it --rm photobackup-server -v "$absolute_path":/storage
