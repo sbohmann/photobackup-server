@@ -6,7 +6,7 @@ import java.time.ZoneOffset;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class InstantForUtcString {
+class InstantForIsoString {
     private static Pattern utcStringPasttern =
             Pattern.compile("(\\d{4})(\\d{2})(\\d{2})T(\\d{2})(\\d{2})(\\d{2})\\.(\\d{3})");
     
@@ -14,7 +14,7 @@ class InstantForUtcString {
     
     public Instant result;
     
-    InstantForUtcString(String utcString) {
+    InstantForIsoString(String utcString) {
         matcher = match(utcString);
         int yesr = parseGroup(1);
         int month = parseGroup(2);
