@@ -15,5 +15,4 @@ RUN apt-get -y install cmake
 RUN ln -s /usr/local/lib/libMagickWand-7.Q16HDRI.so /usr/local/lib/libMagickWand-7.so
 RUN git clone https://github.com/sbohmann/photobackup-server-native.git && cd photobackup-server-native && JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64/" JNI_OS="linux" ./build.sh
 RUN git clone https://github.com/sbohmann/photobackup-server.git && cd photobackup-server && mkdir libraries && cp ../photobackup-server-native/build/libphotobackup_server_native.so libraries/ && gradle -no-daemon build
-RUN cd photobackup-server && git pull
-CMD cd photobackup-server && ./create_links.sh /storage && version=$(gradle -no-daemon properties -q | grep "version:" | awk '{print $2}') && java -Djava.library.path="libraries" -jar "build/libs/photobackup-server-${version}.jar"
+CMD cd photobackup-server && ./create_storage_links.sh /storage && version=$(gradle -no-daemon properties -q | grep "version:" | awk '{print $2}') && java -Djava.library.path="libraries" -jar "build/libs/photobackup-server-${version}.jar"
