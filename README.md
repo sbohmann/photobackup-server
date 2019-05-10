@@ -158,7 +158,7 @@ This project contains the iOS client.
 
 I will put it on the app store soon but right now, the only way to install it is to build it yourself.
 
-### Use the browser to view your photos
+### Use a browser of your choice to view your photos
 
 Currently, the server still listens on port 8080 only. I will make that configurable at the same time as making it run in background.
 
