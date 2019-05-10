@@ -1,5 +1,3 @@
-# ATTENTION!!! This version of the Dockerfile still uses ephemeral storage only
-# DO NOT USE for real backups, as they will be TEMPORARY!!!
 FROM debian:testing
 RUN echo "deb-src http://deb.debian.org/debian testing main" >> /etc/apt/sources.list
 RUN apt-get update && apt-get -y install git openjdk-11-jdk-headless wget unzip build-essential libde265-dev libheif-dev
