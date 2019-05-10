@@ -68,6 +68,6 @@ test {
 
     testLogging {
         exceptionFormat = 'full'
-        showStandardStreams = true
+//        showStandardStreams = true
     }
 }
