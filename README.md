@@ -45,7 +45,7 @@ Make sure that you have a backup grade storage.
 
 Install docker on your system.
 
-Download the files [docker/run_image.sh]() and [docker/start_image.sh]() into a directory in your machine.
+Download the files [docker/run_image.sh](docker/run_image.sh) and [docker/start_image.sh](docker/start_image.sh) into a directory in your machine.
 
 Create a directory, or link to a directory, named ```storage``` inside your directory.
 
