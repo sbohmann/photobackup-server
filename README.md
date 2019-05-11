@@ -2,7 +2,7 @@
 
 A Photo Backup Server
 
-The iOS client's code is located in the project [https://github.com/sbohmann/photobackup](photobackup) in this same repository.
+The iOS client's code is located in the project [photobackup](https://github.com/sbohmann/photobackup) in this same repository.
 
 Entirely file system based backups of photos and videos from iOS including all resources,
 including original, unedited version, editing plists, &c.
