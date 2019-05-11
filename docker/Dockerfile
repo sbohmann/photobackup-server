@@ -8,8 +8,8 @@ RUN wget https://services.gradle.org/distributions/gradle-5.4-bin.zip && mkdir /
 ENV PATH="$PATH:/opt/gradle/gradle-5.4/bin"
 RUN git clone https://github.com/sbohmann/photobackup-server-native.git
 RUN git clone https://github.com/sbohmann/photobackup-server.git && cd photobackup-server && mkdir libraries
-ENV photobackup_server_version="1.0.1"
+ENV photobackup_server_version="1.0.2"
 ENV photobackup_server_native_version="1.0.0"
-RUN cd photobackup-server-native && git checkout master && git pull && git checkout "tags/$photobackup_server_native_version" && JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64/" JNI_OS="linux" MAGICK_WAND_LIBRARY="MagickWand-7.Q16HDRI" ./build.sh
-RUN cd photobackup-server && git checkout master && git pull && git checkout "tags/$photobackup_server_version" && cp ../photobackup-server-native/build/libphotobackup_server_native.so libraries/ && gradle -no-daemon build
+RUN cd photobackup-server-native && git fetch && git checkout "tags/$photobackup_server_native_version" && JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64/" JNI_OS="linux" MAGICK_WAND_LIBRARY="MagickWand-7.Q16HDRI" ./build.sh
+RUN cd photobackup-server && git fetch && git checkout "tags/$photobackup_server_version" && cp ../photobackup-server-native/build/libphotobackup_server_native.so libraries/ && gradle -no-daemon build
 CMD cd photobackup-server && ./create_storage_links.sh /storage && ./run.sh
