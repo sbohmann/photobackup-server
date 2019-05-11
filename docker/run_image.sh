@@ -10,4 +10,6 @@ absolute_path="$(readlink -f "$1")"
 
 shift
 
+echo "Running docker image photobackup-server:$photobackup_server_version"
+
 clear; docker run -it -v "$absolute_path":/storage -p 8080:8080 --rm "photobackup-server:$photobackup_server_version" "$@"
