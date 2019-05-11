@@ -23,15 +23,21 @@ The ImageMagick 7 library is used to convert photos and create thumbnails.
 
 ## Supported platforms
 
-For now, just FreeBSD.
+For now, just FreeBSD and Linux, supporting docker.
 
-Linux, macOS, and Windows following soon.
+macOS and Windows following soon.
 
 FreeBSD will remain the suggested platform, though, as it has native support for ZFS.
 
 Support for Solaris is not planned but it should be fairly easy to get it running there.
 
 It's a Java daemon but requires ImageMagick7 with HEIC support enabled.
+
+## Installation - Docker
+
+### Make sure that you have backup grade storage
+
+Download the contents of the [docker](docker) directory
 
 ## Installation - FreeBSD
 
