@@ -41,7 +41,7 @@ Install docker on your system.
 
 Download the contents of the [docker](docker) directory of this project into a directory in your machine.
 
-Create a directory, or link to a directory, named "storage" inside your directory.
+Create a directory, or link to a directory, named ```storage``` inside your directory.
 
 In case you create a directory, make sure that your containing directory is located inside your backup grade storage.
 
