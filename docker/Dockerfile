@@ -3,9 +3,9 @@ RUN echo "deb-src http://deb.debian.org/debian testing main" >> /etc/apt/sources
 RUN apt-get update && apt-get -y install git openjdk-11-jdk-headless wget unzip build-essential libde265-dev libheif-dev ffmpeg cmake && apt-get -y build-dep imagemagick
 RUN wget https://imagemagick.org/download/ImageMagick.tar.gz
 # TODO verify checksum in order to guard against accidental errors
-RUN tar xvzf ImageMagick.tar.gz && cd ImageMagick-7.* && ./configure --with-heic=yes && make && make install
+RUN tar xvzf ImageMagick.tar.gz && cd ImageMagick-7.* && ./configure --with-heic=yes && num_threads="$(($(nproc)+1))" && echo "$num_threads threads used for make" && make -j "$num_threads" && make install
 RUN wget https://services.gradle.org/distributions/gradle-5.4-bin.zip && mkdir /opt/gradle && unzip -d /opt/gradle gradle-5.4-bin.zip
 ENV PATH="$PATH:/opt/gradle/gradle-5.4/bin"
 RUN git clone https://github.com/sbohmann/photobackup-server-native.git && cd photobackup-server-native && JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64/" JNI_OS="linux" MAGICK_WAND_LIBRARY="MagickWand-7.Q16HDRI" ./build.sh
 RUN git clone https://github.com/sbohmann/photobackup-server.git && cd photobackup-server && mkdir libraries && cp ../photobackup-server-native/build/libphotobackup_server_native.so libraries/ && gradle -no-daemon build
-CMD cd photobackup-server && ./run.sh
+CMD cd photobackup-server && ./create_storage_links.sh /storage && ./run.sh
