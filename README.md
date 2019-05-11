@@ -45,7 +45,7 @@ Create a directory, or link to a directory, named "storage" inside your director
 
 In case you create a directory, make sure that your containing directory is located inside your backup grade storage.
 
-In case it is a link, make sure that the linked directory is located inside your backup grade storage.
+In case you create a link, make sure that the linked directory is located inside your backup grade storage.
 
 Once you start docker, the directory tree
 
