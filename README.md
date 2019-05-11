@@ -51,7 +51,7 @@ Once you start docker, the directory tree
 
     backup/photobackup-server/...
 
-will be created inside the ```storage```, so please make sure that that does not conflict with existing data.
+will be created inside ```storage```, so please make sure that that does not conflict with existing data.
 
 Call
 
