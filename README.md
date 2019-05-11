@@ -5,7 +5,7 @@ A Photo Backup Server
 The iOS client's code is located in the project [photobackup](https://github.com/sbohmann/photobackup) in this same repository.
 
 Entirely file system based backups of photos and videos from iOS including all resources,
-including original, unedited version, editing plists, &c.
+including original, unedited version, the videos of libe photos, editing and other plists, &c.
 
 An asset catalog containing metadata is stored as JSON files - historical as well as consolidated.
 
