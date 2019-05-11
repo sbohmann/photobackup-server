@@ -35,9 +35,35 @@ It's a Java daemon but requires ImageMagick7 with HEIC support enabled.
 
 ## Installation - Docker
 
-### Make sure that you have backup grade storage
+Make sure that you have backup grade storage
 
-Download the contents of the [docker](docker) directory
+Install docker on your system.
+
+Download the contents of the [docker](docker) directory of this project into a directory in your machine.
+
+Create a directory, or link to a directory, named "storage" inside your directory.
+
+In case you create a directory, make sure that your containing directory is located inside your backup grade storage.
+
+In case it is a link, make sure that the linked directory is located inside your backup grade storage.
+
+Once you start docker, the directory tree
+
+    backup/photobackup-server/...
+
+will be created inside the ```storage```, so please make sure that that does not conflict with existing data.
+
+Call
+
+    ./start.sh
+
+from inside your containing directory to start the server.
+
+Call
+
+    ./start.sh bash
+
+in order to browse the container from the inside instead.
 
 ## Installation - FreeBSD
 
