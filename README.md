@@ -111,7 +111,7 @@ It's not straightforward to find out which batch they're from. It's better if th
 from different batches because that makes them less likely to fail around the same time.
 
 BackBlaze has written a great blog post about hard disks, please use that as a starting
-point, or ask people how are more knowledgable about these things.
+point, or ask people who are more knowledgable about these things.
 
 Please, do not forget to add the line
 
