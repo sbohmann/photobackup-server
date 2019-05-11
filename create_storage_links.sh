@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -e
+#!/usr/bin/env bash
 
 storage_directory=$1
 
@@ -12,7 +12,11 @@ sub_path="$storage_directory/backup/photobackup-server"
 
 if [[ ! -d "$sub_path" ]]
 then
-    mkdir -p "$sub_path"
+    if ! mkdir -p "$sub_path"
+    then
+        echo "unable to create path [$sub_path], exit code: $?"
+        exit 2
+    fi
 fi
 
 names="assets upload photos thumbnails videos"
@@ -20,10 +24,16 @@ names="assets upload photos thumbnails videos"
 for name in ${names}
 do
     subdirectory="$sub_path/$name"
+
     if [[ ! -d "$subdirectory" ]]
     then
         echo "not a directory: [$subdirectory]"
-        exit 2
+        exit 3
     fi
-    ln -s "$subdirectory" "$name"
+
+    if ! ln -s "$subdirectory" "$name"
+    then
+        echo "unable to create link from [$subdirectory] to [$name] in [$(pwd)], exit code: $?"
+        exit 4
+    fi
 done
