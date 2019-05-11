@@ -24,7 +24,7 @@ The ImageMagick 7 library is used to convert photos and create thumbnails.
 Currently, three ways to run the photobackup server are offically supprted:
 
 * Running the published docker image
-* Building and running a locall docker image
+* Building and running a local docker image
 * Manual installafion on FreeBSD
 
 ## Supported platforms
@@ -71,7 +71,7 @@ Call
 
 in order to browse the container from the inside instead.
 
-## Building and running a locall docker image using the Dockerfile
+## Building and running a local docker image using the Dockerfile
 
 Make sure that you have a backup grade storage.
 
