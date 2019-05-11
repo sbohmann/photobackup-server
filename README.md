@@ -21,6 +21,12 @@ like plists (which are just XML).
 
 The ImageMagick 7 library is used to convert photos and create thumbnails.
 
+Currently, three ways to run the photobackup server are offically supprted:
+
+* Running the published docker image
+* Building and running a locall docker image
+* Manual installafion on FreeBSD
+
 ## Supported platforms
 
 For now, just FreeBSD and Linux, supporting docker.
@@ -33,7 +39,39 @@ Support for Solaris is not planned but it should be fairly easy to get it runnin
 
 It's a Java daemon but requires ImageMagick7 with HEIC support enabled.
 
-## Installation - Docker
+## Running the Published Docker Image
+
+Make sure that you have a backup grade storage.
+
+Install docker on your system.
+
+Download the file [](docker/run_image.sh) directory of this project into a directory in your machine.
+
+Create a directory, or link to a directory, named ```storage``` inside your directory.
+
+In case you create a directory, make sure that your containing directory is located inside your backup grade storage.
+
+In case you create a link, make sure that the linked directory is located inside your backup grade storage.
+
+Once you start docker, the directory tree
+
+    backup/photobackup-server/...
+
+will be created inside ```storage```, so please make sure that that does not conflict with existing data.
+
+Call
+
+    ./start_image.sh
+
+from inside your containing directory to start the server.
+
+Call
+
+    ./start_image.sh bash
+
+in order to browse the container from the inside instead.
+
+## Building and running a locall docker image using the Dockerfile
 
 Make sure that you have a backup grade storage.
 
@@ -65,7 +103,7 @@ Call
 
 in order to browse the container from the inside instead.
 
-## Installation - FreeBSD
+## Manual Installation on FreeBSD
 
 ### Create a ZFS mirror or Raid 6 with new hard disks, ideally not from the same batch
 
