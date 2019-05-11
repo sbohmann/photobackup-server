@@ -27,8 +27,11 @@ do
 
     if [[ ! -d "$subdirectory" ]]
     then
-        echo "not a directory: [$subdirectory]"
-        exit 3
+        if ! mkdir "$subdirectory"
+        then
+            echo "unable to create directory [$subdirectory], exit code: $?"
+            exit 3
+       fi
     fi
 
     if ! ln -s "$subdirectory" "$name"
