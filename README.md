@@ -35,7 +35,7 @@ It's a Java daemon but requires ImageMagick7 with HEIC support enabled.
 
 ## Installation - Docker
 
-Make sure that you have backup grade storage
+Make sure that you have a backup grade storage.
 
 Install docker on your system.
 
