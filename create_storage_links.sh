@@ -34,9 +34,12 @@ do
        fi
     fi
 
-    if ! ln -s "$subdirectory" "$name"
+    if [[ ! -d "$name" ]]
     then
-        echo "unable to create link from [$subdirectory] to [$name] in [$(pwd)], exit code: $?"
-        exit 4
+        if ! ln -s "$subdirectory" "$name"
+        then
+            echo "unable to create link from [$subdirectory] to [$name] in [$(pwd)], exit code: $?"
+            exit 4
+        fi
     fi
 done
