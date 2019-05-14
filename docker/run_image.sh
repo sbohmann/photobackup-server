@@ -14,4 +14,4 @@ photobackup_server_version=1.0.7
 
 echo "Running docker image sbohmann/photobackup-server:$photobackup_server_version"
 
-clear; docker run -it -v "$absolute_path":/storage -p 8080:8080 --rm "sbohmann/photobackup-server:$photobackup_server_version" "$@"
+docker run -it -v "$absolute_path":/storage -p 8080:8080 --rm "sbohmann/photobackup-server:$photobackup_server_version" "$@"
