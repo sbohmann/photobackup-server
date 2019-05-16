@@ -15,10 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.security.MessageDigest;
 import java.util.List;
 import java.util.Set;
@@ -31,27 +30,27 @@ import static at.yeoman.photobackup.server.io.TransactionalFileHandling.finishAn
 public class BackupRequestHandler {
     // TODO if true, at least don't double re-calculate the same resource for > 1 assets
     private static final boolean CalculateChecksumOfExistingResource = false;
-    
+
     private final Logger log = LoggerFactory.getLogger(BackupRequestHandler.class);
-    
+
     private final Core core;
-    
+
     private final Set<Checksum> checksumsUploading = ConcurrentHashMap.newKeySet();
     private Thumbnails thumbnails;
     private Videos videos;
-    
+
     @Autowired
     BackupRequestHandler(Core core, Thumbnails thumbnails, Videos videos) {
         this.core = core;
         this.thumbnails = thumbnails;
         this.videos = videos;
     }
-    
+
     @GetMapping("/")
     public String root() {
         return "photobackup server";
     }
-    
+
     @PostMapping("/asset-report")
     public MissingAssets handleAssetReport(@RequestBody AssetReport report) {
         log.info("Received asset report with " + report.getDescriptions().size() + " assets.");
@@ -68,7 +67,7 @@ public class BackupRequestHandler {
         result.setMissingAssetChecksums(checksums);
         return result;
     }
-    
+
     private boolean missing(Checksum checksum) {
         try {
             return !backupExists(checksum);
@@ -77,10 +76,10 @@ public class BackupRequestHandler {
             return true;
         }
     }
-    
+
     private boolean backupExists(Checksum checksum) throws Exception {
         File file = new File(Directories.Photos, fileNameForChecksum(checksum));
-        log.info("File [" + file + "] exists for checksum [" + checksum + "]: " + file.exists() + ", is file: " + file.isFile());
+        log.debug("File [" + file + "] exists for checksum [" + checksum + "]: " + file.exists() + ", is file: " + file.isFile());
         if (!file.isFile()) {
             return false;
         }
@@ -92,9 +91,11 @@ public class BackupRequestHandler {
             return true;
         }
     }
-    
-    @PostMapping("/resource-upload/{checksumString}")
-    public ResponseEntity<String> handleResourceUpload(@PathVariable final String checksumString, InputStream bodyStream) throws Exception {
+
+    @PostMapping(value = "/resource-upload/{checksumString}", produces = "text/plain")
+    public ResponseEntity<String> handleResourceUpload(
+            @PathVariable final String checksumString,
+            InputStream bodyStream)  {
         try {
             final Checksum checksumFromPath;
             try {
@@ -130,7 +131,7 @@ public class BackupRequestHandler {
                         if (!uploadTarget.delete()) {
                             log.error("Unable to delete upload target while retaining existing backup [" + uploadTarget.getCanonicalPath() + "]");
                         }
-                        return success("Retaining matching file [" + renamedTarget.getCanonicalPath());
+                        return success(checksumFromPath, "Retaining matching file [" + renamedTarget.getCanonicalPath());
                     } else {
                         if (!renamedTarget.delete()) {
                             return error("Unable to delete non-matching renamed target [" + renamedTarget.getCanonicalPath() + "]",
@@ -142,35 +143,35 @@ public class BackupRequestHandler {
                     return error("Unable to rename [" + uploadTarget.getCanonicalPath() + "] to [" + renamedTarget.getCanonicalPath() + "]",
                             HttpStatus.INTERNAL_SERVER_ERROR);
                 }
-                return success(calculatedChecksum.toString());
+                return success(checksumFromPath, "Successfully uploaded resource for checksum " + calculatedChecksum);
             } finally {
                 checksumsUploading.remove(checksumFromPath);
-                thumbnails.createInBackgroundIfMissing(checksumFromPath);
-                videos.createInBackgroundIfMissing(checksumFromPath);
             }
         } catch (Exception exception) {
-            bodyStream.close();
             log.error(exception.getMessage(), exception);
             return error("Error message: [" + exception.getMessage() + "]",
                     HttpStatus.EXPECTATION_FAILED);
+        } finally {
+            log.info("Returning from resource upload handler.");
         }
     }
-    
+
     private String fileNameForChecksum(Checksum checksum) {
         return checksum.getValue().toRawString();
     }
-    
-    private ResponseEntity<String> success(String message) {
-        log.info(message);
+
+    private ResponseEntity<String> success(Checksum checksum, String message) {
+        log.info("Successfully handled upload request - message: " + message);
+        thumbnails.createInBackgroundIfMissing(checksum);
+        videos.createInBackgroundIfMissing(checksum);
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
-    
+
     private ResponseEntity<String> error(String message, HttpStatus status) {
         log.error(message);
         return new ResponseEntity<>(message, status);
     }
-    
-    @SuppressWarnings("unused")
+
     private Checksum writeFile(InputStream in, File target) throws Exception {
         log.info("writing to file [" + target.getCanonicalPath() + "]...");
         try (FileOutputStream out = new FileOutputStream(target)) {
@@ -192,7 +193,7 @@ public class BackupRequestHandler {
             return new Checksum(md.digest());
         }
     }
-    
+
     private Checksum checksumForFile(File file) throws Exception {
         try (FileInputStream in = new FileInputStream(file)) {
             MessageDigest md = MessageDigest.getInstance("SHA-512");

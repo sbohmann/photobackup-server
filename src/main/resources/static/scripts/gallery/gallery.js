@@ -25,14 +25,15 @@ function setup() {
 function parseDateArgument() {
     if (dateArgument !== 'any') {
         try {
-            parseDateAregumentThrowing();
+            parseDateArgumentThrowing();
         } catch (error) {
+            // TODO show error in UI
             console.log(error)
         }
     }
 }
 
-function parseDateAregumentThrowing() {
+function parseDateArgumentThrowing() {
     let yearAndMonth = dateArgument.match(/(\d{4})-(\d{2})/)
     if (yearAndMonth != null) {
         date = yearAndMonth[0]
@@ -116,9 +117,9 @@ function buildAssetList() {
     }
 }
 
-function appendAsset(asset, node) {
-    let div = document.createElement("div")
-    div.classList.add('asset')
+function appendAsset(asset, parent) {
+    let assetDiv = document.createElement("div")
+    assetDiv.classList.add('asset')
     let header = document.createElement('h3')
     let creationDate
     try {
@@ -128,14 +129,14 @@ function appendAsset(asset, node) {
         creationDate = 'Creation date (ms) out of range [' + asset.creationDateMs + ']'
     }
     header.appendChild(document.createTextNode(creationDate))
-    div.appendChild(header)
+    assetDiv.appendChild(header)
     for (let resource of asset.resourceDescriptions) {
-        createThumbnailImage(resource, div)
-        createThumbnailPlayer(resource, div)
-        createLink(resource, div, resource.name, '/photos/' + resource.checksum + '/' + resource.name)
-        createConvertedLink(resource, div, resource.name);
+        createThumbnailImage(resource, assetDiv)
+        createThumbnailPlayer(resource, assetDiv)
+        createLink(resource, assetDiv, resource.name, '/photos/' + resource.checksum + '/' + resource.name)
+        createConvertedLink(resource, assetDiv, resource.name);
     }
-    node.appendChild(div)
+    parent.appendChild(assetDiv)
 }
 
 function createThumbnailImage(resource, div) {
@@ -143,12 +144,13 @@ function createThumbnailImage(resource, div) {
         return
     }
     let img = document.createElement('img')
+    img.classList.add('thumbnail')
     img.src = '/photos/' + resource.checksum + '/thumbnail/' + thumbnailName(resource.name)
     div.appendChild(img)
 }
 
 function isNonImageResource(resource) {
-    return resource.name.match(/.*\.(mov|plist|mp4)/i);
+    return resource.name.match(/.*\.(mov|plist|mp4|m4v)/i);
 }
 
 function thumbnailName(originalResourceName) {
@@ -157,27 +159,23 @@ function thumbnailName(originalResourceName) {
 }
 
 function createThumbnailPlayer(resource, div) {
-    if (resource.name.match(/.*\.(mov|mp4)/i) == null) {
+    let match = resource.name.match(/(.*\.)(mov|mp4|m4v)/i)
+    if (match == null) {
         return
     }
-    let playButton = document.createElement('img')
-    playButton.src = '/images/gallery/play_button.png'
-    playButton.classList.add('play-button')
-    div.appendChild(playButton)
-    playButton.onclick = () => {
-        let video = document.createElement('video')
-        video.width = 200
-        video.height = 200
-        video.controls = true
-        video.autoplay = true
-        let mp4Source = document.createElement('source')
-        mp4Source.src = '/videos/' + resource.checksum + '/' + resource.name
-        video.appendChild(mp4Source)
-        let rawSource = document.createElement('source')
-        rawSource.src = '/photos/' + resource.checksum + '/' + resource.name
-        video.appendChild(rawSource)
-        div.replaceChild(video, playButton)
-    }
+    let rawResourceName = match[1]
+    let video = document.createElement('video')
+    video.classList.add('video')
+    video.controls = true
+    video.autoplay = false
+    video.preload = "none"
+    let mp4Source = document.createElement('source')
+    mp4Source.src = '/videos/' + resource.checksum + '/' + rawResourceName + '.mp4'
+    video.appendChild(mp4Source)
+    let rawSource = document.createElement('source')
+    rawSource.src = '/photos/' + resource.checksum + '/' + resource.name
+    video.appendChild(rawSource)
+    div.appendChild(video)
 }
 
 function createLink(resource, div, name, address) {

@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,7 +32,7 @@ public class Videos {
     
     private final Core core;
     
-    private Map<Checksum, File> videoForChecksum = new HashMap<>();
+    private ConcurrentHashMap<Checksum, File> videoForChecksum = new ConcurrentHashMap<>();
     private LinkedBlockingQueue<Checksum> backgroundCreationQueue = new LinkedBlockingQueue<>();
     
     @Autowired
@@ -134,7 +135,7 @@ public class Videos {
         }
     }
     
-    synchronized public void createInBackgroundIfMissing(Checksum checksum) {
+    public void createInBackgroundIfMissing(Checksum checksum) {
         if (checksum != null) {
             if (!backgroundCreationQueue.offer(checksum)) {
                 log.error("Unable to enqueue checksum for background video creation: " + checksum);
@@ -161,13 +162,12 @@ public class Videos {
     }
     
     private void createAndWriteVideoContent(Checksum checksum, File originalVideoFile) {
-        // TODO
-//        log.info("Not creating mp4 converted video for " + resourceType(checksum) + " resource " + checksum.toRawString() +
-//                " - not yet implemented.");
-        
         if (Windows) {
-            return;
+            log.error("Not creating converted mp4 version for video " + resourceType(checksum) + " resource " + checksum.toRawString()
+                    + " on Windows platform - windows ffmpeg call not yet implemented.");
         }
+
+        log.info("Creating converted mp4 version for video " + resourceType(checksum) + " resource " + checksum.toRawString() + "...");
         
         try {
             File videoFile = new File(Directories.Videos, checksum.toRawString() + ".mp4");
@@ -176,12 +176,14 @@ public class Videos {
             ProcessBuilder builder = new ProcessBuilder("./create_mp4.sh", checksum.toRawString());
             // TODO redirect to log
             Process process = builder.start();
+            new ProcessLogger(process, log);
             int exitCode = process.waitFor();
             
             if (exitCode == 0) {
                 videoForChecksum.put(checksum, videoFile);
+                log.info("Successfully created converted mp4 version for video " + resourceType(checksum) + " resource " + checksum.toRawString() + ".");
             } else {
-                log.error("Unable to create mp4 for " + resourceType(checksum) + " resource " + checksum.toRawString() +
+                log.error("Unable to create converted mp4 version for video " + resourceType(checksum) + " resource " + checksum.toRawString() +
                         " - exit code: " + exitCode);
                 logSpecificErrorMessage(exitCode);
             }

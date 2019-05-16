@@ -67,7 +67,7 @@ class AssetReportCollector {
     private Stream<Report> createReportStreamOrThrow(File file, String rawDate) {
         Report result = new Report();
         result.file = file;
-        result.creation = new InstantForUtcString(rawDate).result;
+        result.creation = new InstantForIsoString(rawDate).result;
         return Stream.of(result);
     }
     

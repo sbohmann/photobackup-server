@@ -38,7 +38,7 @@ public class ImageMagickTest {
             } catch (Throwable error) {
                 int originalFailCount = failCount.getAndIncrement();
                 if (originalFailCount == 0) {
-                    throw error;
+                    error.printStackTrace();
                 }
             }
         };

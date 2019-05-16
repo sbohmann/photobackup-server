@@ -23,7 +23,7 @@ dependencies {
 }
 
 group 'at.yeoman.photobackup'
-version '1.0.0-SNAPSHOT'
+version '1.0.7'
 
 sourceCompatibility = 1.8
 
@@ -68,5 +68,6 @@ test {
 
     testLogging {
         exceptionFormat = 'full'
+//        showStandardStreams = true
     }
 }
