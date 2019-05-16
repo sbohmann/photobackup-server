@@ -5,10 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.RandomAccessFile;
+import java.io.*;
 import java.nio.channels.FileLock;
+import java.util.Properties;
 
 @SpringBootApplication
 public class Server {
@@ -22,6 +21,18 @@ public class Server {
         for (File directory : Directories.values) {
             log.info("Found directory [" + directory + "]");
         }
-        SpringApplication.run(Server.class, args);
+
+        SpringApplication application = new SpringApplication(Server.class);
+        configureApplication(application);
+        application.run(args);
+    }
+
+    private static void configureApplication(SpringApplication application) throws IOException {
+        File applicationPropertiesFile = new File("config/spring.properties");
+        if (applicationPropertiesFile.isFile()) {
+            Properties properties = new Properties();
+            properties.load(new FileInputStream(applicationPropertiesFile));
+            application.setDefaultProperties(properties);
+        }
     }
 }
