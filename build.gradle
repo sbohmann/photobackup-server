@@ -60,6 +60,18 @@ task run(type: JavaExec) {
     main = 'at.yeoman.photobackup.server.Server'
 }
 
+task createPassword(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+
+    systemProperty "java.library.path", "libraries:/usr/lib:/usr/local/lib"
+
+    main = 'at.yeoman.photobackup.server.PasswordCreation'
+    
+    args("-setPassword")
+
+    standardInput = System.in
+}
+
 bootJar {
     launchScript()
 }

@@ -12,13 +12,7 @@ class PasswordCreation {
     private byte[] salt;
     private byte[] hash;
 
-    static void createNewPasswordIfMissing() throws Exception {
-        if (!passwordFile.isFile()) {
-            new PasswordCreation().createNewPassword();
-        }
-    }
-
-    private void createNewPassword() throws Exception {
+    void run() throws Exception {
         readNewPasswordFromPrompt();
         createSaltAndHash();
         writePasswordFile();
