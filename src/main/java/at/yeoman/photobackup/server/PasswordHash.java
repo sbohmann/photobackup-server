@@ -16,7 +16,7 @@ class PasswordHash {
     PasswordHash(byte[] salt, String password) throws Exception {
         this.salt = salt;
         this.password = password;
-        md = MessageDigest.getInstance("SHA512");
+        md = MessageDigest.getInstance("SHA-512");
 
         calculateResult();
     }
