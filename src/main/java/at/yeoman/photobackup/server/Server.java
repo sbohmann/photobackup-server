@@ -23,7 +23,7 @@ public class Server {
             log.info("Found directory [" + directory + "]");
         }
 
-        PasswordCreation.createNewPasswordIfMissing();
+//        PasswordCreation.createNewPasswordIfMissing();
 
         SpringApplication application = new SpringApplication(Server.class);
         configureApplication(application);
