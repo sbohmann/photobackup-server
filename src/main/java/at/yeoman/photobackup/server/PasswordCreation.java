@@ -41,7 +41,7 @@ class PasswordCreation {
 
     private void createSalt() {
         SecureRandom random = new SecureRandom();
-        salt = new byte[256];
+        salt = new byte[64];
         random.nextBytes(salt);
     }
 
