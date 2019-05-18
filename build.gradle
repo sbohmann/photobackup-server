@@ -65,8 +65,8 @@ task createPassword(type: JavaExec) {
 
     systemProperty "java.library.path", "libraries:/usr/lib:/usr/local/lib"
 
-    main = 'at.yeoman.photobackup.server.PasswordCreation'
-    
+    main = 'at.yeoman.photobackup.server.Server'
+
     args("-setPassword")
 
     standardInput = System.in
