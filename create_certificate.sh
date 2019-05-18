@@ -53,13 +53,3 @@ keytool -storetype PKCS12 -keystore config/keystore.p12 -storepass "$password" -
 # import server cert into config/keystore.p12
 
 keytool -storetype PKCS12 -keystore config/keystore.p12 -storepass "$password" -importcert -alias server -file config/server.pem
-
-# echo "================================================="
-# echo "Keystore generated. Now generating truststore ..."
-# echo "================================================="
-
-# import server cert chain into config/truststore.p12
-
-# keytool -storetype PKCS12 -keystore config/truststore.p12 -storepass "$password" -importcert -trustcacerts -noprompt -alias root -file config/root.pem
-# keytool -storetype PKCS12 -keystore config/truststore.p12 -storepass "$password" -importcert -alias ca -file config/ca.pem
-# keytool -storetype PKCS12 -keystore config/truststore.p12 -storepass "$password" -importcert -alias server -file config/server.pem
