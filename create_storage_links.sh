@@ -19,7 +19,7 @@ then
     fi
 fi
 
-names="assets upload photos thumbnails videos"
+names="assets upload photos thumbnails videos config"
 
 for name in ${names}
 do

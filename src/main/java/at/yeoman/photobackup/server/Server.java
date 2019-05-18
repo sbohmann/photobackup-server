@@ -7,20 +7,23 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.*;
 import java.nio.channels.FileLock;
+import java.security.NoSuchAlgorithmException;
 import java.util.Properties;
 
 @SpringBootApplication
 public class Server {
     private static final Logger log = LoggerFactory.getLogger(Server.class);
     
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         FileLock lock = new RandomAccessFile("photobackup-server.lock", "rw").getChannel().tryLock();
         if (lock == null) {
-            throw new IllegalStateException("Unable to aquire file lock");
+            throw new IllegalStateException("Unable to acquire file lock");
         }
         for (File directory : Directories.values) {
             log.info("Found directory [" + directory + "]");
         }
+
+        PasswordCreation.createNewPasswordIfMissing();
 
         SpringApplication application = new SpringApplication(Server.class);
         configureApplication(application);
