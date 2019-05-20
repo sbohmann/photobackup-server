@@ -40,7 +40,9 @@ public class LoginRequestHandler {
 
     @PostMapping(value = "/login/form-data")
     public void loginFromForm(@RequestParam String password, HttpServletResponse response) throws IOException {
-        login(password, response, token -> writeFormResponse(response, token));
+        login(password, response,
+                token -> writeFormResponse(response, token),
+                () -> writeFormLoginError(response));
     }
 
     private void writeFormResponse(HttpServletResponse response, Token token) {
@@ -49,14 +51,26 @@ public class LoginRequestHandler {
         response.setStatus(HttpServletResponse.SC_FOUND);
     }
 
+    private void writeFormLoginError(HttpServletResponse response) {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType("text/plain");
+        getWriter(response).println("Login error.");
+    }
+
     @PostMapping(value = "/login/api")
     public void loginFromApi(@RequestBody String password, HttpServletResponse response) throws IOException {
-        login(password, response, token -> writeApiResponse(response, token));
+        login(password, response,
+                token -> writeApiResponse(response, token),
+                () -> writeApiLoginError(response));
     }
 
     private void writeApiResponse(HttpServletResponse response, Token token) {
         response.setContentType("text/plain");
         getWriter(response).println(token.id);
+    }
+
+    private void writeApiLoginError(HttpServletResponse response) {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
 
     private PrintWriter getWriter(HttpServletResponse response) {
@@ -67,13 +81,12 @@ public class LoginRequestHandler {
         }
     }
 
-    private void login(@RequestParam String password, HttpServletResponse response, Consumer<Token> writeResponse) throws IOException {
+    private void login(@RequestParam String password, HttpServletResponse response,
+                       Consumer<Token> writeResponse, Runnable writeError) throws IOException {
         if (configuration.passwordMatches(password)) {
             writeResponse.accept(createToken());
         } else {
-            response.setContentType("text/plain");
-            response.getWriter().println("Login error.");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            writeError.run();
         }
     }
 
