@@ -55,7 +55,7 @@ public class AuthorizationFilter implements Filter {
         if (permitted(request)) {
             chain.doFilter(request, response);
         } else {
-            log.info("Redirecting to /login");
+            log.info("Redirecting [" + request.getServletPath() + "] to /login");
             response.setHeader("Location", "/login");
             response.setStatus(HttpServletResponse.SC_FOUND);
         }
@@ -68,11 +68,7 @@ public class AuthorizationFilter implements Filter {
     }
 
     private boolean isLoginRequest(HttpServletRequest request) {
-        return getPath(request).startsWith("/login/");
-    }
-
-    private String getPath(HttpServletRequest request) {
-        return cast(request).getServletPath();
+        return request.getServletPath().startsWith("/login/");
     }
 
     private boolean isAuthorized(HttpServletRequest request) {
