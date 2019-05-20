@@ -12,11 +12,16 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class AuthorizationFilter implements Filter {
     private static Logger log = LoggerFactory.getLogger(AuthorizationFilter.class);
+
+    private static final String AuthorizationKey = "Authorization";
 
     private SecurityConfiguration configuration;
     private ConcurrentHashMap<ByteBlock, Token> tokens;
@@ -77,21 +82,33 @@ public class AuthorizationFilter implements Filter {
     }
 
     private String authorizationFromRequest(HttpServletRequest request) {
-        String headerValue = request.getHeader("Authorization");
+        String headerValue = request.getHeader(AuthorizationKey);
         if (headerValue != null) {
             return headerValue;
         } else {
-            return getAuthorizationCookie(request);
+            return authorizationFromCookie(request);
         }
     }
 
-    private String getAuthorizationCookie(HttpServletRequest request) {
-        for (Cookie cookie : request.getCookies()) {
-            if (cookie.getName().equals("Authorization")) {
+    private String authorizationFromCookie(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            return findAuthorizationCookie(cookies);
+        }
+        return null;
+    }
+
+    private String findAuthorizationCookie(Cookie[] cookies) {
+        for (Cookie cookie : cookies) {
+            if (isAuthorizationCookie(cookie)) {
                 return cookie.getValue();
             }
         }
         return null;
+    }
+
+    private boolean isAuthorizationCookie(Cookie cookie) {
+        return cookie.getName().equals(AuthorizationKey);
     }
 
     private boolean isValidToken(String key) {
