@@ -52,8 +52,11 @@ public class LoginRequestHandler {
     }
 
     private void writeFormLoginError(HttpServletResponse response) {
-        response.setStatus(HttpServletResponse.SC_FOUND);
-        response.setHeader("Location", "/login");
+//        response.setStatus(HttpServletResponse.SC_FOUND);
+//        response.setHeader("Location", "/login");
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType("text/plain");
+        getWriter(response).println("Login Error");
     }
 
     @PostMapping(value = "/login/api")
