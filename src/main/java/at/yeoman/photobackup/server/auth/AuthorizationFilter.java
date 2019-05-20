@@ -55,7 +55,7 @@ public class AuthorizationFilter implements Filter {
         if (permitted(request)) {
             chain.doFilter(request, response);
         } else {
-            log.debug("Redirecting to /login");
+            log.info("Redirecting to /login");
             response.setHeader("Location", "/login");
             response.setStatus(HttpServletResponse.SC_FOUND);
         }
