@@ -42,20 +42,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        if (storedPassword == null) {
-            httpSecurity
-                    .csrf().disable()
-                    .authorizeRequests().anyRequest().permitAll();
-        } else {
-            httpSecurity
-                    .csrf().disable()
-                    .authorizeRequests()
-                    .anyRequest()
-                    .authenticated()
-                    .and()
-                    .formLogin()
-                    .and()
-                    .httpBasic();
-        }
+        httpSecurity
+                .csrf().disable()
+                .authorizeRequests().anyRequest().permitAll();
     }
 }
