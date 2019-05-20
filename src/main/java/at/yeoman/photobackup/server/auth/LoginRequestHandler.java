@@ -17,7 +17,7 @@ import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.function.Consumer;
 
-@Component
+@Controller
 public class LoginRequestHandler {
     private static final int ValiditySeconds = 100_000;;
 
