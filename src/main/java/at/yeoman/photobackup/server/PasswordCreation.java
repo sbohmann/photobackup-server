@@ -1,6 +1,6 @@
 package at.yeoman.photobackup.server;
 
-import org.apache.commons.codec.binary.Hex;
+import at.yeoman.photobackup.server.primtive.ByteBlock;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -10,8 +10,8 @@ class PasswordCreation {
     private static final File passwordFile  = new File(Directories.Config, "password.txt");
 
     private String newPassword;
-    private byte[] salt;
-    private byte[] hash;
+    private ByteBlock salt;
+    private ByteBlock hash;
 
     void run() throws Exception {
         readNewPasswordFromPrompt();
@@ -42,8 +42,7 @@ class PasswordCreation {
 
     private void createSalt() {
         SecureRandom random = new SecureRandom();
-        salt = new byte[64];
-        random.nextBytes(salt);
+        salt = new ByteBlock(64, random);
     }
 
     private void createHash() throws Exception {
@@ -52,8 +51,8 @@ class PasswordCreation {
 
     private void writePasswordFile() throws IOException {
         try (PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(passwordFile), StandardCharsets.UTF_8))) {
-            out.println(Hex.encodeHex(salt));
-            out.println(Hex.encodeHex(hash));
+            out.println(salt.toRawString());
+            out.println(hash.toRawString());
         }
     }
 }

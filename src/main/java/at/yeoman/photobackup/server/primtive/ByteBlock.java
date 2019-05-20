@@ -2,16 +2,43 @@ package at.yeoman.photobackup.server.primtive;
 
 import javax.annotation.concurrent.Immutable;
 import java.util.Arrays;
+import java.util.Random;
+import java.util.regex.Pattern;
 
 @Immutable
 public final class ByteBlock {
+    public static final Pattern HexStringPattern = Pattern.compile("(?:[a-fA-F]{2})+");
+
     private final byte[] value;
+
+    public ByteBlock(byte[] value) {
+        this.value = value.clone();
+    }
     
     public ByteBlock(byte[] value, int expectedLength) {
         checkLength(value, expectedLength);
         this.value = value.clone();
     }
-    
+
+    public ByteBlock(int length, Random random) {
+        value = new byte[length];
+        random.nextBytes(value);
+    }
+
+    public ByteBlock(String checksumString, int length) {
+        checkChecksumStringLength(checksumString, length);
+        byte[] value = new byte[length];
+        for (int index = 0; index < length; ++index) {
+            int position = index * 2;
+            value[index] = (byte) parseByte(checksumString, position);
+        }
+        this.value = value;
+    }
+
+    public ByteBlock(String hexString) {
+        this(hexString, hexString.length() / 2);
+    }
+
     public void checkLength(int expectedLength) {
         checkLength(value, expectedLength);
     }
@@ -23,24 +50,10 @@ public final class ByteBlock {
         }
     }
     
-    public ByteBlock(String checksumString, int length) {
-        checkChecksumStringLength(checksumString, length);
-        byte[] value = new byte[length];
-        for (int index = 0; index < length; ++index) {
-            int position = index * 2;
-            value[index] = (byte) parseByte(checksumString, position);
-        }
-        this.value = value;
-    }
-    
-    public ByteBlock(String checksumString) {
-        this(checksumString, checksumString.length() / 2);
-    }
-    
-    private void checkChecksumStringLength(String checksumString, int length) {
-        if (checksumString.length() != length * 2) {
-            throw new IllegalArgumentException("Illegal checksum string [" + checksumString + "]" +
-                    " of length " + checksumString.length() + " - expected: " + length * 2);
+    private void checkChecksumStringLength(String hexString, int length) {
+        if (hexString.length() != length * 2) {
+            throw new IllegalArgumentException("Illegal checksum string [" + hexString + "]" +
+                    " of length " + hexString.length() + " - expected: " + length * 2);
         }
     }
     
@@ -85,5 +98,9 @@ public final class ByteBlock {
     @Override
     public String toString() {
         return toRawString();
+    }
+
+    public byte[] rawCopy() {
+        return value.clone();
     }
 }

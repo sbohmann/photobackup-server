@@ -25,7 +25,6 @@
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-security:2.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.datatype:jackson-datatype-guava:2.9.8" level="project" />
     <orderEntry type="library" name="Gradle: com.google.guava:guava:27.0.1-jre" level="project" />
-    <orderEntry type="library" name="Gradle: commons-codec:commons-codec:1.12" level="project" />
     <orderEntry type="library" name="Gradle: org.webjars.npm:js-joda:1.8.2" level="project" />
     <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-loader-tools:2.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Gradle: io.spring.gradle:dependency-management-plugin:1.0.6.RELEASE" level="project" />

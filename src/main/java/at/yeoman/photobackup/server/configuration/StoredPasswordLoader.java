@@ -1,8 +1,8 @@
 package at.yeoman.photobackup.server.configuration;
 
+import at.yeoman.photobackup.server.primtive.ByteBlock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.crypto.codec.Hex;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -30,8 +30,8 @@ class StoredPasswordLoader {
     private StoredPassword loadFromFileOrThrow() throws IOException {
         BufferedReader in = createReader();
         List<String> lines = readTwoLines(in);
-        byte[] salt = Hex.decode(lines.get(0));
-        byte[] hash = Hex.decode(lines.get(1));
+        ByteBlock salt = new ByteBlock(lines.get(0));
+        ByteBlock hash = new ByteBlock(lines.get(1));
         return new StoredPassword(salt, hash);
     }
 

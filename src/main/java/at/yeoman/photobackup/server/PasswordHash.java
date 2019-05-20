@@ -1,19 +1,21 @@
 package at.yeoman.photobackup.server;
 
+import at.yeoman.photobackup.server.primtive.ByteBlock;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
-class PasswordHash {
-    private final byte[] salt;
+public class PasswordHash {
+    private final ByteBlock salt;
     private final String password;
     private MessageDigest md;
 
-    byte[] result;
+    public ByteBlock result;
 
-    PasswordHash(byte[] salt, String password) throws Exception {
+    public PasswordHash(ByteBlock salt, String password) throws Exception {
         this.salt = salt;
         this.password = password;
         md = MessageDigest.getInstance("SHA-512");
@@ -22,13 +24,13 @@ class PasswordHash {
     }
 
     private void calculateResult() throws IOException {
-        md.digest(salt);
+        md.digest(salt.rawCopy());
         digestPassword();
     }
 
     private void digestPassword() throws IOException {
         ByteArrayOutputStream utf8EncodedPassword = new ByteArrayOutputStream();
         new OutputStreamWriter(utf8EncodedPassword, StandardCharsets.UTF_8).write(password);
-        result = md.digest(utf8EncodedPassword.toByteArray());
+        result = new ByteBlock(md.digest(utf8EncodedPassword.toByteArray()));
     }
 }
