@@ -37,7 +37,7 @@ public class PasswordHash {
             writer.write(password);
         }
         byte[] encodedPassword = utf8EncodedPassword.toByteArray();
-        LoggerFactory.getLogger("tmp").info("len: " + encodedPassword.length);
+        LoggerFactory.getLogger("tmp").info("len: " + password.length());
         md.digest(encodedPassword);
         LoggerFactory.getLogger("tmp").info("after: " + new ByteBlock(md.digest()));
         result = new ByteBlock(md.digest());
