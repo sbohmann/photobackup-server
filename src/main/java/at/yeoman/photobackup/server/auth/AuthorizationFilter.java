@@ -78,7 +78,9 @@ public class AuthorizationFilter implements Filter {
     }
 
     private boolean isAuthorized(HttpServletRequest request) {
-        return isValidToken(authorizationFromRequest(request));
+        String token = authorizationFromRequest(request);
+        log.info("Checking authorization token " + token);
+        return isValidToken(token);
     }
 
     private String authorizationFromRequest(HttpServletRequest request) {
@@ -106,7 +108,7 @@ public class AuthorizationFilter implements Filter {
                 return cookie.getValue();
             }
         }
-        log.info("No authorization token from header or cookie");
+        log.info("No authorization token from header nor cookie");
         return null;
     }
 
