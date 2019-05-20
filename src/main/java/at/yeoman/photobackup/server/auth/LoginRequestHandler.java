@@ -53,6 +53,7 @@ public class LoginRequestHandler {
         response.setStatus(HttpServletResponse.SC_FOUND);
         Cookie cookie = new Cookie("Authorization", token.id.toRawString());
         cookie.setMaxAge(100_000);
+        cookie.setDomain("10.0.0.48");
         response.addCookie(cookie);
         response.setHeader("Location", "/gallery");
     }
