@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 @Immutable
 public final class ByteBlock {
-    public static final Pattern HexStringPattern = Pattern.compile("(?:[a-fA-F]{2})+");
+    public static final Pattern HexStringPattern = Pattern.compile("(?:[0-9a-fA-F]{2})+");
 
     private final byte[] value;
 
