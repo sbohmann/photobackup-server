@@ -33,12 +33,12 @@ public class LoginRequestHandler {
         random = new SecureRandom();
     }
 
-    @GetMapping("/login")
+    @GetMapping(value = "/login")
     public String loginForm() {
         return "/auth/login";
     }
 
-    @PostMapping("/login/form-data")
+    @PostMapping(value = "/login/form-data")
     public void loginFromForm(@RequestParam String password, HttpServletResponse response) {
         login(password, response, token -> writeFormResponse(response, token));
     }
@@ -49,7 +49,7 @@ public class LoginRequestHandler {
         response.setStatus(HttpServletResponse.SC_FOUND);
     }
 
-    @PostMapping("/login/api")
+    @PostMapping(value = "/login/api")
     public void loginFromApi(@RequestBody String password, HttpServletResponse response) {
         login(password, response, token -> writeApiResponse(response, token));
     }
