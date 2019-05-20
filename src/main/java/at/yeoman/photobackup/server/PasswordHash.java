@@ -32,14 +32,11 @@ public class PasswordHash {
 
     private void digestPassword() throws IOException {
         ByteArrayOutputStream utf8EncodedPassword = new ByteArrayOutputStream();
-        LoggerFactory.getLogger("tmp").info("before: " + new ByteBlock(md.digest()));
         try (Writer writer = new OutputStreamWriter(utf8EncodedPassword, StandardCharsets.UTF_8)) {
             writer.write(password);
         }
         byte[] encodedPassword = utf8EncodedPassword.toByteArray();
-        LoggerFactory.getLogger("tmp").info("len: " + password.length());
         md.digest(encodedPassword);
-        LoggerFactory.getLogger("tmp").info("after: " + new ByteBlock(md.digest()));
         result = new ByteBlock(md.digest());
     }
 }
