@@ -117,12 +117,10 @@ public class AuthorizationFilter implements Filter {
     }
 
     private boolean isValidToken(String key) {
-        log.info("Token: [" + key + "]");
         if (key == null) {
             return false;
         }
         if (!ByteBlock.HexStringPattern.matcher(key).matches()) {
-            log.info("Invalid token format");
             return false;
         }
         return validTokenStoredForId(parse(key));
