@@ -3,6 +3,7 @@ package at.yeoman.photobackup.server;
 import org.apache.commons.codec.binary.Hex;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 
 class PasswordCreation {
@@ -50,7 +51,7 @@ class PasswordCreation {
     }
 
     private void writePasswordFile() throws IOException {
-        try (PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(passwordFile)))) {
+        try (PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(passwordFile), StandardCharsets.UTF_8))) {
             out.println(Hex.encodeHex(salt));
             out.println(Hex.encodeHex(hash));
         }

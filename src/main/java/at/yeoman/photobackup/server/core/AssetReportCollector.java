@@ -16,6 +16,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static at.yeoman.photobackup.server.core.Assets.StorageFile;
+
 class AssetReportCollector {
     private static final String Suffix = ".json";
     
@@ -33,7 +35,7 @@ class AssetReportCollector {
     }
     
     private void collectAssetReports() {
-        File[] files = Directories.Assets.listFiles();
+        File[] files = Directories.Assets.listFiles(file -> !file.getName().equals(StorageFile.getName()));
         List<Report> reports = reportsForFiles(files);
         reports.sort(Comparator.comparing(report -> report.creation));
         reports.forEach(this::integrateReport);
