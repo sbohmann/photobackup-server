@@ -3,7 +3,6 @@ package at.yeoman.photobackup.server.auth;
 import at.yeoman.photobackup.server.configuration.SecurityConfiguration;
 import at.yeoman.photobackup.server.primtive.ByteBlock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +19,7 @@ import java.util.function.Consumer;
 
 @Controller
 public class LoginRequestHandler {
-    private static final int ValiditySeconds = 100_000;;
+    private static final int ValiditySeconds = 100_000;
 
     private SecurityConfiguration configuration;
     private AuthorizationFilter filter;
@@ -40,7 +39,7 @@ public class LoginRequestHandler {
     }
 
     @PostMapping(value = "/login/form-data")
-    public void loginFromForm(@RequestParam String password, HttpServletResponse response) {
+    public void loginFromForm(@RequestParam String password, HttpServletResponse response) throws IOException {
         login(password, response, token -> writeFormResponse(response, token));
     }
 
@@ -51,7 +50,7 @@ public class LoginRequestHandler {
     }
 
     @PostMapping(value = "/login/api")
-    public void loginFromApi(@RequestBody String password, HttpServletResponse response) {
+    public void loginFromApi(@RequestBody String password, HttpServletResponse response) throws IOException {
         login(password, response, token -> writeApiResponse(response, token));
     }
 
@@ -68,10 +67,12 @@ public class LoginRequestHandler {
         }
     }
 
-    private void login(@RequestParam String password, HttpServletResponse response, Consumer<Token> writeResponse) {
+    private void login(@RequestParam String password, HttpServletResponse response, Consumer<Token> writeResponse) throws IOException {
         if (configuration.passwordMatches(password)) {
             writeResponse.accept(createToken());
         } else {
+            response.setContentType("text/plain");
+            response.getWriter().println("Login error.");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
     }
