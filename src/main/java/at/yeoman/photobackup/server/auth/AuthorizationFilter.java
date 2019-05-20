@@ -2,6 +2,8 @@ package at.yeoman.photobackup.server.auth;
 
 import at.yeoman.photobackup.server.configuration.SecurityConfiguration;
 import at.yeoman.photobackup.server.primtive.ByteBlock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +16,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class AuthorizationFilter implements Filter {
+    private static Logger log = LoggerFactory.getLogger(AuthorizationFilter.class);
+
     private SecurityConfiguration configuration;
     private ConcurrentHashMap<ByteBlock, Token> tokens;
 
@@ -51,6 +55,7 @@ public class AuthorizationFilter implements Filter {
         if (permitted(request)) {
             chain.doFilter(request, response);
         } else {
+            log.debug("Redirecting to /login");
             response.setHeader("Location", "/login");
             response.setStatus(HttpServletResponse.SC_FOUND);
         }
