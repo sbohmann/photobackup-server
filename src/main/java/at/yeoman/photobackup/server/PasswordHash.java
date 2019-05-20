@@ -34,6 +34,7 @@ public class PasswordHash {
         try (Writer writer = new OutputStreamWriter(utf8EncodedPassword, StandardCharsets.UTF_8)) {
             writer.write(password);
         }
-        result = new ByteBlock(md.digest(utf8EncodedPassword.toByteArray()));
+        md.digest(utf8EncodedPassword.toByteArray());
+        result = new ByteBlock(md.digest());
     }
 }
