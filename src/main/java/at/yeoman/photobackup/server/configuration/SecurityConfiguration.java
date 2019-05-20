@@ -8,67 +8,54 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private Logger log = LoggerFactory.getLogger(SecurityConfiguration.class);
-    
+
     private final PasswordEncoder encoder;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
-    
+
+    private final StoredPassword storedPassword;
+
     @Autowired
     SecurityConfiguration(AuthenticationManagerBuilder authenticationManagerBuilder) {
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        configureUser();
+        storedPassword = StoredPassword.load();
     }
-    
-    private void configureUser() {
-        try {
-            configureUserThrowing();
-        } catch (Exception error) {
-            log.error("Unable to configure user", error);
-        }
+
+    public boolean isAuthorizationEnabled() {
+        return storedPassword != null;
     }
-    
-    private void configureUserThrowing() throws Exception {
-        UserDetails user = createUserDetails();
-        authenticationManagerBuilder
-                .inMemoryAuthentication()
-                .withUser(user);
+
+    public boolean passwordMatches(String password) {
+        return password != null && storedPassword.matches(password);
     }
-    
-    private UserDetails createUserDetails() {
-        return User
-                .withUsername("user")
-                // encoded password: "pass"
-                .password("{bcrypt}$2a$10$MqNI3sJAgVUdgSsAqvYzueEloNwYPRXrmcKHLMgvFqnxSfSB1qtm6")
-                .roles("USER")
-                .build();
-    }
-    
+
     @Bean
     PasswordEncoder getEncoder() {
         return encoder;
     }
-    
+
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .csrf().disable()
-                .authorizeRequests().anyRequest().permitAll();
-
-//        httpSecurity
-//                .authorizeRequests()
-//                .anyRequest()
-//                .authenticated()
-//                .and()
-//                .formLogin()
-//                .and()
-//                .httpBasic();
+        if (storedPassword == null) {
+            httpSecurity
+                    .csrf().disable()
+                    .authorizeRequests().anyRequest().permitAll();
+        } else {
+            httpSecurity
+                    .csrf().disable()
+                    .authorizeRequests()
+                    .anyRequest()
+                    .authenticated()
+                    .and()
+                    .formLogin()
+                    .and()
+                    .httpBasic();
+        }
     }
 }

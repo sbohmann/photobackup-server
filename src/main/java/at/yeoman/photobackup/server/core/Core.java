@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.time.LocalDateTime;
 
 @Component
 public class Core {
@@ -39,7 +38,7 @@ public class Core {
     private void writeAssetReport(AssetReport report) {
         try {
             assets = assets.plus(report.getDescriptions());
-            File file = new File(Directories.Assets, LocalDateTime.now().toString() + ".json");
+            File file = new File(Directories.Assets, IsoStringForInstant.now() + ".json");
             new ObjectMapper().writeValue(file, report);
         } catch (Exception exception) {
             log.error(exception.getMessage(), exception);

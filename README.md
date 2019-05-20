@@ -2,8 +2,10 @@
 
 A Photo Backup Server
 
+The iOS client's code is located in the project [photobackup](https://github.com/sbohmann/photobackup) in this same repository.
+
 Entirely file system based backups of photos and videos from iOS including all resources,
-including original, unedited version, editing plists, &c.
+including original, unedited version, the video part of live photos, editing and other plists, &c.
 
 An asset catalog containing metadata is stored as JSON files - historical as well as consolidated.
 
@@ -21,11 +23,17 @@ like plists (which are just XML).
 
 The ImageMagick 7 library is used to convert photos and create thumbnails.
 
+Currently, three ways to run the photobackup server are offically supprted:
+
+* Running the published docker image
+* Building and running a local docker image
+* Manual installafion on FreeBSD
+
 ## Supported platforms
 
-For now, just FreeBSD.
+For now, just FreeBSD and Linux, supporting docker.
 
-Linux, macOS, and Windows following soon.
+macOS and Windows following soon.
 
 FreeBSD will remain the suggested platform, though, as it has native support for ZFS.
 
@@ -33,7 +41,71 @@ Support for Solaris is not planned but it should be fairly easy to get it runnin
 
 It's a Java daemon but requires ImageMagick7 with HEIC support enabled.
 
-## Installation - FreeBSD
+## Running the Published Docker Image
+
+Make sure that you have a backup grade storage.
+
+Install docker on your system.
+
+Download the files [docker/run_image.sh](docker/run_image.sh) and [docker/start_image.sh](docker/start_image.sh) into a directory in your machine.
+
+Create a directory, or link to a directory, named ```storage``` inside your directory.
+
+In case you create a directory, make sure that your containing directory is located inside your backup grade storage.
+
+In case you create a link, make sure that the linked directory is located inside your backup grade storage.
+
+Once you start docker, the directory tree
+
+    backup/photobackup-server/...
+
+will be created inside ```storage```, so please make sure that that does not conflict with existing data.
+
+Call
+
+    ./start_image.sh
+
+from inside your containing directory to start the server.
+
+Call
+
+    ./start_image.sh bash
+
+in order to browse the container from the inside instead.
+
+## Building and running a local docker image using the Dockerfile
+
+Make sure that you have a backup grade storage.
+
+Install docker on your system.
+
+Download the contents of the [docker](docker) directory of this project into a directory in your machine.
+
+Create a directory, or link to a directory, named ```storage``` inside your directory.
+
+In case you create a directory, make sure that your containing directory is located inside your backup grade storage.
+
+In case you create a link, make sure that the linked directory is located inside your backup grade storage.
+
+Once you start docker, the directory tree
+
+    backup/photobackup-server/...
+
+will be created inside ```storage```, so please make sure that that does not conflict with existing data.
+
+Call
+
+    ./start.sh
+
+from inside your containing directory to start the server.
+
+Call
+
+    ./start.sh bash
+
+in order to browse the container from the inside instead.
+
+## Manual Installation on FreeBSD
 
 ### Create a ZFS mirror or Raid 6 with new hard disks, ideally not from the same batch
 
@@ -41,7 +113,7 @@ It's not straightforward to find out which batch they're from. It's better if th
 from different batches because that makes them less likely to fail around the same time.
 
 BackBlaze has written a great blog post about hard disks, please use that as a starting
-point, or ask people how are more knowledgable about these things.
+point, or ask people who are more knowledgable about these things.
 
 Please, do not forget to add the line
 
@@ -118,7 +190,7 @@ It contains the JNI code necessary for accessing the native ImageMagick7 librari
 
 Build the project by calling
 
-    ./buiild.sh
+    ./build.sh
 
 The .so / .dll file
 
@@ -142,7 +214,7 @@ sub-directory of the ```photobackup-server``` project.
 
 Start the server by running the executable jar from the directory of ```photobackup-server``` project:
 
-    java -Djava.library.path="libraries" build/libs/photobackup-server-<version>.jar
+    java -Djava.library.path="libraries" -jar "build/libs/photobackup-server-<version>.jar"
 
 You have all the usual options, like running it in the foreground, with screen or tmux, with nohup, or as a proper daemon, including via the boot process.
 
@@ -158,7 +230,7 @@ This project contains the iOS client.
 
 I will put it on the app store soon but right now, the only way to install it is to build it yourself.
 
-### Use the browser to view your photos
+### Use a browser of your choice to view your photos
 
 Currently, the server still listens on port 8080 only. I will make that configurable at the same time as making it run in background.
 

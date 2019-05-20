@@ -1,5 +1,6 @@
 package at.yeoman.photobackup.server.core;
 
+import at.yeoman.photobackup.server.Directories;
 import at.yeoman.photobackup.server.assets.AssetDescription;
 import at.yeoman.photobackup.server.assets.Checksum;
 import at.yeoman.photobackup.server.assets.ResourceDescription;
@@ -10,6 +11,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -17,6 +19,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Assets {
+    static final File StorageFile = new File(Directories.Assets, "assets.json");
+
     public final ImmutableList<AssetDescription> assets;
     @JsonIgnore
     public final ImmutableMap<Checksum, ImmutableList<AssetDescription>> assetsForChecksum;

@@ -9,7 +9,7 @@ public class ResourceClassification {
             Pattern.compile(".*\\.(\\w+)");
     
     private static final Pattern NonImageResourceNamePattern =
-            Pattern.compile(".*\\.(mov|plist|mp4)", Pattern.CASE_INSENSITIVE);
+            Pattern.compile(".*\\.(mov|plist|mp4|m4v)", Pattern.CASE_INSENSITIVE);
     
     private static final Pattern MovResourceNamePattern =
             Pattern.compile(".*\\.(mov)", Pattern.CASE_INSENSITIVE);

@@ -13,6 +13,7 @@ public class Directories {
     public static final File Photos;
     public static final File Thumbnails;
     public static final File Videos;
+    public static final File Config;
     
     static final ImmutableList<File> values;
     
@@ -24,6 +25,7 @@ public class Directories {
             Photos = getDirectory("photos", builder);
             Thumbnails = getDirectory("thumbnails", builder);
             Videos = getDirectory("videos", builder);
+            Config = getDirectory("config", builder);
             values = builder.build();
         } catch (IOException error) {
             throw new RuntimeException(error);

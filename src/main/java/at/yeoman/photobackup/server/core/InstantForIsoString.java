@@ -6,15 +6,17 @@ import java.time.ZoneOffset;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class InstantForUtcString {
+class InstantForIsoString {
     private static Pattern utcStringPasttern =
             Pattern.compile("(\\d{4})(\\d{2})(\\d{2})T(\\d{2})(\\d{2})(\\d{2})\\.(\\d{3})");
+    private static Pattern decoratedUtcStringPasttern =
+            Pattern.compile("(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2}):(\\d{2})\\.(\\d{3})");
     
     private Matcher matcher;
     
     public Instant result;
     
-    InstantForUtcString(String utcString) {
+    InstantForIsoString(String utcString) {
         matcher = match(utcString);
         int yesr = parseGroup(1);
         int month = parseGroup(2);
@@ -28,11 +30,20 @@ class InstantForUtcString {
     }
     
     private Matcher match(String utcString) {
-        matcher = utcStringPasttern.matcher(utcString);
-        if (!matcher.matches()) {
+        Matcher result = utcStringPasttern.matcher(utcString);
+        if (result.matches()) {
+            return result;
+        } else {
+            return matchDecorated(utcString);
+        }
+    }
+    
+    private Matcher matchDecorated(String utcString) {
+        Matcher result = decoratedUtcStringPasttern.matcher(utcString);
+        if (!result.matches()) {
             throw new IllegalArgumentException("Could not parse UTC string [" + utcString + "]");
         }
-        return matcher;
+        return result;
     }
     
     private int parseGroup(int group) {

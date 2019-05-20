@@ -6,10 +6,25 @@ body {
     font-family: sans-serif;
 }
 
+h1 {
+    font-size: 120%;
+    font-weight: bold;
+}
+
+h1, p {
+    margin: 2px;
+    padding: 3px;
+}
+
+#bottom-navigation {
+    position: absolute;
+    bottom: 5px;
+}
+
 #assets {
     position: absolute;
-    top: 200px;
-    bottom: 60px;
+    top: 130px;
+    bottom: 45px;
     left: 10px;
     right: 10px;
     overflow-y: scroll;
@@ -17,20 +32,43 @@ body {
 }
 
 .asset {
-    margin-bottom: 5px;
+    width: 600px;
+    margin: 5px;
+    padding: 0;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
 }
 
-#bottom-navigation {
-    position: absolute;
-    bottom: 10px;
+.thumbnail {
+    margin: 0;
+    width: 600px;
+    height: 600px;
+    object-fit: contain;
 }
 
 .video {
+    margin: 0;
+    width: 600px;
+    height: 600px;
     background-color: #333;
 }
 
 .play-button {
-    width: 200px;
-    height: 200px;
+    width: 600px;
+    height: 600px;
     background-color: #333;
+}
+
+@media screen and (max-width: 700px) {
+    .asset {
+        width: 100%;
+        margin: 0;
+    }
+
+    .thumbnail, .video, .play-button {
+        width: 100%;
+        max-height: 75vw;
+        height: auto;
+    }
 }
