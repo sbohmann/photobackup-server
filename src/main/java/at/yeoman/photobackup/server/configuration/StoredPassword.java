@@ -31,7 +31,6 @@ class StoredPassword {
 
     public boolean matches(String password) {
         try {
-            log.debug("Calculating password hash...");
             return new PasswordHash(salt, password).result.equals(hash);
         } catch (Exception error) {
             log.error("Unable to calculate password hash", error);

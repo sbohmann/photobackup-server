@@ -32,6 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     public boolean passwordMatches(String password) {
+        log.info("Checking password: " + (storedPassword != null);
         return storedPassword != null && storedPassword.matches(password);
     }
 
