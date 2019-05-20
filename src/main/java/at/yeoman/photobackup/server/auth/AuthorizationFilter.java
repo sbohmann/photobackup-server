@@ -117,6 +117,7 @@ public class AuthorizationFilter implements Filter {
     }
 
     private boolean isValidToken(String key) {
+        log.info("Token: " + key);
         if (key == null) {
             return false;
         }
