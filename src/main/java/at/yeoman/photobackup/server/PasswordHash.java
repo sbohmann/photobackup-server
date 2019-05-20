@@ -5,6 +5,7 @@ import at.yeoman.photobackup.server.primtive.ByteBlock;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
@@ -30,7 +31,9 @@ public class PasswordHash {
 
     private void digestPassword() throws IOException {
         ByteArrayOutputStream utf8EncodedPassword = new ByteArrayOutputStream();
-        new OutputStreamWriter(utf8EncodedPassword, StandardCharsets.UTF_8).write(password);
+        try (Writer writer = new OutputStreamWriter(utf8EncodedPassword, StandardCharsets.UTF_8)) {
+            writer.write(password);
+        }
         result = new ByteBlock(md.digest(utf8EncodedPassword.toByteArray()));
     }
 }

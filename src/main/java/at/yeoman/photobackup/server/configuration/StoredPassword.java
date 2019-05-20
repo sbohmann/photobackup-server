@@ -32,7 +32,6 @@ class StoredPassword {
     public boolean matches(String passwordToCheck) {
         try {
             ByteBlock hashFromPasswordToCheck = new PasswordHash(salt, passwordToCheck).result;
-            log.info("Comparing password hashe: " + hash + ", " + hashFromPasswordToCheck);
             return hashFromPasswordToCheck.equals(hash);
         } catch (Exception error) {
             log.error("Unable to calculate password hash", error);
