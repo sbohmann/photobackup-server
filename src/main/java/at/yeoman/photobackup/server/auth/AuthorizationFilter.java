@@ -79,7 +79,6 @@ public class AuthorizationFilter implements Filter {
 
     private boolean isAuthorized(HttpServletRequest request) {
         String token = authorizationFromRequest(request);
-        log.info("Checking authorization token " + token);
         return isValidToken(token);
     }
 
