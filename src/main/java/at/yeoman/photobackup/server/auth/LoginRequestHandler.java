@@ -2,6 +2,8 @@ package at.yeoman.photobackup.server.auth;
 
 import at.yeoman.photobackup.server.configuration.SecurityConfiguration;
 import at.yeoman.photobackup.server.primtive.ByteBlock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,8 @@ import java.util.function.Consumer;
 
 @Controller
 public class LoginRequestHandler {
+    private final Logger log = LoggerFactory.getLogger(LoginRequestHandler.class);
+
     private static final int ValiditySeconds = 100_000;
 
     private SecurityConfiguration configuration;
@@ -86,8 +90,10 @@ public class LoginRequestHandler {
     private void login(@RequestParam String password, HttpServletResponse response,
                        Consumer<Token> writeResponse, Runnable writeError) throws IOException {
         if (configuration.passwordMatches(password)) {
+            log.debug("Login successful");
             writeResponse.accept(createToken());
         } else {
+            log.debug("Login failed");
             writeError.run();
         }
     }
