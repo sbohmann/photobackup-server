@@ -52,8 +52,8 @@ public class LoginRequestHandler {
     private void writeFormResponse(HttpServletResponse response, Token token) {
         response.setStatus(HttpServletResponse.SC_FOUND);
         Cookie cookie = new Cookie("Authorization", token.id.toRawString());
-        cookie.setMaxAge(100_000);
-        cookie.setDomain("10.0.0.48");
+        cookie.setMaxAge(-1);
+        cookie.setPath("/");
         response.addCookie(cookie);
         response.setHeader("Location", "/gallery");
     }
