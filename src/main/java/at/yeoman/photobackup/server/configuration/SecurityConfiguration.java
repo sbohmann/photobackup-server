@@ -32,7 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     public boolean passwordMatches(String password) {
-        return password != null && storedPassword.matches(password);
+        return storedPassword != null && storedPassword.matches(password);
     }
 
     @Bean
