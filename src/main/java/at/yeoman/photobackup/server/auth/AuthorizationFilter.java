@@ -98,6 +98,7 @@ public class AuthorizationFilter implements Filter {
         if (cookies != null) {
             return findAuthorizationCookie(cookies);
         }
+        log.info("No authorization token from header nor cookie (no cookies found)");
         return null;
     }
 
@@ -108,7 +109,7 @@ public class AuthorizationFilter implements Filter {
                 return cookie.getValue();
             }
         }
-        log.info("No authorization token from header nor cookie");
+        log.info("No authorization token from header nor cookie (no cookie of matching name found)");
         return null;
     }
 
