@@ -18,8 +18,13 @@ public class PasswordHash {
     public ByteBlock result;
 
     public PasswordHash(ByteBlock salt, String password) throws Exception {
+        if (password.length() == 0) {
+            throw new IllegalArgumentException("Empty password");
+        }
+
         this.salt = salt;
         this.password = password;
+
         md = MessageDigest.getInstance("SHA-512");
 
         calculateResult();
