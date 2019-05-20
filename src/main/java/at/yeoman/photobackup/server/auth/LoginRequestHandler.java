@@ -46,13 +46,13 @@ public class LoginRequestHandler {
     }
 
     private void writeFormResponse(HttpServletResponse response, Token token) {
+        response.setStatus(HttpServletResponse.SC_FOUND);
         response.addCookie(new Cookie("Authorization", token.id.toRawString()));
         response.setHeader("Location", "/gallery");
-        response.setStatus(HttpServletResponse.SC_FOUND);
     }
 
     private void writeFormLoginError(HttpServletResponse response) {
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("text/plain");
         getWriter(response).println("Login error.");
     }
