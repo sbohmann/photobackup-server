@@ -79,13 +79,13 @@ public class BackupRequestHandler {
 
     private boolean backupExists(Checksum checksum) throws Exception {
         File file = new File(Directories.Photos, fileNameForChecksum(checksum));
-        log.debug("File [" + file + "] exists for checksum [" + checksum + "]: " + file.exists() + ", is file: " + file.isFile());
+        log.trace("File [" + file + "] exists for checksum [" + checksum + "]: " + file.exists() + ", is file: " + file.isFile());
         if (!file.isFile()) {
             return false;
         }
         if (CalculateChecksumOfExistingResource) {
             Checksum calculatedChecksum = checksumForFile(file);
-            log.info("Calculated checksum [" + checksum + "] matches: " + calculatedChecksum.equals(checksum));
+            log.trace("Calculated checksum [" + checksum + "] matches: " + calculatedChecksum.equals(checksum));
             return calculatedChecksum.equals(checksum);
         } else {
             return true;
