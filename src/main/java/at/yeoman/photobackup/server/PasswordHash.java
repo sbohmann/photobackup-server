@@ -1,6 +1,7 @@
 package at.yeoman.photobackup.server;
 
 import at.yeoman.photobackup.server.primtive.ByteBlock;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -31,10 +32,12 @@ public class PasswordHash {
 
     private void digestPassword() throws IOException {
         ByteArrayOutputStream utf8EncodedPassword = new ByteArrayOutputStream();
+        LoggerFactory.getLogger("tmp").info("before: " + new ByteBlock(md.digest()));
         try (Writer writer = new OutputStreamWriter(utf8EncodedPassword, StandardCharsets.UTF_8)) {
             writer.write(password);
         }
         md.digest(utf8EncodedPassword.toByteArray());
+        LoggerFactory.getLogger("tmp").info("after: " + new ByteBlock(md.digest()));
         result = new ByteBlock(md.digest());
     }
 }
