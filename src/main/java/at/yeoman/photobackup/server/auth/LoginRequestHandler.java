@@ -35,7 +35,7 @@ public class LoginRequestHandler {
 
     @GetMapping("/login")
     public String loginForm() {
-        return "/login";
+        return "/auth/login";
     }
 
     @PostMapping("/login/form-data")
