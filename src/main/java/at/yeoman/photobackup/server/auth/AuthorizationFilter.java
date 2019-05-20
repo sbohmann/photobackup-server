@@ -106,6 +106,7 @@ public class AuthorizationFilter implements Filter {
                 return cookie.getValue();
             }
         }
+        log.info("No authorization token from header or cookie");
         return null;
     }
 
