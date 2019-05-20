@@ -35,7 +35,6 @@ class PasswordCreation {
             if (password.length() == 0) {
                 throw new IllegalArgumentException("Empty password");
             }
-
             newPassword = password;
         } else {
             throw new IllegalArgumentException("Password mismatch");
