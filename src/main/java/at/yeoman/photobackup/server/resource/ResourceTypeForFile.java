@@ -9,7 +9,7 @@ import java.nio.file.Files;
 
 // TODO use or delete
 public class ResourceTypeForFile {
-    private static Logger logger = LoggerFactory.getLogger(ResourceTypeForFile.class);
+    private static Logger log = LoggerFactory.getLogger(ResourceTypeForFile.class);
     
     private File file;
     
@@ -25,7 +25,7 @@ public class ResourceTypeForFile {
         try {
             return probeContentType();
         } catch (IOException exception) {
-            logger.error("Unable to probe content type of file [" + file.getAbsolutePath() + "]");
+            log.error("Unable to probe content type of file [" + file.getAbsolutePath() + "]");
             return ResourceType.Unknown;
         }
     }
@@ -33,7 +33,7 @@ public class ResourceTypeForFile {
     private ResourceType probeContentType() throws IOException {
         String rawContentType = Files.probeContentType(file.toPath());
         if (rawContentType != null) {
-            logger.info(file.getAbsolutePath() + " -> " + rawContentType);
+            log.info(file.getAbsolutePath() + " -> " + rawContentType);
         }
         return ResourceType.Unknown;
     }

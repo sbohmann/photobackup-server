@@ -21,7 +21,7 @@ import static at.yeoman.photobackup.server.core.Assets.StorageFile;
 class AssetReportCollector {
     private static final String Suffix = ".json";
     
-    private static final Logger logger = LoggerFactory.getLogger(AssetReportCollector.class);
+    private static final Logger log = LoggerFactory.getLogger(AssetReportCollector.class);
     
     private ObjectReader reader = new ObjectMapper().readerFor(AssetReport.class);
     private List<AssetDescription> assets = new ArrayList<>();
@@ -61,7 +61,7 @@ class AssetReportCollector {
         try {
             return createReportStreamOrThrow(file, rawDate);
         } catch (DateTimeParseException error) {
-            logger.error("Unable to read raw instant from name of file [" + file.getAbsolutePath() + "]", error);
+            log.error("Unable to read raw instant from name of file [" + file.getAbsolutePath() + "]", error);
             return Stream.empty();
         }
     }
@@ -87,7 +87,7 @@ class AssetReportCollector {
             AssetReport parsedReport = reader.readValue(rawReport.file);
             integrateReport(parsedReport);
         } catch (IOException error) {
-            logger.error("Unable to read asset report from file [" + rawReport.file.getAbsolutePath() + "]", error);
+            log.error("Unable to read asset report from file [" + rawReport.file.getAbsolutePath() + "]", error);
         }
     }
     
