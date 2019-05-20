@@ -41,6 +41,12 @@ public class PasswordHash {
             writer.write(password);
         }
         byte[] encodedPassword = utf8EncodedPassword.toByteArray();
+        if (password.length() == 0) {
+            throw new IllegalArgumentException("Empty password");
+        }
+        if (encodedPassword.length == 0) {
+            throw new IllegalArgumentException("Empty password");
+        }
         md.digest(encodedPassword);
         result = new ByteBlock(md.digest());
     }
