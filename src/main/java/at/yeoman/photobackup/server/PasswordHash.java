@@ -31,7 +31,7 @@ public class PasswordHash {
     }
 
     private void calculateResult() throws IOException {
-        md.digest(salt.rawCopy());
+        md.update(salt.rawCopy());
         digestPassword();
     }
 
@@ -41,13 +41,7 @@ public class PasswordHash {
             writer.write(password);
         }
         byte[] encodedPassword = utf8EncodedPassword.toByteArray();
-        if (password.length() == 0) {
-            throw new IllegalArgumentException("Empty password");
-        }
-        if (encodedPassword.length == 0) {
-            throw new IllegalArgumentException("Empty password");
-        }
-        md.digest(encodedPassword);
+        md.update(encodedPassword);
         result = new ByteBlock(md.digest());
     }
 }
