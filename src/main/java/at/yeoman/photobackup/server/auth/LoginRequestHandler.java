@@ -90,10 +90,10 @@ public class LoginRequestHandler {
     private void login(@RequestParam String password, HttpServletResponse response,
                        Consumer<Token> writeResponse, Runnable writeError) throws IOException {
         if (configuration.passwordMatches(password)) {
-            log.debug("Login successful");
+            log.info("Login successful");
             writeResponse.accept(createToken());
         } else {
-            log.debug("Login failed");
+            log.info("Login failed");
             writeError.run();
         }
     }
