@@ -33,6 +33,8 @@ class PasswordCreation {
 
         if (password.equals(repeatedPassword)) {
             newPassword = password;
+        } else {
+            throw new IllegalArgumentException("Password mismatch");
         }
     }
 
