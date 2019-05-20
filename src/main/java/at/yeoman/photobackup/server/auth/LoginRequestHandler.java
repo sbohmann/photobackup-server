@@ -39,7 +39,7 @@ public class LoginRequestHandler {
     }
 
     @PostMapping(value = "/login/form-data")
-    public void loginFromForm(@RequestParam String password, HttpServletResponse response) throws IOException {
+    public void loginFromForm(@RequestParam("password") String password, HttpServletResponse response) throws IOException {
         login(password, response,
                 token -> writeFormResponse(response, token),
                 () -> writeFormLoginError(response));
