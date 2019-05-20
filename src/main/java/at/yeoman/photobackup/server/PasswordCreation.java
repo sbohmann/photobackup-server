@@ -32,6 +32,10 @@ class PasswordCreation {
         String repeatedPassword = in.readLine();
 
         if (password.equals(repeatedPassword)) {
+            if (password.length() == 0) {
+                throw new IllegalArgumentException("Empty password");
+            }
+
             newPassword = password;
         } else {
             throw new IllegalArgumentException("Password mismatch");
