@@ -47,8 +47,8 @@ public class BackupRequestHandler {
     }
 
     @GetMapping("/")
-    public String root() {
-        return "photobackup server";
+    public void root(HttpServletResponse response) throws IOException {
+        response.sendRedirect("/gallery");
     }
 
     @PostMapping("/asset-report")
