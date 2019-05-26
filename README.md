@@ -1,3 +1,7 @@
+## Latest Improvements
+
+https and browser / client login now working
+
 # photobackup-server
 
 A Photo Backup Server
