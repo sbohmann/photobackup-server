@@ -1,6 +1,6 @@
 ## Latest Improvements
 
-https and browser / client login now working
+https and browser / client login now working in release 1.1.1 and published docker image version 1.1.1
 
 # photobackup-server
 
