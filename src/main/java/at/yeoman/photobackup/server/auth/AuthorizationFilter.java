@@ -5,6 +5,7 @@ import at.yeoman.photobackup.server.primtive.ByteBlock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -59,11 +60,17 @@ public class AuthorizationFilter implements Filter {
     private void filterRequest(FilterChain chain, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         if (permitted(request)) {
             chain.doFilter(request, response);
-        } else {
+        } else if (request.getMethod().equals("GET") && isPageRequest(request.getPathTranslated())) {
             log.info("Redirecting [" + request.getServletPath() + "] to /login");
             response.setHeader("Location", "/login");
             response.setStatus(HttpServletResponse.SC_FOUND);
+        } else {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         }
+    }
+
+    private boolean isPageRequest(String path) {
+        return path.equals("/") || path.equals("/gallery") || path.equals("/gallery/");
     }
 
     private boolean permitted(HttpServletRequest request) {
