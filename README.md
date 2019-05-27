@@ -1,3 +1,7 @@
+## Latest Improvements
+
+https and browser / client login now working in release 1.1.1 and published docker image version 1.1.1
+
 # photobackup-server
 
 A Photo Backup Server
@@ -11,14 +15,14 @@ An asset catalog containing metadata is stored as JSON files - historical as wel
 
 All resources are identified and stored by their SHA-512 keys.
 
-The server's web gallery creates JPEG vrsions of HEIC and other non-JPEG image files on demand and
+The server's web gallery creates JPEG versions of HEIC and other non-JPEG image files on demand and
 as thumbnails.
 
 All resources and assets are accessible via a REST API as well, including JPEG conversions and thumbnails.
 
 No information at all is stored in an opaque manner.
 
-Everything is stored in local JSON and image files, except non-image resources from photo backups,
+Everything is stored in local JSON and image and video files, except non-media resources from photo backups,
 like plists (which are just XML).
 
 The ImageMagick 7 library is used to convert photos and create thumbnails.
