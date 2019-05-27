@@ -10,7 +10,7 @@ absolute_path="$(readlink -f "$1")"
 
 shift
 
-photobackup_server_version=1.0.7
+photobackup_server_version=1.1.1
 
 echo "Running docker image sbohmann/photobackup-server:$photobackup_server_version"
 
