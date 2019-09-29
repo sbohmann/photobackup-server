@@ -1,12 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false">
+    <property name="PATTERN" value="[%d{HH:mm:ss.SSS}] %5level: %msg%n" />
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <!--<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>-->
-            <pattern>[%d{HH:mm:ss.SSS}] %5level: %msg%n</pattern>
+            <pattern>${PATTERN}</pattern>
         </encoder>
+    </appender>
+    <appender name="ROLLING"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>./logs/photobackup-server.log</file>
+        <encoder
+                class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>${PATTERN}</Pattern>
+        </encoder>
+
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>./logs/photobackup-server-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
     </appender>
     <root level="INFO">
         <appender-ref ref="STDOUT" />
+        <appender-ref ref="ROLLING" />
     </root>
 </configuration>
