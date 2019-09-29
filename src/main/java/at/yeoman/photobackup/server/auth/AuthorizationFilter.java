@@ -70,7 +70,7 @@ public class AuthorizationFilter implements Filter {
     }
 
     private boolean isPageRequest(String path) {
-        return path != null && isPageRequestPath(path);
+        return path == null || isPageRequestPath(path);
     }
 
     private boolean isPageRequestPath(String path) {
