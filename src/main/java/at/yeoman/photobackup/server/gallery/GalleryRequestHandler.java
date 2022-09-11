@@ -262,7 +262,7 @@ public class GalleryRequestHandler {
                     }
                 }
             } catch (Exception error) {
-                throw new IOException("Original image file: " + file.getAbsolutePath(), error);
+                throw new IOException("Original image file: " + fileName, error);
             }
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
