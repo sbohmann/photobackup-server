@@ -35,7 +35,7 @@ Currently, three ways to run the photobackup server are offically supprted:
 
 ## Supported platforms
 
-For now, just FreeBSD and Linux, supporting docker.
+For now, just FreeBSD and Linux, including docker support with a published docker image.
 
 macOS and Windows following soon.
 

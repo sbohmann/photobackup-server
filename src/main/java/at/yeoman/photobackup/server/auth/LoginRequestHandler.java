@@ -39,7 +39,7 @@ public class LoginRequestHandler {
 
     @GetMapping(value = "/login")
     public String loginForm() {
-        return "/auth/login";
+        return "auth/login";
     }
 
     @PostMapping(value = "/login/form-data")

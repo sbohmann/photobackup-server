@@ -70,6 +70,10 @@ public class AuthorizationFilter implements Filter {
     }
 
     private boolean isPageRequest(String path) {
+        return path == null || isPageRequestPath(path);
+    }
+
+    private boolean isPageRequestPath(String path) {
         return path.equals("/") || path.equals("/gallery") || path.equals("/gallery/");
     }
 
@@ -92,7 +96,7 @@ public class AuthorizationFilter implements Filter {
     private String authorizationFromRequest(HttpServletRequest request) {
         String headerValue = request.getHeader(AuthorizationKey);
         if (headerValue != null) {
-            log.info("Attempting authorization from header");
+            log.trace("Attempting authorization from header");
             return headerValue;
         } else {
             return authorizationFromCookie(request);
@@ -111,7 +115,7 @@ public class AuthorizationFilter implements Filter {
     private String findAuthorizationCookie(Cookie[] cookies) {
         for (Cookie cookie : cookies) {
             if (isAuthorizationCookie(cookie)) {
-                log.info("Attempting authorization from cookie value");
+                log.trace("Attempting authorization from cookie value");
                 return cookie.getValue();
             }
         }
