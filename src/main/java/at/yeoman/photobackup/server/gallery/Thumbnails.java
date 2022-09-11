@@ -16,9 +16,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -174,20 +172,24 @@ public class Thumbnails {
     }
     
     private byte[] createAndWriteThumbnailContent(Checksum checksum, File originalImageFile) throws IOException {
-        byte[] originalImageFileContent = FileContent.read(originalImageFile);
-        byte[] thumbnailContent = ImageMagick.convertToJpegWithMaximumSize(originalImageFileContent, 200, 200);
-        if (thumbnailContent == null) {
-            log.info("Thumbnail creation failed (null) for " + resourceType(checksum) + " resource " + checksum.toRawString());
-            return null;
+        try {
+            byte[] originalImageFileContent = FileContent.read(originalImageFile);
+            byte[] thumbnailContent = ImageMagick.convertToJpegWithMaximumSize(originalImageFileContent, 200, 200);
+            if (thumbnailContent == null) {
+                log.info("Thumbnail creation failed (null) for " + resourceType(checksum) + " resource " + checksum.toRawString());
+                return null;
+            }
+            if (thumbnailContent.length == 0) {
+                log.info("Thumbnail creation failed (empty data) for " + resourceType(checksum) + " resource " + checksum.toRawString());
+                return null;
+            }
+            writeThumbnailFile(checksum, thumbnailContent);
+            return thumbnailContent;
+        } catch (Exception error) {
+            throw new IOException("Original image file: " + originalImageFile.getAbsolutePath(), error);
         }
-        if (thumbnailContent.length == 0) {
-            log.info("Thumbnail creation failed (empty data) for " + resourceType(checksum) + " resource " + checksum.toRawString());
-            return null;
-        }
-        writeThumbnailFile(checksum, thumbnailContent);
-        return thumbnailContent;
     }
-    
+
     private String resourceType(Checksum checksum) {
         List<ResourceDescription> resources = core.getAssets().resourcesForChecksum.get(checksum);
         if (resources == null || resources.isEmpty()) {

@@ -261,6 +261,8 @@ public class GalleryRequestHandler {
                                 ", written: " + written + " for " + checksum);
                     }
                 }
+            } catch (Exception error) {
+                throw new IOException("Original image file: " + file.getAbsolutePath(), error);
             }
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
