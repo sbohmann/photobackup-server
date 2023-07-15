@@ -33,6 +33,27 @@ Currently, three ways to run the photobackup server are offically supprted:
 * Building and running a local docker image
 * Manual installafion on FreeBSD
 
+## TLS / https
+
+Using an official TLS / https certificate does not make it necessary to use a hosted server, i.e., somebody else's computer.
+
+As the iOS and Android libraries as well as App Store / Play Store policies strongly favor https over http for very good reasons,
+it is highly recommended, while not required as a hard rule, to use https for client / server communication.
+
+By far the easiest and most future-proof way to provide TLS / http is with a registered domain and an official certificate.
+
+[Let's Encrypt](https://letsencrypt.org) by the EFF is one source of such certificates and the one I personally use but there are many others, including your hoster in case you choose to use a hosted server.
+
+Using an official certificate usually makes it necessary to set a DNS entry in your home network's DNS server for your home network backup computer. This may make it necessary to set up a DNS server, either on an existing always-running computer or on an an additional e.g. Raspberry Pi.
+
+In case you choose to use raw http, this is possible but it will be extremely easy for others, inclusding guests, to see all content transmitted from your local network.
+
+The application, being based on Spring Boot, allows to specify certificates and keys for the application to provide its own implementation of https.
+
+Due to format incompatibility reasons, this is a reasonable approach only in case you have specific experience in running Spring MVC applications with internal TLS 😎
+
+In most cases, an https proxy,usually implemented with either Apache or NginX, is the most reasonable approach, as they both natively use OpenSSL's .pem file format rather than Java's proprietary keystores.
+
 ## Supported platforms
 
 For now, just FreeBSD and Linux, including docker support with a published docker image.
