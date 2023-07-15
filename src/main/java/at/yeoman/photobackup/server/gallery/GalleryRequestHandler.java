@@ -10,8 +10,10 @@ import at.yeoman.photobackup.server.io.StreamTransfer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +44,7 @@ public class GalleryRequestHandler {
     }
 
     @GetMapping(value = {"/gallery", "/gallery/{date}"})
-    public String gallery(Model model, @PathVariable(required = false) String date) {
+    public ResponseEntity<String> gallery(Model model, @PathVariable(required = false) String date) {
         if (date != null) {
             YearAndMonth yearAndMonth = new YearAndMonth(date);
             if (yearAndMonth.valid) {
@@ -54,7 +56,9 @@ public class GalleryRequestHandler {
         } else {
             model.addAttribute("date", "any");
         }
-        return "gallery/gallery";
+        return ResponseEntity.ok()
+                .cacheControl(CacheControl.empty())
+                .body("gallery/gallery");
     }
 
     @GetMapping(value = {"/gallery/imageList", "/gallery/imageList/{date}"})
