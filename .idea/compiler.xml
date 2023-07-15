@@ -4,7 +4,6 @@
     <bytecodeTargetLevel>
       <module name="at.yeoman.photobackup.photobackup-server.main" target="1.8" />
       <module name="at.yeoman.photobackup.photobackup-server.test" target="1.8" />
-      <module name="photobackup-server" target="1.8" />
       <module name="photobackup-server.main" target="1.8" />
       <module name="photobackup-server.test" target="1.8" />
       <module name="server.main" target="1.8" />

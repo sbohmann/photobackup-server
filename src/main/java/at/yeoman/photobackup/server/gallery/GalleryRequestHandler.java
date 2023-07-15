@@ -44,7 +44,7 @@ public class GalleryRequestHandler {
     }
 
     @GetMapping(value = {"/gallery", "/gallery/{date}"})
-    public ResponseEntity<Object> gallery(Model model, @PathVariable(required = false) String date) {
+    public ResponseEntity<String> gallery(Model model, @PathVariable(required = false) String date) {
         if (date != null) {
             YearAndMonth yearAndMonth = new YearAndMonth(date);
             if (yearAndMonth.valid) {
