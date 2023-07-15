@@ -40,9 +40,9 @@ Using an official TLS / https certificate does not make it necessary to use a ho
 As the iOS and Android libraries as well as App Store / Play Store policies strongly favor https over http for very good reasons,
 it is highly recommended, while not required as a hard rule, to use https for client / server communication.
 
-By far the easiest and most future-proof way to provide TLS / http is with a registered domain and an official certificate.
+By far the easiest and most future-proof way to provide TLS / https is with a registered domain and an official certificate.
 
-[Let's Encrypt](https://letsencrypt.org) by the EFF is one source of such certificates and the one I personally use but there are many others, including your hoster in case you choose to use a hosted server.
+[Let's Encrypt](https://letsencrypt.org) by the EFF is one source of such certificates and the one I personally use but there are many others, usually including your hoster as an option in case you choose to use a hosted server.
 
 Using an official certificate usually makes it necessary to set a DNS entry in your home network's DNS server for your home network backup computer. This may make it necessary to set up a DNS server, either on an existing always-running computer or on an an additional e.g. Raspberry Pi.
 
