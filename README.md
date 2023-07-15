@@ -23,7 +23,7 @@ All resources and assets are accessible via a REST API as well, including JPEG c
 No information at all is stored in an opaque manner.
 
 Everything is stored in local JSON and image and video files, except non-media resources from photo backups,
-like plists (which are just XML).
+like plists (which are just XML files created by iOS and containing all different kinds of metadata, including details about edits).
 
 The ImageMagick 7 library is used to convert photos and create thumbnails.
 
