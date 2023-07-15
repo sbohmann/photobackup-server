@@ -15,7 +15,7 @@ An asset catalog containing metadata is stored as JSON files - historical as wel
 
 All resources are identified and stored by their SHA-512 keys.
 
-The server's web gallery creates JPEG versions of HEIC and other non-JPEG image files on demand and
+The server's web gallery creates JPEG versions of HEIC and other non-JPEG image files both on demand and
 as thumbnails.
 
 All resources and assets are accessible via a REST API as well, including JPEG conversions and thumbnails.
