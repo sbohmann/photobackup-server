@@ -35,7 +35,7 @@ Currently, three ways to run the photobackup server are offically supprted:
 
 ## TLS / https
 
-**Note:** Using an official TLS / https certificate does not make it necessary to use a hosted server, i.e., somebody else's computer.
+*Note:* Using an official TLS / https certificate does not make it necessary to use a hosted server, i.e., somebody else's computer.
 Using your own computer in your local network works just fine, see below 🙂
 
 As the iOS and Android libraries as well as App Store / Play Store policies strongly favor https over http for very good reasons,
