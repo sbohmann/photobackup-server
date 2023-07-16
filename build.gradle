@@ -23,7 +23,7 @@ dependencies {
 }
 
 group 'at.yeoman.photobackup'
-version '1.0.7'
+version '1.0.8'
 
 sourceCompatibility = 1.8
 
@@ -59,6 +59,14 @@ task run(type: JavaExec) {
     main = 'at.yeoman.photobackup.server.Server'
 }
 
+task runInTestEnvironment(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+
+    systemProperty "java.library.path", "libraries:/usr/lib:/usr/local/lib"
+
+    main = 'at.yeoman.photobackup.server.Server'
+}
+
 task createPassword(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
 
@@ -83,3 +91,5 @@ test {
 //        showStandardStreams = true
     }
 }
+
+tasks.runInTestEnvironment.workingDir = new File("test_environment")
