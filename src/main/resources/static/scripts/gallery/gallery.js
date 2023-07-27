@@ -170,7 +170,7 @@ function createThumbnailPlayer(resource, div) {
     video.controls = true
     video.autoplay = false
     video.preload = "none"
-    if (match[2].toLowerCase() !== '.mp4') {
+    if (match[2].toLowerCase() !== 'mp4') {
         let mp4Source = document.createElement('source')
         mp4Source.src = '/videos/' + resource.checksum + '/' + encodeURIComponent(rawResourceName) + '.mp4'
         video.appendChild(mp4Source)
