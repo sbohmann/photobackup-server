@@ -133,8 +133,9 @@ function appendAsset(asset, parent) {
     for (let resource of asset.resourceDescriptions) {
         createThumbnailImage(resource, assetDiv)
         createThumbnailPlayer(resource, assetDiv)
-        createLink(resource, assetDiv, resource.name, '/photos/' + resource.checksum + '/' + resource.name)
-        createConvertedLink(resource, assetDiv, resource.name);
+        createLink(resource, assetDiv, resource.name, '/photos/' + resource.checksum +
+            '/' + encodeURIComponent(resource.name))
+        createConvertedLink(resource, assetDiv, encodeURIComponent(resource.name));
     }
     parent.appendChild(assetDiv)
 }
@@ -155,7 +156,7 @@ function isNonImageResource(resource) {
 
 function thumbnailName(originalResourceName) {
     let nameWithoutImageExtension = originalResourceName.replace(/\.(heic|png|tiff|jpg|jpeg|gif)$/ig, '')
-    return nameWithoutImageExtension + '_thumbnail.jpg'
+    return encodeURIComponent(nameWithoutImageExtension) + '_thumbnail.jpg'
 }
 
 function createThumbnailPlayer(resource, div) {
@@ -170,10 +171,10 @@ function createThumbnailPlayer(resource, div) {
     video.autoplay = false
     video.preload = "none"
     let mp4Source = document.createElement('source')
-    mp4Source.src = '/videos/' + resource.checksum + '/' + rawResourceName + '.mp4'
+    mp4Source.src = '/videos/' + resource.checksum + '/' + encodeURIComponent(rawResourceName) + '.mp4'
     video.appendChild(mp4Source)
     let rawSource = document.createElement('source')
-    rawSource.src = '/photos/' + resource.checksum + '/' + resource.name
+    rawSource.src = '/photos/' + resource.checksum + '/' + encodeURIComponent(resource.name)
     video.appendChild(rawSource)
     div.appendChild(video)
 }
