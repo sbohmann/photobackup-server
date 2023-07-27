@@ -160,7 +160,7 @@ function thumbnailName(originalResourceName) {
 }
 
 function createThumbnailPlayer(resource, div) {
-    let match = resource.name.match(/(.*\.)(mov|mp4|m4v)/i)
+    let match = resource.name.match(/(.*)\.(mov|mp4|m4v)/i)
     if (match == null) {
         return
     }
